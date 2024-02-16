@@ -1,0 +1,26 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  input,
+  textarea {
+    @apply focus:outline-main bg-gray-50;
+  }
+  button {
+    @apply focus:outline-main;
+  }
+  ul,
+  ol {
+    @apply px-5;
+  }
+  ol {
+    @apply list-decimal;
+  }
+  ul {
+    @apply list-disc;
+  }
+  code {
+    @apply bg-gray-300;
+  }
+}
