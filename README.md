@@ -16,4 +16,7 @@ This repository represents a full-stack TODO application. User can log in secure
 - **Typescript**: Ensures a statically typed and robust codebase for enhanced development.
 - **NextJS**: Fullstack framework, providing efficient reactivity without compromising performance.
 - **Tailwind CSS**: A utility-first CSS framework for rapid UI development, facilitating responsive and clean styling.
+- **Next-auth**: Nextjs package for full authentication flow
+- **PostgresSQL**: Relational database for storing and managing data
+- **Prisma**: ORM with built-in tools for simplifying querying the database, migration utilites and data management.
 
