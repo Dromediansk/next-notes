@@ -13,7 +13,7 @@ This repository represents a full-stack TODO application. User can log in secure
 
 ## Technologies Used
 
-- **Typescript**: Ensures a statically-typed and robust codebase for enhanced development.
-- **NextJS**: Fullstack fullstack, providing efficient reactivity without compromising performance.
+- **Typescript**: Ensures a statically typed and robust codebase for enhanced development.
+- **NextJS**: Fullstack framework, providing efficient reactivity without compromising performance.
 - **Tailwind CSS**: A utility-first CSS framework for rapid UI development, facilitating responsive and clean styling.
 
