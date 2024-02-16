@@ -11,6 +11,7 @@ import {
   ListsToggle,
   listsPlugin,
   CodeToggle,
+  Separator,
 } from "@mdxeditor/editor";
 
 type InitializedMDXEditorProps = MDXEditorProps & {
@@ -28,7 +29,9 @@ const InitializedMDXEditor: FC<InitializedMDXEditorProps> = ({
           toolbarContents: () => (
             <>
               <BoldItalicUnderlineToggles />
+              <Separator />
               <ListsToggle />
+              <Separator />
               <CodeToggle />
             </>
           ),
