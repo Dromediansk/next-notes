@@ -2,7 +2,7 @@
 
 ## Overview
 
-This repository represents a full-stack TODO application. User can log in securely via Google OAuth 2.0, view, create, and delete notes.
+This repository represents a full-stack TODO application. User can log in securely via Google or Github OAuth, view, create, and delete notes.
 
 ## Features
 
