@@ -6,12 +6,10 @@ export type Note = {
   createdAt: Date;
   authorId: string;
   orderNumber: number;
+  color: string;
 };
 
-export type CreateNoteBody = Pick<
-  Note,
-  "authorId" | "text" | "createdAt" | "orderNumber"
->;
+export type CreateNoteBody = Omit<Note, 'id'>;
 
 export type User = {
   id: string;
@@ -30,3 +28,8 @@ export type AuthProfile = Profile & {
 export type RouteParams = {
   date: string;
 };
+
+export type CreateNoteFormState = {
+  text: string;
+  color: string
+}

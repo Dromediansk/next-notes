@@ -1,7 +1,7 @@
 "use server";
 
 import { prisma } from "@/prisma/db";
-import { CreateNoteBody } from "@/utils/types/common";
+import { CreateNoteBody, CreateNoteFormState } from "@/utils/types/common";
 import { Note, User } from "@prisma/client";
 import { DefaultUser } from "next-auth";
 
@@ -24,14 +24,14 @@ export const fetchNotesByDate = async (
 };
 
 export const createNoteInDb = async (
-  inputValue: string,
+  formState: CreateNoteFormState,
   userId: DefaultUser["id"],
   createdAt: string,
   orderNumber: number
 ) => {
   try {
     const newNote: CreateNoteBody = {
-      text: inputValue,
+      ...formState,
       authorId: userId,
       createdAt: new Date(createdAt),
       orderNumber,

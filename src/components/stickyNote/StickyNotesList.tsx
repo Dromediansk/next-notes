@@ -13,8 +13,8 @@ const StickyNotesList: FC<StickyNotesListProps> = ({ notes }) => {
     <div className="bg-white min-h-[70vh] rounded shadow-md">
       {notes.length === 0 ? (
         <p className="text-center text-gray-500 pt-10">
-          Oops! Your notes seem to be on vacation. <br /> Time to break the
-          silence with a new note!
+          Your notes seem to be on vacation. <br /> Time to break the silence
+          with a new note!
         </p>
       ) : (
         <div className="p-4 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 justify-center gap-6 my-4">

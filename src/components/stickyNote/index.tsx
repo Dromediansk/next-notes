@@ -13,7 +13,10 @@ const StickyNote: FC<StickyNoteProps> = ({ note }) => {
 
   return (
     <>
-      <div className="gap-4 shadow-md rounded flex flex-col justify-between group bg-slate-100">
+      <div
+        className="gap-4 shadow-lg rounded flex flex-col justify-between group"
+        style={{ backgroundColor: note.color }}
+      >
         <NoteText text={note.text} onClick={() => setDialogOpen(true)} />
         <StickyNoteFooter noteId={note.id} setDialogOpen={setDialogOpen} />
       </div>
