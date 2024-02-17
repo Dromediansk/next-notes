@@ -2,7 +2,7 @@
 
 import { Note } from "@prisma/client";
 import { FC } from "react";
-import StickyNote from ".";
+import StickyNote from "./StickyNote";
 
 type StickyNotesListProps = {
   notes: Note[];

@@ -1,9 +1,11 @@
 "use client";
 import { createNoteInDb } from "@/services/notes";
+import { BASE_BACKGROUND_COLORS, TEXT_COLORS } from "@/utils/colors";
 import { CreateNoteFormState, RouteParams } from "@/utils/types/common";
 import { DefaultUser } from "next-auth";
 import { useParams, useRouter } from "next/navigation";
 import { ChangeEvent, FC, SyntheticEvent, useState } from "react";
+import ColorCirclePicker from "../ColorCirclePicker";
 
 type CreateNoteFormProps = {
   user: DefaultUser;
@@ -40,13 +42,22 @@ const CreateNoteForm: FC<CreateNoteFormProps> = ({ user }) => {
     }));
   };
 
+  const handleChangeColor = (color: string) => {
+    setFormState((prevState) => ({
+      ...prevState,
+      color,
+    }));
+  };
+
+  console.log("formState", formState);
+
   return (
     <form
-      className="flex justify-center items-center border-2 border-gray-200 shadow-sm w-full sm:w-96 bg-gray-50"
+      className="border-2 border-gray-200 w-full sm:w-96 bg-gray-50"
       onSubmit={handleAddNote}
     >
       <input
-        className="w-full sm:w-96 h-10 text-gray-900 text-sm rounded p-4 resize"
+        className="w-full h-16 text-gray-900 text-sm rounded p-4 resize"
         placeholder="What did you learn?"
         name="text"
         value={formState.text}
@@ -54,14 +65,19 @@ const CreateNoteForm: FC<CreateNoteFormProps> = ({ user }) => {
         required
         autoFocus
       />
-      <div className="w-10 h-full" />
-      <input
-        type="color"
-        name="color"
-        value={formState.color}
-        onChange={handleChangeFormState}
-        className="rounded px-2"
-      />
+      <div className="flex gap-2 p-2 rounded border-none">
+        {Array.from(Object.values(BASE_BACKGROUND_COLORS)).map(
+          (backgroundColor) => (
+            <ColorCirclePicker
+              key={backgroundColor}
+              color={TEXT_COLORS.dark}
+              backgroundColor={backgroundColor}
+              onClick={handleChangeColor}
+              isSelected={backgroundColor === formState.color}
+            />
+          )
+        )}
+      </div>
     </form>
   );
 };
