@@ -25,6 +25,7 @@ export const testNotes: Note[] = [
     createdAt: new Date(),
     updatedAt: new Date(),
     orderNumber: 1,
+    color: '#FFFFFF'
   },
   {
     id: "2",
@@ -33,6 +34,7 @@ export const testNotes: Note[] = [
     createdAt: new Date(),
     updatedAt: new Date(),
     orderNumber: 2,
+    color: '#FFFFFF'
   },
   {
     id: "3",
@@ -41,5 +43,6 @@ export const testNotes: Note[] = [
     createdAt: new Date(),
     updatedAt: new Date(),
     orderNumber: 1,
+    color: '#FFFFFF'
   },
 ];
