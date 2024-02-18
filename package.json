@@ -9,7 +9,8 @@
     "lint": "next lint",
     "db:migrate": "npx prisma migrate dev --name init",
     "db:reset": "npx prisma migrate reset -f",
-    "db:seed": "npm run db:reset && npx tsx src/prisma/seed.ts"
+    "db:seed": "npm run db:reset && npx tsx src/prisma/seed.ts",
+    "postinstall": "prisma generate"
   },
   "prisma": {
     "schema": "src/prisma/schema.prisma"
