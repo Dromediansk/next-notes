@@ -1,6 +1,11 @@
 "use client";
 import { createNoteInDb } from "@/services/notes";
-import { BASE_BACKGROUND_COLORS, TEXT_COLORS } from "@/utils/colors";
+import {
+  BACKGROUND_COLORS,
+  BASE_BACKGROUND_COLORS,
+  TEXT_COLORS,
+  getContrastColor,
+} from "@/utils/colors";
 import { CreateNoteFormState, RouteParams } from "@/utils/types/common";
 import { DefaultUser } from "next-auth";
 import { useParams, useRouter } from "next/navigation";
@@ -13,7 +18,7 @@ type CreateNoteFormProps = {
 
 const defaultFormState: CreateNoteFormState = {
   text: "",
-  color: "#f1f5f9", // slate 100
+  color: BASE_BACKGROUND_COLORS.white, // slate 100
 };
 
 const CreateNoteForm: FC<CreateNoteFormProps> = ({ user }) => {
@@ -49,8 +54,6 @@ const CreateNoteForm: FC<CreateNoteFormProps> = ({ user }) => {
     }));
   };
 
-  console.log("formState", formState);
-
   return (
     <form
       className="border-2 border-gray-200 w-full sm:w-96 bg-gray-50"
@@ -65,18 +68,15 @@ const CreateNoteForm: FC<CreateNoteFormProps> = ({ user }) => {
         required
         autoFocus
       />
-      <div className="flex gap-2 p-2 rounded border-none">
-        {Array.from(Object.values(BASE_BACKGROUND_COLORS)).map(
-          (backgroundColor) => (
-            <ColorCirclePicker
-              key={backgroundColor}
-              color={TEXT_COLORS.dark}
-              backgroundColor={backgroundColor}
-              onClick={handleChangeColor}
-              isSelected={backgroundColor === formState.color}
-            />
-          )
-        )}
+      <div className="flex justify-around w-full p-2 rounded border-none bg-gray-200">
+        {Array.from(Object.values(BACKGROUND_COLORS)).map((backgroundColor) => (
+          <ColorCirclePicker
+            key={backgroundColor}
+            backgroundColor={backgroundColor}
+            onClick={handleChangeColor}
+            isSelected={backgroundColor === formState.color}
+          />
+        ))}
       </div>
     </form>
   );
