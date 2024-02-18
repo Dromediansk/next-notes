@@ -1,16 +1,12 @@
 "use client";
 import { createNoteInDb } from "@/services/notes";
-import {
-  BACKGROUND_COLORS,
-  BASE_BACKGROUND_COLORS,
-  TEXT_COLORS,
-  getContrastColor,
-} from "@/utils/colors";
+import { BACKGROUND_COLORS, BASE_BACKGROUND_COLORS } from "@/utils/colors";
 import { CreateNoteFormState, RouteParams } from "@/utils/types/common";
 import { DefaultUser } from "next-auth";
 import { useParams, useRouter } from "next/navigation";
 import { ChangeEvent, FC, SyntheticEvent, useState } from "react";
-import ColorCirclePicker from "../ColorCirclePicker";
+import ColorCirclePicker from "../colors/ColorCirclePicker";
+import ColorCircleList from "../colors/ColorCircleList";
 
 type CreateNoteFormProps = {
   user: DefaultUser;
@@ -68,16 +64,10 @@ const CreateNoteForm: FC<CreateNoteFormProps> = ({ user }) => {
         required
         autoFocus
       />
-      <div className="flex justify-around w-full p-2 rounded border-none bg-gray-200">
-        {Array.from(Object.values(BACKGROUND_COLORS)).map((backgroundColor) => (
-          <ColorCirclePicker
-            key={backgroundColor}
-            backgroundColor={backgroundColor}
-            onClick={handleChangeColor}
-            isSelected={backgroundColor === formState.color}
-          />
-        ))}
-      </div>
+      <ColorCircleList
+        selectedColor={formState.color}
+        onClick={handleChangeColor}
+      />
     </form>
   );
 };

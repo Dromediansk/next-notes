@@ -4,7 +4,7 @@ const OptionsIcon = () => {
       viewBox="0 0 24 24"
       strokeWidth="1.5"
       stroke="currentColor"
-      className="w-5 h-5 fill-gray-100 text-gray-500"
+      className="w-5 h-5"
     >
       <path
         strokeLinecap="round"

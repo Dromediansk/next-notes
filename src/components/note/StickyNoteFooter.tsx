@@ -48,7 +48,7 @@ const StickyNoteFooter: FC<StickyNoteFooterProps> = ({
             <Menu.Item>
               {({ active }) => (
                 <span
-                  className={`${menuItemClassName} ${
+                  className={`${menuItemClassName} text-gray-800 ${
                     active ? "bg-gray-200" : ""
                   }`}
                   onClick={() => setDialogOpen(true)}

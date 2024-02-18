@@ -106,14 +106,14 @@ const StickyNoteDialog: FC<StickyNoteDialogProps> = ({
                     </div>
                   )}
                 </div>
-                <div className="p-2 text-right">
+                <footer className="p-2 text-right">
                   <button
                     className="hover:bg-gray-200 px-4 py-2 transition duration-300 rounded"
                     onClick={handleClose}
                   >
                     Close
                   </button>
-                </div>
+                </footer>
               </Dialog.Panel>
             </Transition.Child>
           </div>
