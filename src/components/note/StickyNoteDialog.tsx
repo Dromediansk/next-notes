@@ -1,10 +1,11 @@
-import { FC, FocusEvent, Fragment, useRef, useState } from "react";
+import { FC, Fragment, useRef, useState } from "react";
 import { Dialog, Transition } from "@headlessui/react";
 import { Note } from "@prisma/client";
 import { deleteNoteInDb, updateNoteInDb } from "@/services/notes";
 import { useRouter } from "next/navigation";
 import { CustomEditor } from "../editor";
 import Markdown from "react-markdown";
+import { MDXEditorMethods } from "@mdxeditor/editor";
 
 type StickyNoteDialogProps = {
   note: Note;
@@ -28,7 +29,7 @@ const StickyNoteDialog: FC<StickyNoteDialogProps> = ({
   const [editMode, setEditMode] = useState(false);
 
   const router = useRouter();
-  const inputRef = useRef(null);
+  const inputRef = useRef<MDXEditorMethods>(null);
 
   const textLength = note.text.length;
 
@@ -45,17 +46,6 @@ const StickyNoteDialog: FC<StickyNoteDialogProps> = ({
     } catch (error) {
       console.log(error);
     }
-  };
-
-  // TODO: Apply on MDX Editor
-  const handleFocus = ({
-    currentTarget,
-  }: FocusEvent<HTMLTextAreaElement, Element>) => {
-    currentTarget.setSelectionRange(
-      currentTarget.value.length,
-      currentTarget.value.length
-    );
-    currentTarget.scrollTop = currentTarget.scrollHeight;
   };
 
   return (
@@ -94,7 +84,7 @@ const StickyNoteDialog: FC<StickyNoteDialogProps> = ({
                     <CustomEditor
                       markdown={inputValue}
                       onChange={setInputValue}
-                      autoFocus
+                      autoFocus={{ defaultSelection: "rootEnd" }}
                       ref={inputRef}
                     />
                   ) : (
