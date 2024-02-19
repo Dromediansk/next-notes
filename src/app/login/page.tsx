@@ -13,7 +13,7 @@ const LoginPage = async () => {
 
   return (
     <div className="m-auto w-full max-w-sm text-center shadow-md bg-slate-50 p-8 rounded-md">
-      <h3 className="text-xl py-6">Welcome in Solid Notes!</h3>
+      <h3 className="text-xl py-6">Welcome in Next Notes!</h3>
       <div className="flex gap-4 flex-col">
         <GoogleSignInButton />
         <GithubSignInButton />

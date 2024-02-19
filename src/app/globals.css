@@ -3,6 +3,9 @@
 @tailwind utilities;
 
 @layer base {
+  body {
+    @apply min-h-[100vh];
+  }
   input,
   textarea {
     @apply focus:outline-main bg-gray-50;
