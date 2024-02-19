@@ -1,4 +1,4 @@
-import { ChangeEvent, FC, Fragment, useRef, useState } from "react";
+import { FC, Fragment, useRef, useState } from "react";
 import { Dialog, Transition } from "@headlessui/react";
 import { Note } from "@prisma/client";
 import { deleteNoteInDb, updateNoteInDb } from "@/services/notes";
@@ -8,7 +8,6 @@ import Markdown from "react-markdown";
 import { MDXEditorMethods } from "@mdxeditor/editor";
 import ColorCircleList from "../colors/ColorCircleList";
 import { NoteFormState } from "@/utils/types/common";
-import { BACKGROUND_COLORS } from "@/utils/colors";
 import CloseIcon from "../icons/CloseIcon";
 
 type StickyNoteDialogProps = {
@@ -97,7 +96,16 @@ const StickyNoteDialog: FC<StickyNoteDialogProps> = ({
               leaveFrom="opacity-100 translate-y-0 sm:scale-100"
               leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
             >
-              <Dialog.Panel className="relative transform rounded-lg bg-white text-left shadow-xl transition-all w-full max-w-2xl">
+              <Dialog.Panel
+                className="relative transform rounded-lg bg-white text-left shadow-xl transition-all w-full max-w-2xl"
+                autoFocus
+              >
+                <button
+                  className="hover:text-gray-200 text-white px-4 py-2 transition duration-300 rounded absolute top-[-50px] right-0 focus:outline-none"
+                  onClick={handleClose}
+                >
+                  <CloseIcon />
+                </button>
                 <div
                   className={`text-center bg-white rounded-lg overflow-auto ${determineDialogSizeByTextLength(
                     textLength
@@ -124,12 +132,6 @@ const StickyNoteDialog: FC<StickyNoteDialogProps> = ({
                     onClick={handleChangeColor}
                     selectedColor={formState.color}
                   />
-                  <button
-                    className="hover:text-gray-200 text-white px-4 py-2 transition duration-300 rounded absolute top-[-50px] right-0"
-                    onClick={handleClose}
-                  >
-                    <CloseIcon />
-                  </button>
                 </footer>
               </Dialog.Panel>
             </Transition.Child>
