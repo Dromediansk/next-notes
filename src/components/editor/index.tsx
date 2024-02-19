@@ -6,7 +6,9 @@ import InitializedMDXEditor from "./InitializedMDXEditor";
 // This is what is imported by other components. Pre-initialized with plugins, and ready
 // to accept other props, including a ref.
 export const CustomEditor = forwardRef<MDXEditorMethods, MDXEditorProps>(
-  (props, ref) => <InitializedMDXEditor {...props} editorRef={ref} />
+  (props, ref) => (
+    <InitializedMDXEditor {...props} editorRef={ref} />
+  )
 );
 
 // TS complains without the following line

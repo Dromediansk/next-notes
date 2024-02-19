@@ -1,7 +1,7 @@
 "use server";
 
 import { prisma } from "@/prisma/db";
-import { CreateNoteBody, CreateNoteFormState } from "@/utils/types/common";
+import { CreateNoteBody, NoteFormState } from "@/utils/types/common";
 import { Note, User } from "@prisma/client";
 import { DefaultUser } from "next-auth";
 
@@ -24,7 +24,7 @@ export const fetchNotesByDate = async (
 };
 
 export const createNoteInDb = async (
-  formState: CreateNoteFormState,
+  formState: NoteFormState,
   userId: DefaultUser["id"],
   createdAt: string,
   orderNumber: number
@@ -47,12 +47,12 @@ export const createNoteInDb = async (
   }
 };
 
-export const updateNoteInDb = async (noteId: string, inputValue: string) => {
+export const updateNoteInDb = async (noteId: string, formState: NoteFormState) => {
   try {
     await prisma.note.update({
       where: { id: noteId },
       data: {
-        text: inputValue,
+        ...formState,
         updatedAt: new Date(),
       },
     });

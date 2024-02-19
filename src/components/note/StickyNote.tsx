@@ -23,11 +23,13 @@ const StickyNote: FC<StickyNoteProps> = ({ note }) => {
         <NoteText text={note.text} onClick={() => setDialogOpen(true)} />
         <StickyNoteFooter noteId={note.id} setDialogOpen={setDialogOpen} />
       </div>
-      <StickyNoteDialog
-        note={note}
-        dialogOpen={dialogOpen}
-        setDialogOpen={setDialogOpen}
-      />
+      {dialogOpen && (
+        <StickyNoteDialog
+          note={note}
+          dialogOpen={dialogOpen}
+          setDialogOpen={setDialogOpen}
+        />
+      )}
     </>
   );
 };

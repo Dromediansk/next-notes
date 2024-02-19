@@ -1,25 +1,23 @@
 "use client";
 import { createNoteInDb } from "@/services/notes";
-import { BACKGROUND_COLORS, BASE_BACKGROUND_COLORS } from "@/utils/colors";
-import { CreateNoteFormState, RouteParams } from "@/utils/types/common";
+import { BASE_BACKGROUND_COLORS } from "@/utils/colors";
+import { NoteFormState, RouteParams } from "@/utils/types/common";
 import { DefaultUser } from "next-auth";
 import { useParams, useRouter } from "next/navigation";
 import { ChangeEvent, FC, SyntheticEvent, useState } from "react";
-import ColorCirclePicker from "../colors/ColorCirclePicker";
 import ColorCircleList from "../colors/ColorCircleList";
 
 type CreateNoteFormProps = {
   user: DefaultUser;
 };
 
-const defaultFormState: CreateNoteFormState = {
+const defaultFormState: NoteFormState = {
   text: "",
   color: BASE_BACKGROUND_COLORS.white, // slate 100
 };
 
 const CreateNoteForm: FC<CreateNoteFormProps> = ({ user }) => {
-  const [formState, setFormState] =
-    useState<CreateNoteFormState>(defaultFormState);
+  const [formState, setFormState] = useState<NoteFormState>(defaultFormState);
 
   const router = useRouter();
   const params = useParams<RouteParams>();
@@ -55,6 +53,10 @@ const CreateNoteForm: FC<CreateNoteFormProps> = ({ user }) => {
       className="border-2 border-gray-200 w-full sm:w-96 bg-gray-50"
       onSubmit={handleAddNote}
     >
+      <ColorCircleList
+        selectedColor={formState.color}
+        onClick={handleChangeColor}
+      />
       <input
         className="w-full h-16 text-gray-900 text-sm rounded p-4 resize"
         placeholder="What did you learn?"
@@ -63,10 +65,6 @@ const CreateNoteForm: FC<CreateNoteFormProps> = ({ user }) => {
         onChange={handleChangeFormState}
         required
         autoFocus
-      />
-      <ColorCircleList
-        selectedColor={formState.color}
-        onClick={handleChangeColor}
       />
     </form>
   );

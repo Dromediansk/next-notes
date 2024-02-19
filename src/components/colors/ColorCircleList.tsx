@@ -12,7 +12,7 @@ const ColorCircleList: FC<ColorCircleListProps> = ({
   selectedColor,
 }) => {
   return (
-    <div className="flex justify-around w-full p-2 rounded border-none bg-gray-200">
+    <div className="flex flex-wrap justify-around w-full p-2 rounded border-none bg-gray-200">
       {Array.from(Object.values(BACKGROUND_COLORS)).map((backgroundColor) => (
         <ColorCirclePicker
           key={backgroundColor}

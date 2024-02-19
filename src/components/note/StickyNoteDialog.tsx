@@ -1,4 +1,4 @@
-import { FC, Fragment, useRef, useState } from "react";
+import { ChangeEvent, FC, Fragment, useRef, useState } from "react";
 import { Dialog, Transition } from "@headlessui/react";
 import { Note } from "@prisma/client";
 import { deleteNoteInDb, updateNoteInDb } from "@/services/notes";
@@ -6,6 +6,10 @@ import { useRouter } from "next/navigation";
 import { CustomEditor } from "../editor";
 import Markdown from "react-markdown";
 import { MDXEditorMethods } from "@mdxeditor/editor";
+import ColorCircleList from "../colors/ColorCircleList";
+import { NoteFormState } from "@/utils/types/common";
+import { BACKGROUND_COLORS } from "@/utils/colors";
+import CloseIcon from "../icons/CloseIcon";
 
 type StickyNoteDialogProps = {
   note: Note;
@@ -22,10 +26,12 @@ const determineDialogSizeByTextLength = (textLength: number) => {
 
 const StickyNoteDialog: FC<StickyNoteDialogProps> = ({
   setDialogOpen,
-  dialogOpen,
   note,
 }) => {
-  const [inputValue, setInputValue] = useState(note.text);
+  const [formState, setFormState] = useState<NoteFormState>({
+    text: note.text,
+    color: note.color,
+  });
   const [editMode, setEditMode] = useState(false);
 
   const router = useRouter();
@@ -35,10 +41,13 @@ const StickyNoteDialog: FC<StickyNoteDialogProps> = ({
 
   const handleClose = async () => {
     try {
-      if (!inputValue) {
+      if (!formState.text) {
         await deleteNoteInDb(note.id);
-      } else if (inputValue !== note.text) {
-        await updateNoteInDb(note.id, inputValue);
+      } else if (
+        formState.text !== note.text ||
+        formState.color !== note.color
+      ) {
+        await updateNoteInDb(note.id, formState);
       }
       setDialogOpen(false);
       setEditMode(false);
@@ -48,8 +57,22 @@ const StickyNoteDialog: FC<StickyNoteDialogProps> = ({
     }
   };
 
+  const handleChangeNoteText = (markdown: string) => {
+    setFormState((prevState) => ({
+      ...prevState,
+      text: markdown,
+    }));
+  };
+
+  const handleChangeColor = (color: string) => {
+    setFormState((prevState) => ({
+      ...prevState,
+      color,
+    }));
+  };
+
   return (
-    <Transition.Root show={dialogOpen} as={Fragment}>
+    <Transition.Root show as={Fragment}>
       <Dialog as="div" className=" z-10" onClose={handleClose}>
         <Transition.Child
           as={Fragment}
@@ -82,8 +105,8 @@ const StickyNoteDialog: FC<StickyNoteDialogProps> = ({
                 >
                   {editMode ? (
                     <CustomEditor
-                      markdown={inputValue}
-                      onChange={setInputValue}
+                      markdown={formState.text}
+                      onChange={handleChangeNoteText}
                       autoFocus={{ defaultSelection: "rootEnd" }}
                       ref={inputRef}
                     />
@@ -96,12 +119,16 @@ const StickyNoteDialog: FC<StickyNoteDialogProps> = ({
                     </div>
                   )}
                 </div>
-                <footer className="p-2 text-right">
+                <footer className="p-2 flex items-center justify-center flex-wrap sm:flex-nowrap">
+                  <ColorCircleList
+                    onClick={handleChangeColor}
+                    selectedColor={formState.color}
+                  />
                   <button
-                    className="hover:bg-gray-200 px-4 py-2 transition duration-300 rounded"
+                    className="hover:text-gray-200 text-white px-4 py-2 transition duration-300 rounded absolute top-[-50px] right-0"
                     onClick={handleClose}
                   >
-                    Close
+                    <CloseIcon />
                   </button>
                 </footer>
               </Dialog.Panel>

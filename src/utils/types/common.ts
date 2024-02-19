@@ -29,7 +29,7 @@ export type RouteParams = {
   date: string;
 };
 
-export type CreateNoteFormState = {
+export type NoteFormState = {
   text: string;
   color: string
 }
