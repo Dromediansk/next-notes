@@ -2,15 +2,19 @@
 
 import { prisma } from "@/prisma/db";
 import { CreateNoteBody, NoteFormState } from "@/utils/types/common";
-import { Note, User } from "@prisma/client";
+import { NoteWithCategory } from "@/utils/types/prisma";
+import { User } from "@prisma/client";
 import { DefaultUser } from "next-auth";
 
 export const fetchNotesByDate = async (
   userId: User["id"],
   date: string
-): Promise<Note[]> => {
+): Promise<NoteWithCategory[]> => {
   try {
-    const notes: Note[] = await prisma.note.findMany({
+    const notes: NoteWithCategory[] = await prisma.note.findMany({
+      include: {
+        category: true
+      },
       where: {
         authorId: userId,
         createdAt: { lte: new Date(date), gte: new Date(date) },
@@ -38,9 +42,7 @@ export const createNoteInDb = async (
     };
 
     await prisma.note.create({
-      data: {
-        ...newNote,
-      },
+      data: newNote,
     });
   } catch (error) {
     throw new Error(`Error creating note in db! ${error}`);

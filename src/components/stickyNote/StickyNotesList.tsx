@@ -1,14 +1,16 @@
 "use client";
 
-import { Note } from "@prisma/client";
 import { FC } from "react";
 import StickyNote from "./StickyNote";
+import { NoteWithCategory } from "@/utils/types/prisma";
+import { Category } from "@prisma/client";
 
 type StickyNotesListProps = {
-  notes: Note[];
+  notes: NoteWithCategory[];
+  categories: Category[];
 };
 
-const StickyNotesList: FC<StickyNotesListProps> = ({ notes }) => {
+const StickyNotesList: FC<StickyNotesListProps> = ({ notes, categories }) => {
   return (
     <div className="bg-white min-h-[70vh] rounded shadow-md">
       {notes.length === 0 ? (
@@ -19,7 +21,7 @@ const StickyNotesList: FC<StickyNotesListProps> = ({ notes }) => {
       ) : (
         <div className="p-4 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 justify-center gap-6 my-4">
           {notes.map((note) => (
-            <StickyNote key={note.id} note={note} />
+            <StickyNote key={note.id} note={note} categories={categories} />
           ))}
         </div>
       )}

@@ -41,7 +41,9 @@ const Avatar: FC<AvatarProps> = ({ session }) => {
         image={session.user?.image}
         userName={session.user?.name || ""}
       />
-      <span className="text-lg text-gray-100">{session.user?.name || ""}</span>
+      <span className="text-lg text-gray-100 hidden sm:block">
+        {session.user?.name || ""}
+      </span>
     </div>
   );
 };

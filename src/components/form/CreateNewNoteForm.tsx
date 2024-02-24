@@ -1,22 +1,24 @@
 "use client";
+
 import { createNoteInDb } from "@/services/notes";
-import { BASE_BACKGROUND_COLORS } from "@/utils/colors";
 import { NoteFormState, RouteParams } from "@/utils/types/common";
 import { DefaultUser } from "next-auth";
 import { useParams, useRouter } from "next/navigation";
 import { ChangeEvent, FC, SyntheticEvent, useState } from "react";
-import ColorCircleList from "../colors/ColorCircleList";
+import CategorySelect from "./CategorySelect";
+import { Category } from "@prisma/client";
 
 type CreateNoteFormProps = {
   user: DefaultUser;
+  categories: Category[];
 };
 
 const defaultFormState: NoteFormState = {
   text: "",
-  color: BASE_BACKGROUND_COLORS.white, // slate 100
+  categoryId: 1, // PERSONAL
 };
 
-const CreateNoteForm: FC<CreateNoteFormProps> = ({ user }) => {
+const CreateNoteForm: FC<CreateNoteFormProps> = ({ user, categories }) => {
   const [formState, setFormState] = useState<NoteFormState>(defaultFormState);
 
   const router = useRouter();
@@ -41,30 +43,31 @@ const CreateNoteForm: FC<CreateNoteFormProps> = ({ user }) => {
     }));
   };
 
-  const handleChangeColor = (color: string) => {
+  const handleChangeCategory = (categoryId: number) => {
     setFormState((prevState) => ({
       ...prevState,
-      color,
+      categoryId,
     }));
   };
 
   return (
     <form
-      className="border-2 border-gray-200 w-full sm:w-96 bg-gray-50"
+      className="flex flex-wrap justify-center gap-4 w-full"
       onSubmit={handleAddNote}
     >
-      <ColorCircleList
-        selectedColor={formState.color}
-        onClick={handleChangeColor}
-      />
       <input
-        className="w-full h-16 text-gray-900 text-sm rounded p-4 resize"
+        className="max-w-96 w-full h-16 text-gray-900 text-sm rounded p-4 resize"
         placeholder="What did you learn?"
         name="text"
         value={formState.text}
         onChange={handleChangeFormState}
         required
         autoFocus
+      />
+      <CategorySelect
+        categories={categories}
+        selectedCategoryId={formState.categoryId}
+        onChange={handleChangeCategory}
       />
     </form>
   );
