@@ -1,10 +1,10 @@
 import { FC, useState } from "react";
 import StickyNoteFooter from "./StickyNoteFooter";
-import NoteText from "./StickyNoteText";
 import { getContrastColor } from "@/utils/colors";
 import { NoteWithCategory } from "@/utils/types/prisma";
 import StickyNoteDialog from "../stickyNoteDialog/StickyNoteDialog";
 import { Category } from "@prisma/client";
+import StickyNoteText from "./StickyNoteText";
 
 type StickyNoteProps = {
   note: NoteWithCategory;
@@ -23,7 +23,7 @@ const StickyNote: FC<StickyNoteProps> = ({ note, categories }) => {
         className="gap-4 m-auto w-full max-w-72 sm:w-72 md:w-60 h-40 shadow-lg rounded flex flex-col justify-between group"
         style={{ backgroundColor: lightColor, color: textColor }}
       >
-        <NoteText text={note.text} onClick={() => setDialogOpen(true)} />
+        <StickyNoteText text={note.text} onClick={() => setDialogOpen(true)} />
         <StickyNoteFooter noteId={note.id} setDialogOpen={setDialogOpen} />
       </div>
       {dialogOpen && (

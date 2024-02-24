@@ -12,6 +12,7 @@ import {
   listsPlugin,
   CodeToggle,
   Separator,
+  UndoRedo,
 } from "@mdxeditor/editor";
 
 type InitializedMDXEditorProps = MDXEditorProps & {
@@ -28,6 +29,8 @@ const InitializedMDXEditor: FC<InitializedMDXEditorProps> = ({
         toolbarPlugin({
           toolbarContents: () => (
             <>
+              <UndoRedo />
+              <Separator />
               <BoldItalicUnderlineToggles />
               <Separator />
               <ListsToggle />
