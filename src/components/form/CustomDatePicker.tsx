@@ -14,7 +14,7 @@ const options: IOptions = {
   theme: {
     background: "bg-white",
     todayBtn:
-      "bg-emerald-500 hover:bg-emerald-700 dark:bg-emerald-500 dark:hover:bg-emerald-600",
+      "bg-emerald-500 hover:bg-emerald-700 dark:bg-emerald-500 dark:hover:bg-emerald-600 focus:ring-0",
     clearBtn: "",
     icons: "",
     text: "text-gray-500",
