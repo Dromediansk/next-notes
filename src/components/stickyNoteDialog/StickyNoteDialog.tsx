@@ -1,19 +1,19 @@
 import { FC, Fragment, useRef, useState } from "react";
 import { Dialog, Transition } from "@headlessui/react";
-import { Note } from "@prisma/client";
+import { Category, Note } from "@prisma/client";
 import { deleteNoteInDb, updateNoteInDb } from "@/services/notes";
 import { useRouter } from "next/navigation";
 import { CustomEditor } from "../editor";
 import Markdown from "react-markdown";
 import { MDXEditorMethods } from "@mdxeditor/editor";
-import ColorCircleList from "../colors/ColorCircleList";
 import { NoteFormState } from "@/utils/types/common";
 import CloseIcon from "../icons/CloseIcon";
+import CategorySelect from "../form/CategorySelect";
 
 type StickyNoteDialogProps = {
   note: Note;
-  dialogOpen: boolean;
   setDialogOpen: (state: boolean) => void;
+  categories: Category[];
 };
 
 const determineDialogSizeByTextLength = (textLength: number) => {
@@ -26,10 +26,11 @@ const determineDialogSizeByTextLength = (textLength: number) => {
 const StickyNoteDialog: FC<StickyNoteDialogProps> = ({
   setDialogOpen,
   note,
+  categories,
 }) => {
   const [formState, setFormState] = useState<NoteFormState>({
     text: note.text,
-    color: note.color,
+    categoryId: note.categoryId,
   });
   const [editMode, setEditMode] = useState(false);
 
@@ -44,7 +45,7 @@ const StickyNoteDialog: FC<StickyNoteDialogProps> = ({
         await deleteNoteInDb(note.id);
       } else if (
         formState.text !== note.text ||
-        formState.color !== note.color
+        formState.categoryId !== note.categoryId
       ) {
         await updateNoteInDb(note.id, formState);
       }
@@ -63,16 +64,16 @@ const StickyNoteDialog: FC<StickyNoteDialogProps> = ({
     }));
   };
 
-  const handleChangeColor = (color: string) => {
+  const handleChangeCategory = (categoryId: number) => {
     setFormState((prevState) => ({
       ...prevState,
-      color,
+      categoryId,
     }));
   };
 
   return (
     <Transition.Root show as={Fragment}>
-      <Dialog as="div" className=" z-10" onClose={handleClose}>
+      <Dialog open as="div" className=" z-10" onClose={handleClose}>
         <Transition.Child
           as={Fragment}
           enter="ease-out duration-300"
@@ -127,10 +128,12 @@ const StickyNoteDialog: FC<StickyNoteDialogProps> = ({
                     </div>
                   )}
                 </div>
-                <footer className="p-2 flex items-center justify-center flex-wrap sm:flex-nowrap">
-                  <ColorCircleList
-                    onClick={handleChangeColor}
-                    selectedColor={formState.color}
+                <footer className="p-2">
+                  <CategorySelect
+                    categories={categories}
+                    onChange={handleChangeCategory}
+                    selectedCategoryId={formState.categoryId}
+                    itemsClassName="-top-32"
                   />
                 </footer>
               </Dialog.Panel>

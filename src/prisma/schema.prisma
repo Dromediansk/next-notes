@@ -19,6 +19,23 @@ model User {
   Note         Note[]
 }
 
+enum CategoryType {
+  PERSONAL
+  WORK
+  EDUCATION
+  TRAVEL
+  HEALTH
+  FINANCE
+}
+
+model Category {
+  id         Int          @id @default(autoincrement())
+  type       CategoryType @unique
+  lightColor String
+  darkColor  String
+  Note       Note[]
+}
+
 model Note {
   id          String   @id @default(uuid())
   text        String
@@ -27,5 +44,6 @@ model Note {
   createdAt   DateTime @default(now())
   updatedAt   DateTime @default(now())
   orderNumber Int
-  color       String
+  categoryId  Int      @default(1)
+  category    Category @relation(fields: [categoryId], references: [id])
 }

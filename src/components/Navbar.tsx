@@ -1,6 +1,7 @@
 import { useAuthSession } from "@/utils/auth";
 import Avatar from "./Avatar";
 import LogOutButton from "./auth/LogOutButton";
+import CustomDatePicker from "./form/CustomDatePicker";
 
 const Navbar = async () => {
   const session = await useAuthSession();
@@ -12,6 +13,7 @@ const Navbar = async () => {
           {session && (
             <>
               <Avatar session={session} />
+              <CustomDatePicker />
               <LogOutButton />
             </>
           )}

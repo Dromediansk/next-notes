@@ -19,12 +19,11 @@ const options: IOptions = {
     icons: "",
     text: "text-gray-500",
     disabledText: "",
-    input:
-      "border-2 border-gray-200 shadow-sm rounded",
+    input: "shadow-sm rounded bg-gray-200",
     inputIcon: "",
     selected: "bg-emerald-500 hover:bg-emerald-700",
   },
-  datepickerClassNames: "top-50 left-[15%] sm:left-[30%]",
+  datepickerClassNames: "top-50 left-[10%] sm:left-[45%]",
 };
 
 const CustomDatePicker = () => {

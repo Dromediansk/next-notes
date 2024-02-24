@@ -1,24 +1,27 @@
-import { Note } from "@prisma/client";
 import { FC, useState } from "react";
 import StickyNoteFooter from "./StickyNoteFooter";
-import StickyNoteDialog from "./StickyNoteDialog";
-import NoteText from "./NoteText";
+import NoteText from "./StickyNoteText";
 import { getContrastColor } from "@/utils/colors";
+import { NoteWithCategory } from "@/utils/types/prisma";
+import StickyNoteDialog from "../stickyNoteDialog/StickyNoteDialog";
+import { Category } from "@prisma/client";
 
 type StickyNoteProps = {
-  note: Note;
+  note: NoteWithCategory;
+  categories: Category[];
 };
 
-const StickyNote: FC<StickyNoteProps> = ({ note }) => {
+const StickyNote: FC<StickyNoteProps> = ({ note, categories }) => {
   const [dialogOpen, setDialogOpen] = useState(false);
+  const { lightColor } = note.category;
 
-  const textColor = getContrastColor(note.color);
+  const textColor = getContrastColor(lightColor);
 
   return (
     <>
       <div
         className="gap-4 shadow-lg rounded flex flex-col justify-between group"
-        style={{ backgroundColor: note.color, color: textColor }}
+        style={{ backgroundColor: lightColor, color: textColor }}
       >
         <NoteText text={note.text} onClick={() => setDialogOpen(true)} />
         <StickyNoteFooter noteId={note.id} setDialogOpen={setDialogOpen} />
@@ -26,8 +29,8 @@ const StickyNote: FC<StickyNoteProps> = ({ note }) => {
       {dialogOpen && (
         <StickyNoteDialog
           note={note}
-          dialogOpen={dialogOpen}
           setDialogOpen={setDialogOpen}
+          categories={categories}
         />
       )}
     </>
