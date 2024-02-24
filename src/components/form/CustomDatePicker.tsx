@@ -33,6 +33,10 @@ const CustomDatePicker = () => {
   const [value, setValue] = useState(new Date(params.date));
   const [show, setShow] = useState(false);
 
+  if (!params.date) {
+    return null;
+  }
+
   const handleChange = (date: Date) => {
     setValue(date);
     router.push(formatDate(date));
