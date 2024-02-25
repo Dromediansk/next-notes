@@ -5,8 +5,8 @@ export const fetchAllCategories = async (): Promise<Category[]> => {
   try {
     const categories: Category[] = await prisma.category.findMany({
       cacheStrategy: {
-        ttl: 30,
-        swr: 60,
+        ttl: 7200, // 2 hours
+        swr: 300, // 5 minutes
       },
       orderBy: { type: "asc" },
     });
