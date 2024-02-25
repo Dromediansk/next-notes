@@ -32,7 +32,7 @@ const StickyNoteFooter: FC<StickyNoteFooterProps> = ({
   return (
     <footer className="m-2 h-5 flex justify-end">
       <Menu>
-        <Menu.Button className="hidden group-hover:block">
+        <Menu.Button className="invisible group-hover:visible">
           <OptionsIcon />
         </Menu.Button>
         <Transition

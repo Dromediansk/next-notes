@@ -35,8 +35,8 @@ const CategorySelect: FC<CategorySelectProps> = ({
 
   return (
     <Menu as="div" className="my-auto relative">
-      <Menu.Button className="flex gap-4 bg-gray-200 py-2 px-4 rounded shadow-sm focus:ring-2 focus:ring-main">
-        <span>Category</span>
+      <Menu.Button className="flex gap-4 bg-gray-200 justify-between py-2 px-4 w-48 rounded shadow-sm focus:ring-2 focus:ring-main">
+        <span className="mx-auto">{selectedCategory?.type || "Category"}</span>
         <ChevronDownIcon className="text-black" width={20} height={20} />
         {selectedCategory && (
           <ColorCircle color={selectedCategory.lightColor} />
@@ -52,8 +52,8 @@ const CategorySelect: FC<CategorySelectProps> = ({
             <Menu.Item key={category.id}>
               {({ active }) => (
                 <div
-                  className={`${
-                    active ? "hover:bg-slate-200" : ""
+                  className={`${active ? "hover:bg-slate-100" : ""} ${
+                    isSelected ? "bg-slate-200" : ""
                   } cursor-pointer flex gap-2 items-center transition-colors duration-200" px-4 py-2`}
                   onClick={() => onChange(category.id)}
                 >

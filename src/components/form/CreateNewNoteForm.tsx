@@ -55,6 +55,11 @@ const CreateNoteForm: FC<CreateNoteFormProps> = ({ user, categories }) => {
       className="flex flex-wrap justify-center gap-4 w-full bg-white rounded shadow-sm p-4"
       onSubmit={handleAddNote}
     >
+      <CategorySelect
+        categories={categories}
+        selectedCategoryId={formState.categoryId}
+        onChange={handleChangeCategory}
+      />
       <input
         className="max-w-96 w-full h-16 text-gray-900 bg-gray-200 text-sm rounded p-4 resize"
         placeholder="What did you learn?"
@@ -63,11 +68,6 @@ const CreateNoteForm: FC<CreateNoteFormProps> = ({ user, categories }) => {
         onChange={handleChangeFormState}
         required
         autoFocus
-      />
-      <CategorySelect
-        categories={categories}
-        selectedCategoryId={formState.categoryId}
-        onChange={handleChangeCategory}
       />
     </form>
   );

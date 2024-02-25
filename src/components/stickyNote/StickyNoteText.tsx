@@ -9,7 +9,7 @@ type StickyNoteTextProps = {
 const StickyNoteText: FC<StickyNoteTextProps> = ({ text, onClick }) => {
   return (
     <div
-      className="text-center m-4 mb-0 line-clamp-4 cursor-pointer"
+      className="text-center p-2 max-h-32 cursor-pointer overflow-auto"
       onClick={onClick}
     >
       <Markdown>{text}</Markdown>
