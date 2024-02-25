@@ -1,40 +1,41 @@
 import { Category, CategoryType } from "@prisma/client";
 
+
 export const categories: Category[] = [
   {
     id: 1,
     type: CategoryType.PERSONAL,
-    lightColor: '#FFD700',
-    darkColor: '#FFA500'
+    lightColor: '#B3E6F3',
+    darkColor: '#4682B4'
   },
   {
-    id:2,
+    id: 2,
     type: CategoryType.WORK,
-    lightColor: '#4682B4',
-    darkColor: '#4169E1'
+    lightColor: '#F4D1E5',
+    darkColor: '#800080'
   },
   {
     id: 3,
     type: CategoryType.EDUCATION,
-    lightColor: '#32CD32',
-    darkColor: '#008000'
+    lightColor: '#E3F3C9',
+    darkColor: '#556B2F'
   },
   {
     id: 4,
-    type: CategoryType.TRAVEL,
-    lightColor: '#FF69B4',
-    darkColor: '#C71585'
+    type: CategoryType.FINANCE,
+    lightColor: '#FBF6D2',
+    darkColor: '#8B4513'
   },
   {
     id: 5,
     type: CategoryType.HEALTH,
-    lightColor: '#66CDAA',
-    darkColor: '#3CB371'
+    lightColor: '#FFD2C1',
+    darkColor: '#8B0000'
   },
   {
     id: 6,
-    type: CategoryType.FINANCE,
-    lightColor: '#FFDAB9',
-    darkColor: '#FFA07A'
+    type: CategoryType.TRAVEL,
+    lightColor: '#FFBCBC',
+    darkColor: '#800080'
   },
-]
+];

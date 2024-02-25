@@ -35,7 +35,7 @@ const CategorySelect: FC<CategorySelectProps> = ({
 
   return (
     <Menu as="div" className="my-auto relative">
-      <Menu.Button className="flex gap-4 bg-gray-200 justify-between py-2 px-4 w-48 rounded shadow-sm focus:ring-2 focus:ring-main">
+      <Menu.Button className="flex items-center gap-4 bg-gray-200 justify-between py-2 px-4 w-48 rounded shadow-sm focus:ring-2 focus:ring-main">
         <span className="mx-auto">{selectedCategory?.type || "Category"}</span>
         <ChevronDownIcon className="text-black" width={20} height={20} />
         {selectedCategory && (
