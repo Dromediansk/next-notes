@@ -14,14 +14,12 @@ export const metadata: Metadata = {
   applicationName: "next-notes",
 };
 
-const RootLayout: FC<RootLayoutProps> = async ({ children }) => {
+const RootLayout: FC<RootLayoutProps> = ({ children }) => {
   return (
     <html lang="en">
       <body className="bg-gray-100">
         <Navbar />
-        <main className="mx-auto max-w-screen-lg">
-          <div className="text-center my-2 mx-4">{children}</div>
-        </main>
+        <main className="mx-auto max-w-screen-lg m-2">{children}</main>
       </body>
     </html>
   );

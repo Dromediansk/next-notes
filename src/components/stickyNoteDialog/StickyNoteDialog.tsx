@@ -122,7 +122,7 @@ const StickyNoteDialog: FC<StickyNoteDialogProps> = ({
                   ) : (
                     <div
                       onClick={() => setEditMode(true)}
-                      className="text-center w-full p-4 pt-14"
+                      className="text-center w-full p-4 pt-14 cursor-pointer"
                     >
                       <Markdown>{note.text}</Markdown>
                     </div>

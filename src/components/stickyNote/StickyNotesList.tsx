@@ -12,7 +12,7 @@ type StickyNotesListProps = {
 
 const StickyNotesList: FC<StickyNotesListProps> = ({ notes, categories }) => {
   return (
-    <div className="bg-white min-h-[70vh] rounded shadow-md">
+    <div className="bg-white min-h-[75vh] rounded shadow-md">
       {notes.length === 0 ? (
         <p className="text-center text-gray-500 pt-10">
           Your notes seem to be on vacation. <br /> Time to break the silence
