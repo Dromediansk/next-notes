@@ -4,6 +4,10 @@ import { Category } from "@prisma/client";
 export const fetchAllCategories = async (): Promise<Category[]> => {
   try {
     const categories: Category[] = await prisma.category.findMany({
+      cacheStrategy: {
+        ttl: 30,
+        swr: 60,
+      },
       orderBy: { type: "asc" },
     });
     return categories;
