@@ -12,6 +12,10 @@ export const fetchNotesByDate = async (
 ): Promise<NoteWithCategory[]> => {
   try {
     const notes: NoteWithCategory[] = await prisma.note.findMany({
+      cacheStrategy: {
+        ttl: 7200, // 2 hours
+        swr: 300, // 5 minutes
+      } as never,
       include: {
         category: true
       },
