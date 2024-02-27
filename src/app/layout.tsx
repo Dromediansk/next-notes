@@ -1,11 +1,18 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import { FC, ReactNode } from "react";
+import { Lato } from "next/font/google";
 import Navbar from "@/components/Navbar";
 
 type RootLayoutProps = {
   children: ReactNode;
 };
+
+const lato = Lato({
+  weight: "400",
+  subsets: ["latin"],
+  display: "swap",
+});
 
 export const metadata: Metadata = {
   title: "Next Notes",
@@ -16,7 +23,7 @@ export const metadata: Metadata = {
 
 const RootLayout: FC<RootLayoutProps> = ({ children }) => {
   return (
-    <html lang="en">
+    <html lang="en" className={lato.className}>
       <body className="bg-gray-100">
         <Navbar />
         <main className="mx-auto max-w-screen-lg m-2">{children}</main>
