@@ -18,7 +18,7 @@
   "dependencies": {
     "@headlessui/react": "^1.7.18",
     "@heroicons/react": "^2.1.1",
-    "@mdxeditor/editor": "^2.9.0",
+    "@mdxeditor/editor": "^2.9.1",
     "@prisma/client": "^5.10.2",
     "dayjs": "^1.11.10",
     "next": "14.1.0",
@@ -31,7 +31,7 @@
   },
   "devDependencies": {
     "@types/node": "^20.11.20",
-    "@types/react": "^18.2.58",
+    "@types/react": "^18.2.60",
     "@types/react-dom": "^18.2.19",
     "autoprefixer": "^10.0.1",
     "eslint": "^8.57.0",
