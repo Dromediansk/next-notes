@@ -17,7 +17,7 @@ const LoginBanner = () => {
 
   return (
     <>
-      <div className="h-8">{isLoading && <Spinner />}</div>
+      <div className="h-8">{isLoading && <Spinner size={8} />}</div>
       <h3 className="text-xl py-6">Welcome in Next Notes!</h3>
       <div className="flex gap-4 flex-col">
         <GoogleSignInButton isLoading={isLoading} onClick={handleLogin} />
