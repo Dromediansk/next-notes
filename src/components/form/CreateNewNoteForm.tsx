@@ -1,12 +1,13 @@
 "use client";
 
-import { createNoteInDb } from "@/services/notes";
+import { createNoteInDb, getNotesByDate } from "@/services/notes";
 import { NoteFormState, RouteParams } from "@/utils/types/common";
 import { DefaultUser } from "next-auth";
-import { useParams, useRouter } from "next/navigation";
+import { useParams } from "next/navigation";
 import { ChangeEvent, FC, SyntheticEvent, useState } from "react";
 import CategorySelect from "./CategorySelect";
 import { Category } from "@prisma/client";
+import { setIsLoadingNotes, setNotes } from "@/stores/notes";
 
 type CreateNoteFormProps = {
   user: DefaultUser;
@@ -21,17 +22,24 @@ const defaultFormState: NoteFormState = {
 const CreateNoteForm: FC<CreateNoteFormProps> = ({ user, categories }) => {
   const [formState, setFormState] = useState<NoteFormState>(defaultFormState);
 
-  const router = useRouter();
   const params = useParams<RouteParams>();
 
   const handleAddNote = async (event: SyntheticEvent) => {
     try {
       event.preventDefault();
+      setIsLoadingNotes(true);
       await createNoteInDb(formState, user.id, params.date, 1);
-      setFormState(defaultFormState);
-      router.refresh();
+      const notes = await getNotesByDate(user.id, params.date);
+
+      setNotes(notes);
+      setFormState((prevState) => ({
+        ...defaultFormState,
+        categoryId: prevState.categoryId,
+      }));
     } catch (error) {
       console.log(error);
+    } finally {
+      setIsLoadingNotes(false);
     }
   };
 

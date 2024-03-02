@@ -3,11 +3,10 @@
 import { prisma } from "@/prisma/db";
 import { CreateNoteBody, NoteFormState } from "@/utils/types/common";
 import { NoteWithCategory } from "@/utils/types/prisma";
-import { User } from "@prisma/client";
 import { DefaultUser } from "next-auth";
 
-export const fetchNotesByDate = async (
-  userId: User["id"],
+export const getNotesByDate = async (
+  userId: string,
   date: string
 ): Promise<NoteWithCategory[]> => {
   try {
