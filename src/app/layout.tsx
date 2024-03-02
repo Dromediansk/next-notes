@@ -9,7 +9,7 @@ type RootLayoutProps = {
 };
 
 const lato = Lato({
-  weight: "400",
+  weight: ["400", "700"],
   subsets: ["latin"],
   display: "swap",
 });
