@@ -49,6 +49,9 @@ const StickyNoteDialog: FC<StickyNoteDialogProps> = ({
   const handleClose = async () => {
     try {
       setIsLoadingNotes(true);
+      setEditMode(false);
+      setDialogOpen(false);
+
       if (!formState.text) {
         await deleteNoteInDb(note.id);
       } else if (
@@ -65,8 +68,6 @@ const StickyNoteDialog: FC<StickyNoteDialogProps> = ({
 
       const notes = await getNotesByDate(session.user.id, params.date);
       setNotes(notes);
-      setEditMode(false);
-      setDialogOpen(false);
     } catch (error) {
       console.log(error);
     } finally {
