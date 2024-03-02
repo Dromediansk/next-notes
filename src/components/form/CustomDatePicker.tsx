@@ -1,5 +1,6 @@
 "use client";
 
+import { setIsLoadingNotes } from "@/stores/notes";
 import { formatDate } from "@/utils/functions";
 import { RouteParams } from "@/utils/types/common";
 import { useParams, useRouter } from "next/navigation";
@@ -40,6 +41,7 @@ const CustomDatePicker = () => {
   const handleChange = (date: Date) => {
     setValue(date);
     router.push(formatDate(date));
+    setIsLoadingNotes(true);
   };
 
   return (

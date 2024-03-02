@@ -41,6 +41,8 @@ const StickyNoteDialog: FC<StickyNoteDialogProps> = ({
   });
   const [editMode, setEditMode] = useState(false);
 
+  const { text, categoryId } = formState;
+
   const params = useParams<RouteParams>();
   const inputRef = useRef<MDXEditorMethods>(null);
 
@@ -48,16 +50,21 @@ const StickyNoteDialog: FC<StickyNoteDialogProps> = ({
 
   const handleClose = async () => {
     try {
-      setIsLoadingNotes(true);
       setEditMode(false);
       setDialogOpen(false);
 
-      if (!formState.text) {
+      const isValid =
+        text === "" || text !== note.text || categoryId !== note.categoryId;
+
+      if (!isValid) {
+        return;
+      }
+
+      setIsLoadingNotes(true);
+
+      if (!text) {
         await deleteNoteInDb(note.id);
-      } else if (
-        formState.text !== note.text ||
-        formState.categoryId !== note.categoryId
-      ) {
+      } else if (text !== note.text || categoryId !== note.categoryId) {
         await updateNoteInDb(note.id, formState);
       }
       const session = await getSession();
@@ -132,7 +139,7 @@ const StickyNoteDialog: FC<StickyNoteDialogProps> = ({
                 >
                   {editMode ? (
                     <CustomEditor
-                      markdown={formState.text}
+                      markdown={text}
                       onChange={handleChangeNoteText}
                       autoFocus={{ defaultSelection: "rootEnd" }}
                       ref={inputRef}
@@ -150,7 +157,7 @@ const StickyNoteDialog: FC<StickyNoteDialogProps> = ({
                   <CategorySelect
                     categories={categories}
                     onChange={handleChangeCategory}
-                    selectedCategoryId={formState.categoryId}
+                    selectedCategoryId={categoryId}
                     itemsClassName="-top-32"
                   />
                 </footer>
