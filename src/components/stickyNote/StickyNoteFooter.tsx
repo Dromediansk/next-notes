@@ -3,8 +3,12 @@ import OptionsIcon from "../icons/OptionsIcon";
 import { FC, Fragment } from "react";
 import EditIcon from "../icons/EditIcon";
 import DeleteIcon from "../icons/DeleteIcon";
-import { useRouter } from "next/navigation";
-import { deleteNoteInDb } from "@/services/notes";
+import { deleteNoteInDb, getNotesByDate } from "@/services/notes";
+import { redirect, useParams } from "next/navigation";
+import { getSession } from "next-auth/react";
+import { LOGIN_ROUTE } from "@/utils/constants";
+import { RouteParams } from "@/utils/types/common";
+import { setIsLoadingNotes, setNotes } from "@/stores/notes";
 
 type StickyNoteFooterProps = {
   noteId: string;
@@ -18,14 +22,24 @@ const StickyNoteFooter: FC<StickyNoteFooterProps> = ({
   noteId,
   setDialogOpen,
 }) => {
-  const router = useRouter();
+  const params = useParams<RouteParams>();
 
   const handleDeleteNote = async () => {
     try {
+      setIsLoadingNotes(true);
+      const session = await getSession();
+
+      if (!session || !session.user) {
+        return redirect(LOGIN_ROUTE);
+      }
+
       await deleteNoteInDb(noteId);
-      router.refresh();
+      const notes = await getNotesByDate(session.user.id, params.date);
+      setNotes(notes);
     } catch (error) {
       console.log("Error deleting note ", error);
+    } finally {
+      setIsLoadingNotes(false);
     }
   };
 

@@ -1,14 +1,21 @@
 import { FC, Fragment, useRef, useState } from "react";
 import { Dialog, Transition } from "@headlessui/react";
 import { Category, Note } from "@prisma/client";
-import { deleteNoteInDb, updateNoteInDb } from "@/services/notes";
-import { useRouter } from "next/navigation";
+import {
+  deleteNoteInDb,
+  getNotesByDate,
+  updateNoteInDb,
+} from "@/services/notes";
+import { redirect, useParams } from "next/navigation";
 import { CustomEditor } from "../editor";
 import Markdown from "react-markdown";
 import { MDXEditorMethods } from "@mdxeditor/editor";
-import { NoteFormState } from "@/utils/types/common";
+import { NoteFormState, RouteParams } from "@/utils/types/common";
 import CloseIcon from "../icons/CloseIcon";
 import CategorySelect from "../form/CategorySelect";
+import { setIsLoadingNotes, setNotes } from "@/stores/notes";
+import { getSession } from "next-auth/react";
+import { LOGIN_ROUTE } from "@/utils/constants";
 
 type StickyNoteDialogProps = {
   note: Note;
@@ -34,13 +41,14 @@ const StickyNoteDialog: FC<StickyNoteDialogProps> = ({
   });
   const [editMode, setEditMode] = useState(false);
 
-  const router = useRouter();
+  const params = useParams<RouteParams>();
   const inputRef = useRef<MDXEditorMethods>(null);
 
   const textLength = note.text.length;
 
   const handleClose = async () => {
     try {
+      setIsLoadingNotes(true);
       if (!formState.text) {
         await deleteNoteInDb(note.id);
       } else if (
@@ -49,11 +57,20 @@ const StickyNoteDialog: FC<StickyNoteDialogProps> = ({
       ) {
         await updateNoteInDb(note.id, formState);
       }
-      setDialogOpen(false);
+      const session = await getSession();
+
+      if (!session || !session.user) {
+        return redirect(LOGIN_ROUTE);
+      }
+
+      const notes = await getNotesByDate(session.user.id, params.date);
+      setNotes(notes);
       setEditMode(false);
-      router.refresh();
+      setDialogOpen(false);
     } catch (error) {
       console.log(error);
+    } finally {
+      setIsLoadingNotes(false);
     }
   };
 
