@@ -42,10 +42,6 @@ const CustomDatePicker = () => {
   const updateDate = (date: Date) => {
     setValue(date);
     router.push(formatDate(date));
-  };
-
-  const handleChangeValue = (date: Date) => {
-    updateDate(date);
     setIsLoadingNotes(true);
   };
 
@@ -80,7 +76,7 @@ const CustomDatePicker = () => {
       <DatePicker
         options={options}
         value={value}
-        onChange={handleChangeValue}
+        onChange={updateDate}
         show={show}
         setShow={setShow}
         selectedDateState={[value, setValue]}
