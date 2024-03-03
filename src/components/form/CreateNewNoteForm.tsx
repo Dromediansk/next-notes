@@ -28,14 +28,15 @@ const CreateNoteForm: FC<CreateNoteFormProps> = ({ user, categories }) => {
     try {
       event.preventDefault();
       setIsLoadingNotes(true);
-      await createNoteInDb(formState, user.id, params.date, 1);
-      const notes = await getNotesByDate(user.id, params.date);
 
-      setNotes(notes);
       setFormState((prevState) => ({
         ...defaultFormState,
         categoryId: prevState.categoryId,
       }));
+      await createNoteInDb(formState, user.id, params.date, 1);
+      const notes = await getNotesByDate(user.id, params.date);
+
+      setNotes(notes);
     } catch (error) {
       console.log(error);
     } finally {
@@ -69,7 +70,7 @@ const CreateNoteForm: FC<CreateNoteFormProps> = ({ user, categories }) => {
         onChange={handleChangeCategory}
       />
       <input
-        className="max-w-96 w-full h-16 text-gray-900 bg-gray-200 text-sm rounded p-4 resize"
+        className="max-w-96 w-full h-10 text-gray-900 bg-gray-200 text-sm rounded p-4 resize"
         placeholder="What did you learn?"
         name="text"
         value={formState.text}

@@ -3,6 +3,7 @@
 import { setIsLoadingNotes } from "@/stores/notes";
 import { formatDate } from "@/utils/functions";
 import { RouteParams } from "@/utils/types/common";
+import dayjs from "dayjs";
 import { useParams, useRouter } from "next/navigation";
 import { useState } from "react";
 import DatePicker from "tailwind-datepicker-react";
@@ -38,22 +39,68 @@ const CustomDatePicker = () => {
     return null;
   }
 
-  const handleChange = (date: Date) => {
+  const updateDate = (date: Date) => {
     setValue(date);
     router.push(formatDate(date));
+  };
+
+  const handleChangeValue = (date: Date) => {
+    updateDate(date);
     setIsLoadingNotes(true);
   };
 
+  const handleNextDate = () => {
+    const date = dayjs(value).add(1, "days").toDate();
+    updateDate(date);
+  };
+
+  const handlePreviousDate = () => {
+    const date = dayjs(value).subtract(1, "days").toDate();
+    updateDate(date);
+  };
+
   return (
-    <div>
+    <div className="flex items-center gap-1 text-gray-200">
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        fill="none"
+        viewBox="0 0 24 24"
+        strokeWidth={1.5}
+        stroke="currentColor"
+        className="w-8 h-8 cursor-pointer"
+        onClick={handlePreviousDate}
+      >
+        <path
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          d="M15.75 19.5 8.25 12l7.5-7.5"
+        />
+      </svg>
+
       <DatePicker
         options={options}
         value={value}
-        onChange={handleChange}
+        onChange={handleChangeValue}
         show={show}
         setShow={setShow}
         selectedDateState={[value, setValue]}
       />
+
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        fill="none"
+        viewBox="0 0 24 24"
+        strokeWidth={1.5}
+        stroke="currentColor"
+        className="w-8 h-8 cursor-pointer"
+        onClick={handleNextDate}
+      >
+        <path
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          d="m8.25 4.5 7.5 7.5-7.5 7.5"
+        />
+      </svg>
     </div>
   );
 };
