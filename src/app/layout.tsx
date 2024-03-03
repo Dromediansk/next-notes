@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 import { FC, ReactNode } from "react";
 import { Lato } from "next/font/google";
-import Navbar from "@/components/Navbar";
+import Navbar from "@/components/navigation/Navbar";
 
 type RootLayoutProps = {
   children: ReactNode;

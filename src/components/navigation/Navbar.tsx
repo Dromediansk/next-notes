@@ -1,7 +1,6 @@
 import { useAuthSession } from "@/utils/auth";
-import Avatar from "./Avatar";
-import LogOutButton from "./auth/LogOutButton";
-import CustomDatePicker from "./form/CustomDatePicker";
+import CustomDatePicker from "../form/CustomDatePicker";
+import AvatarMenu from "./AvatarMenu";
 
 const Navbar = async () => {
   const session = await useAuthSession();
@@ -10,11 +9,11 @@ const Navbar = async () => {
     <div className="w-full h-16 bg-main-dark sticky top-0 shadow-2xl z-50">
       <div className="container mx-auto px-4 h-full">
         <div className="flex justify-between items-center h-full">
-          {session && (
+          {session?.user && (
             <>
-              <Avatar session={session} />
+              <AvatarMenu user={session.user} />
               <CustomDatePicker />
-              <LogOutButton />
+              <div />
             </>
           )}
         </div>
