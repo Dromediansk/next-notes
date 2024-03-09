@@ -24,7 +24,7 @@ const StickyNote: FC<StickyNoteProps> = ({ note, categories }) => {
         style={{ backgroundColor: lightColor, color: textColor }}
       >
         <StickyNoteText text={note.text} onClick={() => setDialogOpen(true)} />
-        <StickyNoteFooter noteId={note.id} setDialogOpen={setDialogOpen} />
+        <StickyNoteFooter note={note} setDialogOpen={setDialogOpen} />
       </div>
       {dialogOpen && (
         <StickyNoteDialog

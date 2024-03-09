@@ -1,17 +1,19 @@
 import { Menu, Transition } from "@headlessui/react";
 import OptionsIcon from "../icons/OptionsIcon";
-import { FC, Fragment } from "react";
+import { FC, Fragment, startTransition } from "react";
 import EditIcon from "../icons/EditIcon";
 import DeleteIcon from "../icons/DeleteIcon";
 import { deleteNoteInDb, getNotesByDate } from "@/services/notes";
-import { redirect, useParams } from "next/navigation";
+import { NoteAction, useOptimisticNotes } from "@/hooks/useOptimisticNotes";
+import { setIsLoadingNotes, setNotes } from "@/stores/notes";
 import { getSession } from "next-auth/react";
+import { redirect, useParams } from "next/navigation";
 import { LOGIN_ROUTE } from "@/utils/constants";
 import { RouteParams } from "@/utils/types/common";
-import { setIsLoadingNotes, setNotes } from "@/stores/notes";
+import { NoteWithCategory } from "@/utils/types/prisma";
 
 type StickyNoteFooterProps = {
-  noteId: string;
+  note: NoteWithCategory;
   setDialogOpen: (state: boolean) => void;
 };
 
@@ -19,21 +21,29 @@ const menuItemClassName =
   "p-2 cursor-pointer flex gap-2 items-center transition-colors duration-300";
 
 const StickyNoteFooter: FC<StickyNoteFooterProps> = ({
-  noteId,
+  note,
   setDialogOpen,
 }) => {
   const params = useParams<RouteParams>();
+  const { optimisticNotes, setOptimisticNotes } = useOptimisticNotes();
 
   const handleDeleteNote = async () => {
     try {
       setIsLoadingNotes(true);
-      const session = await getSession();
+      startTransition(() => {
+        setOptimisticNotes({ action: NoteAction.DELETE, payload: note.id });
+      });
 
+      const session = await getSession();
       if (!session || !session.user) {
         return redirect(LOGIN_ROUTE);
       }
+      const noteToDelete = optimisticNotes.find((note) => note.id === note.id);
 
-      await deleteNoteInDb(noteId);
+      if (!noteToDelete?.isTemporary) {
+        await deleteNoteInDb(note.id);
+      }
+
       const notes = await getNotesByDate(session.user.id, params.date);
       setNotes(notes);
     } catch (error) {
@@ -46,7 +56,10 @@ const StickyNoteFooter: FC<StickyNoteFooterProps> = ({
   return (
     <footer className="m-2 h-5 flex justify-end">
       <Menu>
-        <Menu.Button className="invisible group-hover:visible">
+        <Menu.Button
+          disabled={note.isTemporary}
+          className="invisible group-hover:visible"
+        >
           <OptionsIcon />
         </Menu.Button>
         <Transition
