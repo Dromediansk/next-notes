@@ -11,7 +11,7 @@ const LoginPage = async () => {
   }
 
   return (
-    <div className="m-auto w-full h-96 max-w-sm text-center shadow-md bg-slate-50 p-8 rounded-md">
+    <div className="w-full h-96 max-w-sm text-center shadow-md bg-slate-50 p-8 rounded-md">
       <LoginBanner />
     </div>
   );
