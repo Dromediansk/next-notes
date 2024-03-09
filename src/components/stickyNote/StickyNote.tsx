@@ -11,19 +11,38 @@ type StickyNoteProps = {
   categories: Category[];
 };
 
+const determineColor = (
+  isTemporary: boolean | undefined,
+  lightColor: string
+) => {
+  return isTemporary ? "#d1d5db" : lightColor;
+};
+
 const StickyNote: FC<StickyNoteProps> = ({ note, categories }) => {
   const [dialogOpen, setDialogOpen] = useState(false);
   const { lightColor } = note.category;
 
-  const textColor = getContrastColor(lightColor);
+  const color = determineColor(note.isTemporary, lightColor);
+  const textColor = getContrastColor(color);
+
+  const handleDialogOpen = () => {
+    if (note.isTemporary) {
+      return;
+    }
+    setDialogOpen(true);
+  };
 
   return (
     <>
       <div
         className="m-auto w-full max-w-72 sm:w-72 md:w-60 max-h-40 min-w-40 shadow-lg rounded flex flex-1 flex-col justify-between group "
-        style={{ backgroundColor: lightColor, color: textColor }}
+        style={{ backgroundColor: color, color: textColor }}
       >
-        <StickyNoteText text={note.text} onClick={() => setDialogOpen(true)} />
+        <StickyNoteText
+          isTemporary={note.isTemporary}
+          text={note.text}
+          onClick={handleDialogOpen}
+        />
         <StickyNoteFooter note={note} setDialogOpen={setDialogOpen} />
       </div>
       {dialogOpen && (
