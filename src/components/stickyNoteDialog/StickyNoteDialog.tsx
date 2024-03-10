@@ -11,11 +11,11 @@ import { CustomEditor } from "../editor";
 import Markdown from "react-markdown";
 import { MDXEditorMethods } from "@mdxeditor/editor";
 import { NoteFormState, RouteParams } from "@/utils/types/common";
-import CloseIcon from "../icons/CloseIcon";
+import CloseIcon from "../../lib/icons/CloseIcon";
 import CategorySelect from "../form/CategorySelect";
 import { setIsLoadingNotes, setNotes } from "@/stores/notes";
-import { getSession } from "next-auth/react";
 import { LOGIN_ROUTE } from "@/utils/constants";
+import { getUser } from "@/stores/user";
 
 type StickyNoteDialogProps = {
   note: Note;
@@ -40,13 +40,10 @@ const StickyNoteDialog: FC<StickyNoteDialogProps> = ({
     categoryId: note.categoryId,
   });
   const [editMode, setEditMode] = useState(false);
-
   const { text, categoryId } = formState;
 
   const params = useParams<RouteParams>();
   const inputRef = useRef<MDXEditorMethods>(null);
-
-  const textLength = note.text.length;
 
   const handleClose = async () => {
     try {
@@ -62,18 +59,18 @@ const StickyNoteDialog: FC<StickyNoteDialogProps> = ({
 
       setIsLoadingNotes(true);
 
+      const user = getUser();
+      if (!user) {
+        return redirect(LOGIN_ROUTE);
+      }
+
       if (!text) {
         await deleteNoteInDb(note.id);
       } else if (text !== note.text || categoryId !== note.categoryId) {
         await updateNoteInDb(note.id, formState);
       }
-      const session = await getSession();
 
-      if (!session || !session.user) {
-        return redirect(LOGIN_ROUTE);
-      }
-
-      const notes = await getNotesByDate(session.user.id, params.date);
+      const notes = await getNotesByDate(user.id, params.date);
       setNotes(notes);
     } catch (error) {
       console.log(error);
@@ -134,7 +131,7 @@ const StickyNoteDialog: FC<StickyNoteDialogProps> = ({
                 </button>
                 <div
                   className={`text-center bg-white rounded-lg overflow-auto ${determineDialogSizeByTextLength(
-                    textLength
+                    note.text.length
                   )}`}
                 >
                   {editMode ? (

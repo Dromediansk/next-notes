@@ -1,22 +1,16 @@
 "use client";
 
 import { Menu } from "@headlessui/react";
-import { DefaultUser } from "next-auth";
-import { FC } from "react";
 import Avatar from "./Avatar";
-import SignOutIcon from "../icons/SignOutIcon";
+import SignOutIcon from "../../lib/icons/SignOutIcon";
 import { signOut } from "next-auth/react";
 
-type AvatarMenuProps = {
-  user: DefaultUser;
-};
-
-const AvatarMenu: FC<AvatarMenuProps> = ({ user }) => {
+const AvatarMenu = () => {
   return (
     <div className="relative">
       <Menu>
         <Menu.Button>
-          <Avatar user={user} />
+          <Avatar />
         </Menu.Button>
         <Menu.Items className="absolute flex flex-col bg-gray-200 rounded shadow-md">
           <Menu.Item>

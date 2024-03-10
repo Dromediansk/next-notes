@@ -2,8 +2,7 @@
 
 import { createNoteInDb, getNotesByDate } from "@/services/notes";
 import { NoteFormState, RouteParams } from "@/utils/types/common";
-import { DefaultUser } from "next-auth";
-import { useParams } from "next/navigation";
+import { redirect, useParams } from "next/navigation";
 import {
   ChangeEvent,
   FC,
@@ -17,9 +16,10 @@ import { NoteWithCategory } from "@/utils/types/prisma";
 import { v4 as uuidv4 } from "uuid";
 import { NoteAction, useOptimisticNotes } from "@/hooks/useOptimisticNotes";
 import { setIsLoadingNotes, setNotes } from "@/stores/notes";
+import { getUser } from "@/stores/user";
+import { LOGIN_ROUTE } from "@/utils/constants";
 
 type CreateNoteFormProps = {
-  user: DefaultUser;
   categories: Category[];
 };
 
@@ -28,7 +28,7 @@ const defaultFormState: NoteFormState = {
   categoryId: 1, // PERSONAL
 };
 
-const CreateNoteForm: FC<CreateNoteFormProps> = ({ user, categories }) => {
+const CreateNoteForm: FC<CreateNoteFormProps> = ({ categories }) => {
   const [formState, setFormState] = useState<NoteFormState>(defaultFormState);
 
   const { setOptimisticNotes } = useOptimisticNotes();
@@ -44,6 +44,10 @@ const CreateNoteForm: FC<CreateNoteFormProps> = ({ user, categories }) => {
 
       if (!category) {
         throw new Error("Category not found!");
+      }
+      const user = getUser();
+      if (!user) {
+        redirect(LOGIN_ROUTE);
       }
 
       const newNote: NoteWithCategory = {
@@ -90,25 +94,27 @@ const CreateNoteForm: FC<CreateNoteFormProps> = ({ user, categories }) => {
   };
 
   return (
-    <form
-      className="flex flex-wrap justify-center gap-2 w-full bg-gray-100 rounded p-2"
-      onSubmit={handleAddNote}
-    >
-      <CategorySelect
-        categories={categories}
-        selectedCategoryId={formState.categoryId}
-        onChange={handleChangeCategory}
-      />
-      <input
-        className="max-w-96 w-full h-12 text-gray-900 bg-gray-200 text-sm rounded p-4 resize"
-        placeholder="What did you learn?"
-        name="text"
-        value={formState.text}
-        onChange={handleChangeFormState}
-        required
-        autoFocus
-      />
-    </form>
+    <div className="flex flex-col sm:flex-row gap-4 sm:gap-8 justify-center items-center mb-2">
+      <form
+        className="flex flex-wrap justify-center gap-2 w-full bg-gray-100 rounded p-2"
+        onSubmit={handleAddNote}
+      >
+        <CategorySelect
+          categories={categories}
+          selectedCategoryId={formState.categoryId}
+          onChange={handleChangeCategory}
+        />
+        <input
+          className="max-w-96 w-full h-12 text-gray-900 bg-gray-200 text-sm rounded p-4 resize"
+          placeholder="What did you learn?"
+          name="text"
+          value={formState.text}
+          onChange={handleChangeFormState}
+          required
+          autoFocus
+        />
+      </form>
+    </div>
   );
 };
 

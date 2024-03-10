@@ -1,16 +1,16 @@
 import { Menu, Transition } from "@headlessui/react";
-import OptionsIcon from "../icons/OptionsIcon";
+import OptionsIcon from "../../lib/icons/OptionsIcon";
 import { FC, Fragment, startTransition } from "react";
-import EditIcon from "../icons/EditIcon";
-import DeleteIcon from "../icons/DeleteIcon";
+import EditIcon from "../../lib/icons/EditIcon";
+import DeleteIcon from "../../lib/icons/DeleteIcon";
 import { deleteNoteInDb, getNotesByDate } from "@/services/notes";
 import { NoteAction, useOptimisticNotes } from "@/hooks/useOptimisticNotes";
 import { setIsLoadingNotes, setNotes } from "@/stores/notes";
-import { getSession } from "next-auth/react";
 import { redirect, useParams } from "next/navigation";
 import { LOGIN_ROUTE } from "@/utils/constants";
 import { RouteParams } from "@/utils/types/common";
 import { NoteWithCategory } from "@/utils/types/prisma";
+import { getUser } from "@/stores/user";
 
 type StickyNoteFooterProps = {
   note: NoteWithCategory;
@@ -34,8 +34,8 @@ const StickyNoteFooter: FC<StickyNoteFooterProps> = ({
         setOptimisticNotes({ action: NoteAction.DELETE, payload: note.id });
       });
 
-      const session = await getSession();
-      if (!session || !session.user) {
+      const user = getUser();
+      if (!user) {
         return redirect(LOGIN_ROUTE);
       }
       const noteToDelete = optimisticNotes.find((note) => note.id === note.id);
@@ -44,7 +44,7 @@ const StickyNoteFooter: FC<StickyNoteFooterProps> = ({
         await deleteNoteInDb(note.id);
       }
 
-      const notes = await getNotesByDate(session.user.id, params.date);
+      const notes = await getNotesByDate(user.id, params.date);
       setNotes(notes);
     } catch (error) {
       console.log("Error deleting note ", error);

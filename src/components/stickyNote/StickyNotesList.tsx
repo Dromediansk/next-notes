@@ -1,27 +1,17 @@
 "use client";
 
-import { FC, useEffect } from "react";
+import { FC } from "react";
 import StickyNote from "./StickyNote";
-import { NoteWithCategory } from "@/utils/types/prisma";
 import { Category } from "@prisma/client";
-import { setIsLoadingNotes, setNotes, useNotes } from "@/stores/notes";
+import { useNotes } from "@/stores/notes";
 import ProgressBar from "@/lib/ProgressBar";
 
 type StickyNotesListProps = {
-  fetchedNotes: NoteWithCategory[];
   categories: Category[];
 };
 
-const StickyNotesList: FC<StickyNotesListProps> = ({
-  fetchedNotes,
-  categories,
-}) => {
+const StickyNotesList: FC<StickyNotesListProps> = ({ categories }) => {
   const { notes, isLoading } = useNotes();
-
-  useEffect(() => {
-    setNotes(fetchedNotes);
-    setIsLoadingNotes(false);
-  }, [fetchedNotes]);
 
   return (
     <>

@@ -1,14 +1,10 @@
-import { DefaultUser } from "next-auth";
+import { useUser } from "@/stores/user";
 import Image from "next/image";
 import { FC } from "react";
 
 type AvatarImageProps = {
   image?: string | null;
   userName: string;
-};
-
-type AvatarProps = {
-  user: DefaultUser;
 };
 
 const AVATAR_SIZE = 30;
@@ -34,7 +30,9 @@ const AvatarImage: FC<AvatarImageProps> = ({ image, userName }) => {
   );
 };
 
-const Avatar: FC<AvatarProps> = ({ user }) => {
+const Avatar = () => {
+  const { user } = useUser();
+
   return (
     <div className="flex items-center gap-2">
       <AvatarImage image={user?.image} userName={user?.name || ""} />

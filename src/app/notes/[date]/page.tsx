@@ -1,5 +1,4 @@
-import FormContainer from "@/components/form/FormContainer";
-import StickyNotesList from "@/components/stickyNote/StickyNotesList";
+import InitialClientContainer from "@/components/InitialClientContainer";
 import { getCategories } from "@/services/categories";
 import { getNotesByDate } from "@/services/notes";
 import { authOptions } from "@/utils/auth";
@@ -21,10 +20,11 @@ const Page: FC<PageProps> = async ({ params }) => {
   const categories = await getCategories();
 
   return (
-    <div>
-      <FormContainer session={session} categories={categories} />
-      <StickyNotesList fetchedNotes={notes} categories={categories} />
-    </div>
+    <InitialClientContainer
+      user={session.user}
+      categories={categories}
+      fetchedNotes={notes}
+    />
   );
 };
 
