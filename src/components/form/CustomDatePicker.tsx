@@ -16,14 +16,14 @@ const options: IOptions = {
   theme: {
     background: "bg-white",
     todayBtn:
-      "bg-emerald-500 hover:bg-emerald-700 dark:bg-emerald-500 dark:hover:bg-emerald-600 focus:ring-0",
+      "bg-main hover:bg-main-dark dark:bg-main dark:hover:bg-main-dark focus:ring-0",
     clearBtn: "",
     icons: "",
     text: "text-gray-500",
     disabledText: "",
     input: "shadow-sm rounded bg-gray-200",
     inputIcon: "",
-    selected: "bg-emerald-500 hover:bg-emerald-700",
+    selected: "bg-main hover:bg-main-dark",
   },
   datepickerClassNames: "top-50 left-[10%] sm:left-[45%]",
 };
