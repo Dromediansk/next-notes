@@ -1,4 +1,3 @@
-import Image from "next/image";
 import { FC, ReactNode } from "react";
 
 type LayoutProps = {

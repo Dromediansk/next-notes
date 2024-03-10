@@ -11,7 +11,7 @@ const useUserStore = create<UserStore>(() => ({
   isLoading: true,
 }))
 
-export const setUser = (user: DefaultUser) => useUserStore.setState({ user })
+export const setUser = (user: DefaultUser | null) => useUserStore.setState({ user })
 
 export const getUser = () => useUserStore.getState().user
 
