@@ -11,9 +11,9 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        main: '#10b981',
-        'main-dark': '#065F46',
-        'main-light': '#a7f3d0'
+        main: '#87ceeb',
+        'main-dark': '#4682b4',
+        'main-light': '#b0e0e6'
       },
       animation: {
         progress: 'progress 1s infinite linear',

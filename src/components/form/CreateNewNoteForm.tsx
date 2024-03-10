@@ -91,7 +91,7 @@ const CreateNoteForm: FC<CreateNoteFormProps> = ({ user, categories }) => {
 
   return (
     <form
-      className="flex flex-wrap justify-center gap-2 w-full bg-white rounded shadow-sm p-2"
+      className="flex flex-wrap justify-center gap-2 w-full bg-gray-100 rounded p-2"
       onSubmit={handleAddNote}
     >
       <CategorySelect

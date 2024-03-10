@@ -25,7 +25,7 @@ const StickyNotesList: FC<StickyNotesListProps> = ({
 
   return (
     <>
-      <div className="bg-white min-h-[75vh] rounded shadow-md">
+      <div className="bg-white min-h-[74vh] sm:min-h-[80vh] rounded shadow-md">
         <div className="h-1.5">{isLoading && <ProgressBar />}</div>
         {!isLoading && notes.length === 0 ? (
           <p className="text-center text-gray-500 pt-10">
