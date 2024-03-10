@@ -23,8 +23,6 @@ const StickyNotesList: FC<StickyNotesListProps> = ({
     setIsLoadingNotes(false);
   }, [fetchedNotes]);
 
-  console.log("notes", notes);
-
   return (
     <>
       <div className="bg-white min-h-[75vh] rounded shadow-md">
