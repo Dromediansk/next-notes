@@ -19,7 +19,7 @@ const options: IOptions = {
       "bg-main hover:bg-main-dark dark:bg-main dark:hover:bg-main-dark focus:ring-0",
     clearBtn: "",
     icons: "",
-    text: "text-gray-500",
+    text: "text-gray-500 hover:bg-main-lighter dark:hover:bg-main-lighter",
     disabledText: "",
     input: "shadow-sm rounded bg-gray-200",
     inputIcon: "",
@@ -63,7 +63,7 @@ const CustomDatePicker = () => {
         viewBox="0 0 24 24"
         strokeWidth={1.5}
         stroke="currentColor"
-        className="w-8 h-8 cursor-pointer"
+        className="w-6 h-6 cursor-pointer"
         onClick={handlePreviousDate}
       >
         <path
@@ -88,7 +88,7 @@ const CustomDatePicker = () => {
         viewBox="0 0 24 24"
         strokeWidth={1.5}
         stroke="currentColor"
-        className="w-8 h-8 cursor-pointer"
+        className="w-6 h-6 cursor-pointer"
         onClick={handleNextDate}
       >
         <path

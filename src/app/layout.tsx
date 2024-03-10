@@ -24,7 +24,7 @@ export const metadata: Metadata = {
 const RootLayout: FC<RootLayoutProps> = ({ children }) => {
   return (
     <html lang="en" className={lato.className}>
-      <body className="bg-gray-100">
+      <body className="bg-gray-100 antialiased">
         {children}
       </body>
     </html>
