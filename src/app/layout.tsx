@@ -25,10 +25,7 @@ const RootLayout: FC<RootLayoutProps> = ({ children }) => {
   return (
     <html lang="en" className={lato.className}>
       <body className="bg-gray-100">
-        <Navbar />
-        <main className="mx-auto max-w-screen-lg min-h-[42rem]">
-          {children}
-        </main>
+        {children}
       </body>
     </html>
   );
