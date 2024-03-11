@@ -7,10 +7,10 @@ const NoStickyNotes = () => {
         src="/assets/no_data.svg"
         width={0}
         height={0}
-        alt="no notes"
+        alt="no notes available"
         priority
         sizes="100vw"
-        className="w-56 h-auto"
+        className="w-32 h-auto"
       />
       <p className="text-gray-500 pt-10 text-center">
         Your notes seem to be on vacation. <br /> Time to break the silence with
