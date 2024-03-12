@@ -1,10 +1,10 @@
+import { useCategories } from "@/stores/categories";
 import { Menu } from "@headlessui/react";
 import { CheckIcon, ChevronDownIcon } from "@heroicons/react/16/solid";
 import { Category } from "@prisma/client";
 import { FC } from "react";
 
 type CategorySelectProps = {
-  categories: Category[];
   selectedCategoryId: Category["id"];
   onChange: (categoryId: number) => void;
   itemsClassName?: string;
@@ -24,11 +24,12 @@ const ColorCircle: FC<ColorCircleProps> = ({ color }) => (
 );
 
 const CategorySelect: FC<CategorySelectProps> = ({
-  categories,
   selectedCategoryId,
   onChange,
   itemsClassName,
 }) => {
+  const { categories } = useCategories();
+
   const selectedCategory = categories.find(
     (category) => category.id === selectedCategoryId
   );

@@ -3,12 +3,10 @@ import StickyNoteFooter from "./StickyNoteFooter";
 import { getContrastColor } from "@/utils/colors";
 import { NoteWithCategory } from "@/utils/types/prisma";
 import StickyNoteDialog from "../stickyNoteDialog/StickyNoteDialog";
-import { Category } from "@prisma/client";
 import StickyNoteText from "./StickyNoteText";
 
 type StickyNoteProps = {
   note: NoteWithCategory;
-  categories: Category[];
 };
 
 const determineColor = (
@@ -18,7 +16,7 @@ const determineColor = (
   return isTemporary ? "#d1d5db" : lightColor;
 };
 
-const StickyNote: FC<StickyNoteProps> = ({ note, categories }) => {
+const StickyNote: FC<StickyNoteProps> = ({ note }) => {
   const [dialogOpen, setDialogOpen] = useState(false);
   const { lightColor } = note.category;
 
@@ -49,7 +47,6 @@ const StickyNote: FC<StickyNoteProps> = ({ note, categories }) => {
         <StickyNoteDialog
           note={note}
           setDialogOpen={setDialogOpen}
-          categories={categories}
         />
       )}
     </>

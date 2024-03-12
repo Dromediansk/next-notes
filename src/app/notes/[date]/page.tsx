@@ -21,8 +21,8 @@ const Page: FC<PageProps> = async ({ params }) => {
 
   return (
     <InitialClientContainer
-      user={session.user}
-      categories={categories}
+      fetchedUser={session.user}
+      fetchedCategories={categories}
       fetchedNotes={notes}
     />
   );

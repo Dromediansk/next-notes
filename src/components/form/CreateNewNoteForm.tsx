@@ -3,33 +3,24 @@
 import { createNoteInDb, getNotesByDate } from "@/services/notes";
 import { NoteFormState, RouteParams } from "@/utils/types/common";
 import { redirect, useParams } from "next/navigation";
-import {
-  ChangeEvent,
-  FC,
-  SyntheticEvent,
-  useState,
-  startTransition,
-} from "react";
+import { ChangeEvent, SyntheticEvent, useState, startTransition } from "react";
 import CategorySelect from "./CategorySelect";
-import { Category } from "@prisma/client";
 import { NoteWithCategory } from "@/utils/types/prisma";
 import { v4 as uuidv4 } from "uuid";
 import { NoteAction, useOptimisticNotes } from "@/hooks/useOptimisticNotes";
 import { setIsLoadingNotes, setNotes } from "@/stores/notes";
 import { getUser } from "@/stores/user";
 import { LOGIN_ROUTE } from "@/utils/constants";
-
-type CreateNoteFormProps = {
-  categories: Category[];
-};
+import { useCategories } from "@/stores/categories";
 
 const defaultFormState: NoteFormState = {
   text: "",
   categoryId: 1, // PERSONAL
 };
 
-const CreateNoteForm: FC<CreateNoteFormProps> = ({ categories }) => {
+const CreateNoteForm = () => {
   const [formState, setFormState] = useState<NoteFormState>(defaultFormState);
+  const { categories } = useCategories();
 
   const { setOptimisticNotes } = useOptimisticNotes();
 
@@ -100,7 +91,6 @@ const CreateNoteForm: FC<CreateNoteFormProps> = ({ categories }) => {
         onSubmit={handleAddNote}
       >
         <CategorySelect
-          categories={categories}
           selectedCategoryId={formState.categoryId}
           onChange={handleChangeCategory}
         />

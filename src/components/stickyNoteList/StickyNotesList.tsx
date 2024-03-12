@@ -1,17 +1,11 @@
 "use client";
 
-import { FC } from "react";
-import StickyNote from "./StickyNote";
-import { Category } from "@prisma/client";
+import StickyNote from "../stickyNote/StickyNote";
 import { useNotes } from "@/stores/notes";
 import ProgressBar from "@/lib/ProgressBar";
 import NoStickyNotes from "./NoStickyNotes";
 
-type StickyNotesListProps = {
-  categories: Category[];
-};
-
-const StickyNotesList: FC<StickyNotesListProps> = ({ categories }) => {
+const StickyNotesList = () => {
   const { notes, isLoading } = useNotes();
 
   return (
@@ -23,7 +17,7 @@ const StickyNotesList: FC<StickyNotesListProps> = ({ categories }) => {
         ) : (
           <div className="p-4 pt-2 flex flex-wrap gap-4">
             {notes.map((note) => (
-              <StickyNote key={note.id} note={note} categories={categories} />
+              <StickyNote key={note.id} note={note} />
             ))}
           </div>
         )}

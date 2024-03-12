@@ -1,6 +1,6 @@
 import { FC, Fragment, useRef, useState } from "react";
 import { Dialog, Transition } from "@headlessui/react";
-import { Category, Note } from "@prisma/client";
+import { Note } from "@prisma/client";
 import {
   deleteNoteInDb,
   getNotesByDate,
@@ -20,7 +20,6 @@ import { getUser } from "@/stores/user";
 type StickyNoteDialogProps = {
   note: Note;
   setDialogOpen: (state: boolean) => void;
-  categories: Category[];
 };
 
 const determineDialogSizeByTextLength = (textLength: number) => {
@@ -33,7 +32,6 @@ const determineDialogSizeByTextLength = (textLength: number) => {
 const StickyNoteDialog: FC<StickyNoteDialogProps> = ({
   setDialogOpen,
   note,
-  categories,
 }) => {
   const [formState, setFormState] = useState<NoteFormState>({
     text: note.text,
@@ -152,7 +150,6 @@ const StickyNoteDialog: FC<StickyNoteDialogProps> = ({
                 </div>
                 <footer className="p-2">
                   <CategorySelect
-                    categories={categories}
                     onChange={handleChangeCategory}
                     selectedCategoryId={categoryId}
                     itemsClassName="-top-32"
