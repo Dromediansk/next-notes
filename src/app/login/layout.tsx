@@ -5,7 +5,7 @@ type LayoutProps = {
 };
 
 const Layout: FC<LayoutProps> = ({ children }) => {
-  return <main className="py-4">{children}</main>;
+  return <main className="py-4 h-full">{children}</main>;
 };
 
 export default Layout;

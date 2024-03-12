@@ -13,16 +13,16 @@ const LoginPage = async () => {
 
   return (
     <>
-      <div className="flex justify-center items-center gap-32 flex-wrap lg:flex-nowrap">
+      <div className="flex h-full justify-center items-center gap-32 flex-wrap lg:flex-nowrap">
         <Image
           width={500}
           height={500}
           src="/assets/login_landing_image.svg"
           alt="landing image"
-          className="p-4 mb-40 hidden lg:block"
+          className="p-4 mb-48 hidden lg:block"
           priority
         />
-        <div className="flex flex-col text-center max-w-md w-full m-2">
+        <div className="flex flex-col text-center max-w-md w-full m-2 mb-16 lg:mb-0">
           <div className="text-xl py-6">
             <h3 className="py-1">Welcome in</h3>
             <h3 className="py-1 text-2xl">Next Notes</h3>
