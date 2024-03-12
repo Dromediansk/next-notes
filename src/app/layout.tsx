@@ -7,6 +7,10 @@ type RootLayoutProps = {
   children: ReactNode;
 };
 
+const description =
+  "Embrace the power of daily affirmations and self-reflection with the intuitive note taking app. Capture moments of inspiration, motivation, and personal development to help you become the best version of yourself.";
+const applicationName = "Next Notes";
+
 const lato = Lato({
   weight: ["400", "700"],
   subsets: ["latin"],
@@ -14,29 +18,23 @@ const lato = Lato({
 });
 
 export const metadata: Metadata = {
-  applicationName: "Next Notes",
-  title: "Next Notes",
-  description:
-    "Notes app for everyday use, such as TODO tasks, personal ideas or insights from learning",
+  applicationName,
+  title: applicationName,
+  description,
   manifest: "/manifest.json",
   appleWebApp: {
     capable: true,
     statusBarStyle: "default",
-    title: "Next Notes",
+    title: applicationName,
   },
   formatDetection: {
     telephone: false,
   },
   openGraph: {
     type: "website",
-    siteName: "Next Notes",
-    title: "Next Notes",
-    description: "Notes app for everyday use",
-  },
-  twitter: {
-    card: "summary",
-    title: "Next Notes",
-    description: "Notes app for everyday use",
+    title: applicationName,
+    description,
+    url: process.env.NEXTAUTH_URL,
   },
 };
 

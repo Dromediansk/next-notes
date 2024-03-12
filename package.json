@@ -19,7 +19,7 @@
     "@ducanh2912/next-pwa": "^10.2.5",
     "@headlessui/react": "^1.7.18",
     "@heroicons/react": "^2.1.1",
-    "@mdxeditor/editor": "^2.12.1",
+    "@mdxeditor/editor": "^2.13.1",
     "@prisma/client": "^5.10.2",
     "@prisma/extension-accelerate": "^1.0.0",
     "dayjs": "^1.11.10",
@@ -34,8 +34,8 @@
     "zustand": "^4.5.2"
   },
   "devDependencies": {
-    "@types/node": "^20.11.25",
-    "@types/react": "^18.2.64",
+    "@types/node": "^20.11.26",
+    "@types/react": "^18.2.65",
     "@types/react-dom": "^18.2.21",
     "@types/uuid": "^9.0.8",
     "autoprefixer": "^10.4.18",
