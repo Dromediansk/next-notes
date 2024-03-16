@@ -13,7 +13,7 @@ import { MDXEditorMethods } from "@mdxeditor/editor";
 import { NoteFormState, RouteParams } from "@/utils/types/common";
 import CloseIcon from "../../lib/icons/CloseIcon";
 import CategorySelect from "../form/CategorySelect";
-import { setIsLoadingNotes, setNotes } from "@/stores/notes";
+import { getNotes, setIsLoadingNotes, setNotes } from "@/stores/notes";
 import { LOGIN_ROUTE } from "@/utils/constants";
 import { getUser } from "@/stores/user";
 
@@ -62,9 +62,24 @@ const StickyNoteDialog: FC<StickyNoteDialogProps> = ({
         return redirect(LOGIN_ROUTE);
       }
 
+      const notes = getNotes();
+      const noteToModify = notes.find((item) => item.id === note.id);
+
       if (!text) {
-        await deleteNoteInDb(note.id);
+        if (noteToModify) {
+          const newNotes = notes.filter((note) => note.id !== noteToModify.id);
+          setNotes(newNotes);
+          await deleteNoteInDb(note.id);
+        }
       } else if (text !== note.text || categoryId !== note.categoryId) {
+        const newNotes = [...notes];
+        const noteIndex = newNotes.findIndex((item) => item.id === note.id);
+        newNotes[noteIndex] = {
+          ...newNotes[noteIndex],
+          text,
+          categoryId,
+        };
+        setNotes(newNotes);
         await updateNoteInDb(note.id, formState);
       }
 

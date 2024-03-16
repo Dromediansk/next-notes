@@ -33,6 +33,7 @@ const StickyNoteFooter: FC<StickyNoteFooterProps> = ({
       if (!user) {
         return redirect(LOGIN_ROUTE);
       }
+
       const notes = getNotes();
       const noteToDelete = notes.find(
         (noteToDelete) => noteToDelete.id === note.id
