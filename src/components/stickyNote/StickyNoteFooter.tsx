@@ -1,11 +1,10 @@
 import { Menu, Transition } from "@headlessui/react";
 import OptionsIcon from "../../lib/icons/OptionsIcon";
-import { FC, Fragment, startTransition } from "react";
+import { FC, Fragment } from "react";
 import EditIcon from "../../lib/icons/EditIcon";
 import DeleteIcon from "../../lib/icons/DeleteIcon";
 import { deleteNoteInDb, getNotesByDate } from "@/services/notes";
-import { NoteAction, useOptimisticNotes } from "@/hooks/useOptimisticNotes";
-import { setIsLoadingNotes, setNotes } from "@/stores/notes";
+import { getNotes, setIsLoadingNotes, setNotes } from "@/stores/notes";
 import { redirect, useParams } from "next/navigation";
 import { LOGIN_ROUTE } from "@/utils/constants";
 import { RouteParams } from "@/utils/types/common";
@@ -25,20 +24,16 @@ const StickyNoteFooter: FC<StickyNoteFooterProps> = ({
   setDialogOpen,
 }) => {
   const params = useParams<RouteParams>();
-  const { optimisticNotes, setOptimisticNotes } = useOptimisticNotes();
 
   const handleDeleteNote = async () => {
     try {
       setIsLoadingNotes(true);
-      startTransition(() => {
-        setOptimisticNotes({ action: NoteAction.DELETE, payload: note.id });
-      });
 
       const user = getUser();
       if (!user) {
         return redirect(LOGIN_ROUTE);
       }
-      const noteToDelete = optimisticNotes.find((note) => note.id === note.id);
+      const noteToDelete = getNotes().find((note) => note.id === note.id);
 
       if (!noteToDelete?.isTemporary) {
         await deleteNoteInDb(note.id);

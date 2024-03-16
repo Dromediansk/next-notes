@@ -1,6 +1,6 @@
-import { getNotes, setNotes } from "@/stores/notes";
+import { getNotes } from "@/stores/notes";
 import { NoteWithCategory } from "@/utils/types/prisma";
-import { useEffect, useOptimistic } from "react";
+import { useOptimistic } from "react";
 
 export enum NoteAction {
   CREATE = "create",
@@ -26,10 +26,6 @@ export const useOptimisticNotes = () => {
       }
     },
   );
-
-  useEffect(() => {
-    setNotes(optimisticNotes)
-  }, [optimisticNotes])
 
   return {
     optimisticNotes,

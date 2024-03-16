@@ -3,11 +3,8 @@
 import { createNoteInDb, getNotesByDate } from "@/services/notes";
 import { NoteFormState, RouteParams } from "@/utils/types/common";
 import { redirect, useParams } from "next/navigation";
-import { ChangeEvent, SyntheticEvent, useState, startTransition } from "react";
+import { ChangeEvent, SyntheticEvent, useState } from "react";
 import CategorySelect from "./CategorySelect";
-import { NoteWithCategory } from "@/utils/types/prisma";
-import { v4 as uuidv4 } from "uuid";
-import { NoteAction, useOptimisticNotes } from "@/hooks/useOptimisticNotes";
 import { setIsLoadingNotes, setNotes } from "@/stores/notes";
 import { getUser } from "@/stores/user";
 import { LOGIN_ROUTE } from "@/utils/constants";
@@ -21,8 +18,6 @@ const defaultFormState: NoteFormState = {
 const CreateNoteForm = () => {
   const [formState, setFormState] = useState<NoteFormState>(defaultFormState);
   const { categories } = useCategories();
-
-  const { setOptimisticNotes } = useOptimisticNotes();
 
   const params = useParams<RouteParams>();
 
@@ -40,19 +35,6 @@ const CreateNoteForm = () => {
       if (!user) {
         redirect(LOGIN_ROUTE);
       }
-
-      const newNote: NoteWithCategory = {
-        ...formState,
-        id: uuidv4(),
-        category,
-        authorId: user.id,
-        createdAt: new Date(params.date),
-        updatedAt: new Date(params.date),
-        orderNumber: 1,
-      };
-      startTransition(() => {
-        setOptimisticNotes({ action: NoteAction.CREATE, payload: newNote });
-      });
 
       setFormState((prevState) => ({
         ...defaultFormState,
