@@ -5,10 +5,12 @@ import { NoteFormState, RouteParams } from "@/utils/types/common";
 import { redirect, useParams } from "next/navigation";
 import { ChangeEvent, SyntheticEvent, useState } from "react";
 import CategorySelect from "./CategorySelect";
-import { setIsLoadingNotes, setNotes } from "@/stores/notes";
+import { addNote, setIsLoadingNotes, setNotes } from "@/stores/notes";
 import { getUser } from "@/stores/user";
 import { LOGIN_ROUTE } from "@/utils/constants";
 import { useCategories } from "@/stores/categories";
+import { v4 as uuidv4 } from "uuid";
+import { NoteWithCategory } from "@/utils/types/prisma";
 
 const defaultFormState: NoteFormState = {
   text: "",
@@ -35,6 +37,18 @@ const CreateNoteForm = () => {
       if (!user) {
         redirect(LOGIN_ROUTE);
       }
+
+      const newNote: NoteWithCategory = {
+        ...formState,
+        id: uuidv4(),
+        category,
+        authorId: user.id,
+        createdAt: new Date(params.date),
+        updatedAt: new Date(params.date),
+        orderNumber: 1,
+        isTemporary: true,
+      };
+      addNote(newNote);
 
       setFormState((prevState) => ({
         ...defaultFormState,

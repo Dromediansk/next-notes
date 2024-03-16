@@ -4,12 +4,14 @@ import { prisma } from "@/prisma/db";
 import { CreateNoteBody, NoteFormState } from "@/utils/types/common";
 import { NoteWithCategory } from "@/utils/types/prisma";
 import { DefaultUser } from "next-auth";
+import { revalidateTag } from "next/cache";
 
 export const getNotesByDate = async (
   userId: string,
   date: string
 ): Promise<NoteWithCategory[]> => {
   try {
+    revalidateTag(`notes-${userId}-${date}`)
     const notes: NoteWithCategory[] = await prisma.note.findMany({
       include: {
         category: true

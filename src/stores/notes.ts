@@ -13,6 +13,10 @@ const useNotesStore = create<NoteStore>(() => ({
 
 export const setNotes = (notes: NoteWithCategory[]) => useNotesStore.setState({ notes })
 
+export const addNote = (note: NoteWithCategory) => useNotesStore.setState((state) => ({ notes: [note, ...state.notes] }))
+
+export const removeNote = (noteId: string) => useNotesStore.setState((state) => ({ notes: state.notes.filter((note) => note.id !== noteId) }))
+
 export const getNotes = () => useNotesStore.getState().notes
 
 export const useNotes = () => useNotesStore()
