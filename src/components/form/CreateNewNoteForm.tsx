@@ -1,6 +1,6 @@
 "use client";
 
-import { createNoteInDb, getNotesByDate } from "@/services/notes";
+import { createNoteInDb, refetchNotesByDate } from "@/services/notes";
 import { NoteFormState, RouteParams } from "@/utils/types/common";
 import { redirect, useParams } from "next/navigation";
 import { ChangeEvent, SyntheticEvent, useState } from "react";
@@ -55,9 +55,7 @@ const CreateNoteForm = () => {
         categoryId: prevState.categoryId,
       }));
       await createNoteInDb(formState, user.id, params.date, 1);
-      const notes = await getNotesByDate(user.id, params.date);
-
-      setNotes(notes);
+      await refetchNotesByDate(user.id, params.date);
     } catch (error) {
       console.log(error);
     } finally {

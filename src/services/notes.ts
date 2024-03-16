@@ -1,6 +1,7 @@
 "use server";
 
 import { prisma } from "@/prisma/db";
+import { setNotes } from "@/stores/notes";
 import { CreateNoteBody, NoteFormState } from "@/utils/types/common";
 import { NoteWithCategory } from "@/utils/types/prisma";
 import { DefaultUser } from "next-auth";
@@ -27,6 +28,11 @@ export const getNotesByDate = async (
     throw new Error(`Error fetching notes: ${error}`);
   }
 };
+
+export const refetchNotesByDate = async (userId: string, date: string) => {
+  const notes = await getNotesByDate(userId, date);
+  setNotes(notes);
+}
 
 export const createNoteInDb = async (
   formState: NoteFormState,

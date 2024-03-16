@@ -3,7 +3,7 @@ import { Dialog, Transition } from "@headlessui/react";
 import { Note } from "@prisma/client";
 import {
   deleteNoteInDb,
-  getNotesByDate,
+  refetchNotesByDate,
   updateNoteInDb,
 } from "@/services/notes";
 import { redirect, useParams } from "next/navigation";
@@ -68,8 +68,7 @@ const StickyNoteDialog: FC<StickyNoteDialogProps> = ({
         await updateNoteInDb(note.id, formState);
       }
 
-      const notes = await getNotesByDate(user.id, params.date);
-      setNotes(notes);
+      await refetchNotesByDate(user.id, params.date);
     } catch (error) {
       console.log(error);
     } finally {

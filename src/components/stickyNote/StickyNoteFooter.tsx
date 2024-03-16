@@ -3,13 +3,8 @@ import OptionsIcon from "../../lib/icons/OptionsIcon";
 import { FC, Fragment } from "react";
 import EditIcon from "../../lib/icons/EditIcon";
 import DeleteIcon from "../../lib/icons/DeleteIcon";
-import { deleteNoteInDb, getNotesByDate } from "@/services/notes";
-import {
-  getNotes,
-  removeNote,
-  setIsLoadingNotes,
-  setNotes,
-} from "@/stores/notes";
+import { deleteNoteInDb, refetchNotesByDate } from "@/services/notes";
+import { getNotes, setIsLoadingNotes, setNotes } from "@/stores/notes";
 import { redirect, useParams } from "next/navigation";
 import { LOGIN_ROUTE } from "@/utils/constants";
 import { RouteParams } from "@/utils/types/common";
@@ -38,13 +33,17 @@ const StickyNoteFooter: FC<StickyNoteFooterProps> = ({
       if (!user) {
         return redirect(LOGIN_ROUTE);
       }
-      const noteToDelete = getNotes().find((note) => note.id === note.id);
-      if (noteToDelete) {
-        removeNote(noteToDelete.id);
-        await deleteNoteInDb(note.id);
+      const notes = getNotes();
+      const noteToDelete = notes.find(
+        (noteToDelete) => noteToDelete.id === note.id
+      );
 
-        const notes = await getNotesByDate(user.id, params.date);
-        setNotes(notes);
+      if (noteToDelete) {
+        const newNotes = notes.filter((note) => note.id !== noteToDelete.id);
+        setNotes(newNotes);
+
+        await deleteNoteInDb(note.id);
+        await refetchNotesByDate(user.id, params.date);
       }
     } catch (error) {
       console.log("Error deleting note ", error);
