@@ -12,7 +12,7 @@ const StickyNotesList = () => {
     <>
       <div className="bg-white min-h-[85vh] rounded shadow-md">
         <div className="h-1.5">{isLoading && <ProgressBar />}</div>
-        {!isLoading && notes.length === 0 ? (
+        {notes.length === 0 ? (
           <NoStickyNotes />
         ) : (
           <div className="p-4 pt-2 flex flex-wrap gap-4">

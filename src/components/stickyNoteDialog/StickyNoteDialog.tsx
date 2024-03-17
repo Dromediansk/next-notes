@@ -1,4 +1,4 @@
-import { FC, useState } from "react";
+import { FC, useRef, useState } from "react";
 import { Note } from "@prisma/client";
 import {
   deleteNoteInDb,
@@ -49,6 +49,7 @@ const StickyNoteDialog: FC<StickyNoteDialogProps> = ({
   const colorStyles = getColorStyles(selectedCategoryColor);
 
   const params = useParams<RouteParams>();
+  const inputRef = useRef(null);
 
   const handleClose = async () => {
     try {
@@ -106,7 +107,10 @@ const StickyNoteDialog: FC<StickyNoteDialogProps> = ({
   };
 
   return (
-    <FormDialog onClose={handleClose}>
+    <FormDialog
+      onClose={handleClose}
+      dialogPosition={editMode ? "top-5 md:inset-0" : "inset-0"} // positioning the dialog on mobile screens. If the edit mode is active, the dialog will be positioned at the top of the screen due to mobile keyboard.
+    >
       <div
         className="text-center rounded-t overflow-y-auto"
         style={{
@@ -119,6 +123,7 @@ const StickyNoteDialog: FC<StickyNoteDialogProps> = ({
             markdown={text}
             onChange={handleChangeNoteText}
             autoFocus={{ defaultSelection: "rootEnd" }}
+            ref={inputRef}
           />
         ) : (
           <div
@@ -129,24 +134,27 @@ const StickyNoteDialog: FC<StickyNoteDialogProps> = ({
           </div>
         )}
       </div>
-      {editMode && (
-        <footer
-          className="p-2 flex items-center justify-between"
-          style={colorStyles}
-        >
-          <CategorySelect
-            setFormState={setFormState}
-            selectedCategoryId={categoryId}
-            itemsClassName="-top-32"
-          />
-          <button
-            onClick={handleClose}
-            className="text-gray-500 disabled:text-gray-200"
-          >
-            <CheckIcon />
-          </button>
-        </footer>
-      )}
+
+      <footer
+        className="p-2 flex items-center justify-between rounded-b"
+        style={colorStyles}
+      >
+        {editMode && (
+          <>
+            <CategorySelect
+              setFormState={setFormState}
+              selectedCategoryId={categoryId}
+              itemsClassName="-top-32"
+            />
+            <button
+              onClick={handleClose}
+              className="text-gray-500 disabled:text-gray-200"
+            >
+              <CheckIcon />
+            </button>
+          </>
+        )}
+      </footer>
     </FormDialog>
   );
 };

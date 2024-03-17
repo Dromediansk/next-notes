@@ -1,4 +1,4 @@
-import { FC, SyntheticEvent, useState } from "react";
+import { FC, SyntheticEvent, useRef, useState } from "react";
 import CategorySelect from "./CategorySelect";
 import { NoteFormState, RouteParams } from "@/utils/types/common";
 import { useCategories } from "@/stores/categories";
@@ -34,6 +34,7 @@ const NewNoteDialog: FC<NewNoteDialogProps> = ({ onClose }) => {
   const colorStyles = getColorStyles(selectedCategoryColor);
 
   const params = useParams<RouteParams>();
+  const inputRef = useRef(null);
 
   const handleAddNote = async (event: SyntheticEvent) => {
     try {
@@ -97,10 +98,11 @@ const NewNoteDialog: FC<NewNoteDialogProps> = ({ onClose }) => {
           markdown={formState.text}
           onChange={handleChangeNoteText}
           autoFocus={{ defaultSelection: "rootEnd" }}
+          ref={inputRef}
         />
       </div>
       <footer
-        className="p-2 flex items-center justify-between"
+        className="p-2 flex items-center justify-between rounded-b"
         style={colorStyles}
       >
         <CategorySelect
