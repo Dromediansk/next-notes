@@ -17,6 +17,7 @@ import { useCategories } from "@/stores/categories";
 import FormDialog from "@/lib/FormDialog";
 import CheckIcon from "@/lib/icons/CheckIcon";
 import { getColorStyles } from "@/utils/colors";
+import CloseIcon from "@/lib/icons/CloseIcon";
 
 type StickyNoteDialogProps = {
   note: Note;
@@ -111,6 +112,14 @@ const StickyNoteDialog: FC<StickyNoteDialogProps> = ({
       onClose={handleClose}
       dialogPosition={editMode ? "top-5 md:inset-0" : "inset-0"} // positioning the dialog on mobile screens. If the edit mode is active, the dialog will be positioned at the top of the screen due to mobile keyboard.
     >
+      {!editMode && (
+        <button
+          className="hover:text-gray-200 text-white px-4 py-2 transition duration-300 rounded absolute top-[-50px] right-0 focus:outline-none"
+          onClick={handleClose}
+        >
+          <CloseIcon />
+        </button>
+      )}
       <div
         className="text-center rounded-t overflow-y-auto"
         style={{
