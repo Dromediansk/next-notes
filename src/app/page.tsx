@@ -9,13 +9,7 @@ export default async function Home() {
   const session = await getServerSession(authOptions);
   if (!session || !session.user) {
     return redirect(LOGIN_ROUTE);
-  } else {
-    return redirect(NOTE_BY_CURRENT_DATE_ROUTE);
   }
 
-  // return (
-  //   <main className="mx-auto max-w-screen-lg">
-  //     <div className="text-center my-2 mx-4"></div>
-  //   </main>
-  // );
+  return redirect(NOTE_BY_CURRENT_DATE_ROUTE);
 }

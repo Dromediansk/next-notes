@@ -17,7 +17,7 @@ const defaultFormState: NoteFormState = {
   categoryId: 1, // PERSONAL
 };
 
-const CreateNoteForm = () => {
+const NewNoteForm = () => {
   const [formState, setFormState] = useState<NoteFormState>(defaultFormState);
   const { categories } = useCategories();
 
@@ -102,4 +102,4 @@ const CreateNoteForm = () => {
   );
 };
 
-export default CreateNoteForm;
+export default NewNoteForm;

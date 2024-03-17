@@ -5,8 +5,9 @@ import StickyNotesList from "./stickyNoteList/StickyNotesList";
 import { Category } from "@prisma/client";
 import { NoteWithCategory } from "@/utils/types/prisma";
 import { FC } from "react";
-import CreateNoteForm from "./form/CreateNewNoteForm";
+import NewNoteForm from "./newNote/NewNoteForm";
 import { useInitializeFetchedData } from "@/hooks/useInitializeFetchedData";
+import NewNoteButton from "./newNote/NewNoteButton";
 
 type InitialClientContainerProps = {
   fetchedUser: DefaultUser;
@@ -19,7 +20,7 @@ const InitialClientContainer: FC<InitialClientContainerProps> = (props) => {
 
   return (
     <div>
-      <CreateNoteForm />
+      <NewNoteButton />
       <StickyNotesList />
     </div>
   );

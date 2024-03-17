@@ -12,10 +12,12 @@ import Markdown from "react-markdown";
 import { MDXEditorMethods } from "@mdxeditor/editor";
 import { NoteFormState, RouteParams } from "@/utils/types/common";
 import CloseIcon from "../../lib/icons/CloseIcon";
-import CategorySelect from "../form/CategorySelect";
+import CategorySelect from "../newNote/CategorySelect";
 import { getNotes, setIsLoadingNotes, setNotes } from "@/stores/notes";
 import { LOGIN_ROUTE } from "@/utils/constants";
 import { getUser } from "@/stores/user";
+import { useCategories } from "@/stores/categories";
+import { getContrastColor } from "@/utils/colors";
 
 type StickyNoteDialogProps = {
   note: Note;
@@ -39,6 +41,12 @@ const StickyNoteDialog: FC<StickyNoteDialogProps> = ({
   });
   const [editMode, setEditMode] = useState(false);
   const { text, categoryId } = formState;
+
+  const { categories } = useCategories();
+  const selectedCategory = categories.find(
+    (category) => category.id === categoryId
+  );
+  const selectedCategoryColor = selectedCategory?.lightColor || "#d1d5db";
 
   const params = useParams<RouteParams>();
   const inputRef = useRef<MDXEditorMethods>(null);
@@ -132,7 +140,7 @@ const StickyNoteDialog: FC<StickyNoteDialogProps> = ({
               leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
             >
               <Dialog.Panel
-                className="relative transform rounded-lg bg-white text-left shadow-xl transition-all w-full max-w-2xl"
+                className="relative transform rounded bg-white text-left shadow-xl transition-all w-full max-w-2xl"
                 autoFocus
               >
                 <button
@@ -142,9 +150,13 @@ const StickyNoteDialog: FC<StickyNoteDialogProps> = ({
                   <CloseIcon />
                 </button>
                 <div
-                  className={`text-center bg-white rounded-lg overflow-auto ${determineDialogSizeByTextLength(
+                  className={`text-centerrounded overflow-auto ${determineDialogSizeByTextLength(
                     note.text.length
                   )}`}
+                  style={{
+                    backgroundColor: selectedCategoryColor,
+                    color: getContrastColor(selectedCategoryColor),
+                  }}
                 >
                   {editMode ? (
                     <CustomEditor
