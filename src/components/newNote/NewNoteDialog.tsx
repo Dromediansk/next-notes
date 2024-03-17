@@ -1,6 +1,4 @@
-import CloseIcon from "@/lib/icons/CloseIcon";
-import { Dialog, Transition } from "@headlessui/react";
-import { FC, Fragment, SyntheticEvent, useState } from "react";
+import { FC, SyntheticEvent, useState } from "react";
 import CategorySelect from "./CategorySelect";
 import { NoteFormState, RouteParams } from "@/utils/types/common";
 import { useCategories } from "@/stores/categories";
@@ -11,9 +9,10 @@ import { LOGIN_ROUTE } from "@/utils/constants";
 import { NoteWithCategory } from "@/utils/types/prisma";
 import { v4 as uuidv4 } from "uuid";
 import { createNoteInDb, refetchNotesByDate } from "@/services/notes";
-import { getContrastColor } from "@/utils/colors";
 import CheckIcon from "@/lib/icons/CheckIcon";
 import { CustomEditor } from "../editor";
+import FormDialog from "@/lib/FormDialog";
+import { getColorStyles } from "@/utils/colors";
 
 type NewNoteDialogProps = {
   onClose: () => void;
@@ -32,6 +31,7 @@ const NewNoteDialog: FC<NewNoteDialogProps> = ({ onClose }) => {
     (category) => category.id === formState.categoryId
   );
   const selectedCategoryColor = selectedCategory?.lightColor || "#d1d5db";
+  const colorStyles = getColorStyles(selectedCategoryColor);
 
   const params = useParams<RouteParams>();
 
@@ -39,6 +39,11 @@ const NewNoteDialog: FC<NewNoteDialogProps> = ({ onClose }) => {
     try {
       event.preventDefault();
       onClose();
+
+      if (!formState.text) {
+        return;
+      }
+
       setIsLoadingNotes(true);
 
       const category = categories.find((c) => c.id === formState.categoryId);
@@ -83,74 +88,31 @@ const NewNoteDialog: FC<NewNoteDialogProps> = ({ onClose }) => {
   };
 
   return (
-    <Transition.Root show as={Fragment}>
-      <Dialog open as="div" onClose={onClose}>
-        <Transition.Child
-          as={Fragment}
-          enter="ease-out duration-300"
-          enterFrom="opacity-0"
-          enterTo="opacity-100"
-          leave="ease-in duration-200"
-          leaveFrom="opacity-100"
-          leaveTo="opacity-0"
-        >
-          <div className="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" />
-        </Transition.Child>
-
-        <div className="fixed top-5 md:inset-0 z-10 w-screen overflow-y-auto">
-          <div className="flex min-h-full items-center justify-center p-4 text-center sm:p-0">
-            <Transition.Child
-              as={Fragment}
-              enter="ease-out duration-300"
-              enterFrom="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
-              enterTo="opacity-100 translate-y-0 sm:scale-100"
-              leave="ease-in duration-200"
-              leaveFrom="opacity-100 translate-y-0 sm:scale-100"
-              leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
-            >
-              <Dialog.Panel
-                className="relative transform rounded bg-white text-left shadow-xl transition-all w-full max-w-2xl"
-                autoFocus
-              >
-                <button
-                  className="hover:text-gray-200 text-white px-4 py-2 transition duration-300 rounded absolute top-[-50px] right-0 focus:outline-none"
-                  onClick={onClose}
-                >
-                  <CloseIcon />
-                </button>
-                <div
-                  className="text-center rounded-t overflow-auto h-[40vh]"
-                  style={{
-                    backgroundColor: selectedCategoryColor,
-                    color: getContrastColor(selectedCategoryColor),
-                  }}
-                >
-                  <CustomEditor
-                    markdown={formState.text}
-                    onChange={handleChangeNoteText}
-                    autoFocus={{ defaultSelection: "rootEnd" }}
-                  />
-                </div>
-                <footer className="p-2 flex items-center justify-between">
-                  <CategorySelect
-                    selectedCategoryId={formState.categoryId}
-                    setFormState={setFormState}
-                    itemsClassName="-top-32"
-                  />
-                  <button
-                    onClick={handleAddNote}
-                    disabled={!formState.text}
-                    className="text-gray-500 disabled:text-gray-200"
-                  >
-                    <CheckIcon />
-                  </button>
-                </footer>
-              </Dialog.Panel>
-            </Transition.Child>
-          </div>
-        </div>
-      </Dialog>
-    </Transition.Root>
+    <FormDialog onClose={onClose}>
+      <div
+        className="text-center rounded-t overflow-auto h-[40vh]"
+        style={colorStyles}
+      >
+        <CustomEditor
+          markdown={formState.text}
+          onChange={handleChangeNoteText}
+          autoFocus={{ defaultSelection: "rootEnd" }}
+        />
+      </div>
+      <footer
+        className="p-2 flex items-center justify-between"
+        style={colorStyles}
+      >
+        <CategorySelect
+          selectedCategoryId={formState.categoryId}
+          setFormState={setFormState}
+          itemsClassName="-top-32"
+        />
+        <button onClick={handleAddNote} className="text-gray-500">
+          <CheckIcon />
+        </button>
+      </footer>
+    </FormDialog>
   );
 };
 

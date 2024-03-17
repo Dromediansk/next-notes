@@ -8,6 +8,11 @@ const TEXT_COLORS: TextColors = {
   light: '#f1f5f9'
 }
 
+type NoteColorStyles = {
+  backgroundColor: string;
+  color: string;
+};
+
 export const getContrastColor = (backgroundColor: string) => {
   // Convert hex color to RGB
   let r = parseInt(backgroundColor.substring(1, 3), 16);
@@ -21,3 +26,7 @@ export const getContrastColor = (backgroundColor: string) => {
   return luminance > 0.5 ? TEXT_COLORS.dark : TEXT_COLORS.light;
 }
 
+export const getColorStyles = (color: string): NoteColorStyles => ({
+  backgroundColor: color,
+  color: getContrastColor(color),
+})
