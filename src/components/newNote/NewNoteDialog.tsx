@@ -1,6 +1,6 @@
 import CloseIcon from "@/lib/icons/CloseIcon";
 import { Dialog, Transition } from "@headlessui/react";
-import { ChangeEvent, FC, Fragment, SyntheticEvent, useState } from "react";
+import { FC, Fragment, SyntheticEvent, useState } from "react";
 import CategorySelect from "./CategorySelect";
 import { NoteFormState, RouteParams } from "@/utils/types/common";
 import { useCategories } from "@/stores/categories";
@@ -13,7 +13,7 @@ import { v4 as uuidv4 } from "uuid";
 import { createNoteInDb, refetchNotesByDate } from "@/services/notes";
 import { getContrastColor } from "@/utils/colors";
 import CheckIcon from "@/lib/icons/CheckIcon";
-import { CheckCircleIcon } from "@heroicons/react/16/solid";
+import { CustomEditor } from "../editor";
 
 type NewNoteDialogProps = {
   onClose: () => void;
@@ -26,8 +26,8 @@ const defaultFormState: NoteFormState = {
 
 const NewNoteDialog: FC<NewNoteDialogProps> = ({ onClose }) => {
   const [formState, setFormState] = useState<NoteFormState>(defaultFormState);
-  const { categories } = useCategories();
 
+  const { categories } = useCategories();
   const selectedCategory = categories.find(
     (category) => category.id === formState.categoryId
   );
@@ -42,7 +42,6 @@ const NewNoteDialog: FC<NewNoteDialogProps> = ({ onClose }) => {
       setIsLoadingNotes(true);
 
       const category = categories.find((c) => c.id === formState.categoryId);
-
       if (!category) {
         throw new Error("Category not found!");
       }
@@ -76,18 +75,10 @@ const NewNoteDialog: FC<NewNoteDialogProps> = ({ onClose }) => {
     }
   };
 
-  const handleChangeFormState = (event: ChangeEvent<HTMLTextAreaElement>) => {
-    const { value, name } = event.target;
+  const handleChangeNoteText = (markdown: string) => {
     setFormState((prevState) => ({
       ...prevState,
-      [name]: value,
-    }));
-  };
-
-  const handleChangeCategory = (categoryId: number) => {
-    setFormState((prevState) => ({
-      ...prevState,
-      categoryId,
+      text: markdown,
     }));
   };
 
@@ -106,7 +97,7 @@ const NewNoteDialog: FC<NewNoteDialogProps> = ({ onClose }) => {
           <div className="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" />
         </Transition.Child>
 
-        <div className="fixed inset-0 z-10 w-screen overflow-y-auto">
+        <div className="fixed top-5 md:inset-0 z-10 w-screen overflow-y-auto">
           <div className="flex min-h-full items-center justify-center p-4 text-center sm:p-0">
             <Transition.Child
               as={Fragment}
@@ -128,25 +119,22 @@ const NewNoteDialog: FC<NewNoteDialogProps> = ({ onClose }) => {
                   <CloseIcon />
                 </button>
                 <div
-                  className={`text-center bg-white rounded-t overflow-auto h-[40vh]`}
+                  className="text-center rounded-t overflow-auto h-[40vh]"
+                  style={{
+                    backgroundColor: selectedCategoryColor,
+                    color: getContrastColor(selectedCategoryColor),
+                  }}
                 >
-                  <textarea
-                    className="w-full h-full p-5 outline-none resize-none"
-                    style={{
-                      backgroundColor: selectedCategoryColor,
-                      color: getContrastColor(selectedCategoryColor),
-                    }}
-                    placeholder="What did you learn?"
-                    onChange={handleChangeFormState}
-                    value={formState.text}
-                    name="text"
-                    autoFocus
+                  <CustomEditor
+                    markdown={formState.text}
+                    onChange={handleChangeNoteText}
+                    autoFocus={{ defaultSelection: "rootEnd" }}
                   />
                 </div>
                 <footer className="p-2 flex items-center justify-between">
                   <CategorySelect
                     selectedCategoryId={formState.categoryId}
-                    onChange={handleChangeCategory}
+                    setFormState={setFormState}
                     itemsClassName="-top-32"
                   />
                   <button

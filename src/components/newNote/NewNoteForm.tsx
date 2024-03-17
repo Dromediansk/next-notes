@@ -71,13 +71,6 @@ const NewNoteForm = () => {
     }));
   };
 
-  const handleChangeCategory = (categoryId: number) => {
-    setFormState((prevState) => ({
-      ...prevState,
-      categoryId,
-    }));
-  };
-
   return (
     <div className="flex flex-col sm:flex-row gap-4 sm:gap-8 justify-center items-center mb-2">
       <form
@@ -86,7 +79,7 @@ const NewNoteForm = () => {
       >
         <CategorySelect
           selectedCategoryId={formState.categoryId}
-          onChange={handleChangeCategory}
+          setFormState={setFormState}
         />
         <input
           className="max-w-96 w-full h-12 text-gray-900 bg-gray-200 text-sm rounded p-4 resize"

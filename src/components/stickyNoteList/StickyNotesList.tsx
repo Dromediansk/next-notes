@@ -10,7 +10,7 @@ const StickyNotesList = () => {
 
   return (
     <>
-      <div className="bg-white min-h-[74vh] sm:min-h-[80vh] rounded shadow-md">
+      <div className="bg-white min-h-[85vh] rounded shadow-md">
         <div className="h-1.5">{isLoading && <ProgressBar />}</div>
         {!isLoading && notes.length === 0 ? (
           <NoStickyNotes />

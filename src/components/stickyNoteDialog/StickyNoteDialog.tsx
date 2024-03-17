@@ -106,13 +106,6 @@ const StickyNoteDialog: FC<StickyNoteDialogProps> = ({
     }));
   };
 
-  const handleChangeCategory = (categoryId: number) => {
-    setFormState((prevState) => ({
-      ...prevState,
-      categoryId,
-    }));
-  };
-
   return (
     <Transition.Root show as={Fragment}>
       <Dialog open as="div" className=" z-10" onClose={handleClose}>
@@ -128,7 +121,7 @@ const StickyNoteDialog: FC<StickyNoteDialogProps> = ({
           <div className="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" />
         </Transition.Child>
 
-        <div className="fixed inset-0 z-10 w-screen overflow-y-auto">
+        <div className="fixed top-5 md:inset-0 z-10 w-screen overflow-y-auto">
           <div className="flex min-h-full items-center justify-center p-4 text-center sm:p-0">
             <Transition.Child
               as={Fragment}
@@ -150,7 +143,7 @@ const StickyNoteDialog: FC<StickyNoteDialogProps> = ({
                   <CloseIcon />
                 </button>
                 <div
-                  className={`text-centerrounded overflow-auto ${determineDialogSizeByTextLength(
+                  className={`text-center rounded overflow-auto ${determineDialogSizeByTextLength(
                     note.text.length
                   )}`}
                   style={{
@@ -176,7 +169,7 @@ const StickyNoteDialog: FC<StickyNoteDialogProps> = ({
                 </div>
                 <footer className="p-2">
                   <CategorySelect
-                    onChange={handleChangeCategory}
+                    setFormState={setFormState}
                     selectedCategoryId={categoryId}
                     itemsClassName="-top-32"
                   />

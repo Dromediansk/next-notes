@@ -1,12 +1,13 @@
 import { useCategories } from "@/stores/categories";
+import { NoteFormState } from "@/utils/types/common";
 import { Menu } from "@headlessui/react";
 import { CheckIcon, ChevronDownIcon } from "@heroicons/react/16/solid";
 import { Category } from "@prisma/client";
-import { FC } from "react";
+import { FC, SetStateAction } from "react";
 
 type CategorySelectProps = {
   selectedCategoryId: Category["id"];
-  onChange: (categoryId: number) => void;
+  setFormState: (value: SetStateAction<NoteFormState>) => void;
   itemsClassName?: string;
 };
 
@@ -25,14 +26,20 @@ const ColorCircle: FC<ColorCircleProps> = ({ color }) => (
 
 const CategorySelect: FC<CategorySelectProps> = ({
   selectedCategoryId,
-  onChange,
+  setFormState,
   itemsClassName,
 }) => {
   const { categories } = useCategories();
-
   const selectedCategory = categories.find(
     (category) => category.id === selectedCategoryId
   );
+
+  const handleChangeCategory = (categoryId: number) => {
+    setFormState((prevState) => ({
+      ...prevState,
+      categoryId,
+    }));
+  };
 
   return (
     <Menu as="div" className="my-auto relative">
@@ -56,7 +63,7 @@ const CategorySelect: FC<CategorySelectProps> = ({
                   className={`${active ? "hover:bg-slate-100" : ""} ${
                     isSelected ? "bg-slate-200" : ""
                   } cursor-pointer flex gap-2 items-center transition-colors duration-200" px-4 py-2`}
-                  onClick={() => onChange(category.id)}
+                  onClick={() => handleChangeCategory(category.id)}
                 >
                   <ColorCircle color={category.lightColor} />
                   <span>{category.type}</span>

@@ -9,7 +9,7 @@ const Layout: FC<LayoutProps> = ({ children }) => {
   return (
     <>
       <Navbar />
-      <main className="mx-auto max-w-screen-lg min-h-[42rem]">{children}</main>
+      <main className="mx-auto max-w-screen-lg">{children}</main>
     </>
   );
 };
