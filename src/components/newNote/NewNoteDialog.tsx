@@ -90,7 +90,7 @@ const NewNoteDialog: FC<NewNoteDialogProps> = ({ onClose }) => {
   return (
     <FormDialog onClose={onClose}>
       <div
-        className="text-center rounded-t overflow-auto h-[40vh]"
+        className="text-center rounded-t h-[40vh] overflow-y-auto overflow-x-hidden"
         style={colorStyles}
       >
         <CustomEditor

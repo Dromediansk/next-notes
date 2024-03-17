@@ -1,4 +1,4 @@
-import { FC, useRef, useState } from "react";
+import { FC, useState } from "react";
 import { Note } from "@prisma/client";
 import {
   deleteNoteInDb,
@@ -8,7 +8,6 @@ import {
 import { redirect, useParams } from "next/navigation";
 import { CustomEditor } from "../editor";
 import Markdown from "react-markdown";
-import { MDXEditorMethods } from "@mdxeditor/editor";
 import { NoteFormState, RouteParams } from "@/utils/types/common";
 import CategorySelect from "../newNote/CategorySelect";
 import { getNotes, setIsLoadingNotes, setNotes } from "@/stores/notes";
@@ -50,7 +49,6 @@ const StickyNoteDialog: FC<StickyNoteDialogProps> = ({
   const colorStyles = getColorStyles(selectedCategoryColor);
 
   const params = useParams<RouteParams>();
-  const inputRef = useRef<MDXEditorMethods>(null);
 
   const handleClose = async () => {
     try {
@@ -110,7 +108,7 @@ const StickyNoteDialog: FC<StickyNoteDialogProps> = ({
   return (
     <FormDialog onClose={handleClose}>
       <div
-        className="text-center rounded overflow-auto"
+        className="text-center rounded-t overflow-y-auto"
         style={{
           ...colorStyles,
           height: determineDialogSizeByTextLength(note.text.length),
@@ -121,7 +119,6 @@ const StickyNoteDialog: FC<StickyNoteDialogProps> = ({
             markdown={text}
             onChange={handleChangeNoteText}
             autoFocus={{ defaultSelection: "rootEnd" }}
-            ref={inputRef}
           />
         ) : (
           <div
