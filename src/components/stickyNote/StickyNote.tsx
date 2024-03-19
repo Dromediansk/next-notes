@@ -2,7 +2,7 @@ import { FC, useState } from "react";
 import StickyNoteFooter from "./StickyNoteFooter";
 import { getContrastColor } from "@/utils/colors";
 import { NoteWithCategory } from "@/utils/types/prisma";
-import StickyNoteDialog from "../stickyNoteDialog/StickyNoteDialog";
+import StickyNoteDialog from "./StickyNoteDialog";
 import StickyNoteText from "./StickyNoteText";
 
 type StickyNoteProps = {
@@ -44,10 +44,7 @@ const StickyNote: FC<StickyNoteProps> = ({ note }) => {
         <StickyNoteFooter note={note} setDialogOpen={setDialogOpen} />
       </div>
       {dialogOpen && (
-        <StickyNoteDialog
-          note={note}
-          setDialogOpen={setDialogOpen}
-        />
+        <StickyNoteDialog note={note} setDialogOpen={setDialogOpen} />
       )}
     </>
   );
