@@ -21,7 +21,7 @@ const options: IOptions = {
     icons: "",
     text: "text-gray-500 hover:bg-main-lighter dark:hover:bg-main-lighter",
     disabledText: "",
-    input: "shadow-sm rounded bg-gray-200 w-44",
+    input: "shadow-sm rounded bg-gray-200 w-44 text-center",
     inputIcon: "",
     selected: "bg-main hover:bg-main-dark",
   },
