@@ -34,7 +34,7 @@ model Category {
   type       CategoryType @unique
   lightColor String
   darkColor  String
-  Note       Note[]
+  notes       Note[]
 }
 
 model Note {
