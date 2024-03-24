@@ -17,7 +17,7 @@ model User {
   lastName     String
   email        String   @unique
   registeredAt DateTime @default(now())
-  Note         Note[]
+  notes         Note[]
 }
 
 enum CategoryType {
