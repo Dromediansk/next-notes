@@ -5,7 +5,7 @@ import { NoteFormState, RouteParams } from "@/utils/types/common";
 import { redirect, useParams } from "next/navigation";
 import { ChangeEvent, SyntheticEvent, useState } from "react";
 import CategorySelect from "./CategorySelect";
-import { addNote, setIsLoadingNotes, setNotes } from "@/stores/notes";
+import { addNote, setIsLoadingNotes } from "@/stores/notes";
 import { getUser } from "@/stores/user";
 import { LOGIN_ROUTE } from "@/utils/constants";
 import { useCategories } from "@/stores/categories";
