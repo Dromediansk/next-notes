@@ -12,10 +12,11 @@ export const getNotesByDate = async (
   date: string
 ): Promise<NoteWithCategory[]> => {
   try {
-    revalidateTag(`notes-${userId}-${date}`)
+    revalidateTag(`notes-${userId}-${date}`);
+
     const notes: NoteWithCategory[] = await prisma.note.findMany({
       include: {
-        category: true
+        category: true,
       },
       where: {
         authorId: userId,
@@ -32,7 +33,7 @@ export const getNotesByDate = async (
 export const refetchNotesByDate = async (userId: string, date: string) => {
   const notes = await getNotesByDate(userId, date);
   setNotes(notes);
-}
+};
 
 export const createNoteInDb = async (
   formState: NoteFormState,
@@ -56,7 +57,10 @@ export const createNoteInDb = async (
   }
 };
 
-export const updateNoteInDb = async (noteId: string, formState: NoteFormState) => {
+export const updateNoteInDb = async (
+  noteId: string,
+  formState: NoteFormState
+) => {
   try {
     await prisma.note.update({
       where: { id: noteId },
