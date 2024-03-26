@@ -58,7 +58,9 @@ const StickyNoteFooter: FC<StickyNoteFooterProps> = ({
       <Menu>
         <Menu.Button
           disabled={note.isTemporary}
-          className="invisible group-hover:visible"
+          className={`${
+            note.isTemporary ? "hidden" : "invisible group-hover:visible"
+          }`}
         >
           <OptionsIcon />
         </Menu.Button>
