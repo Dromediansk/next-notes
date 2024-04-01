@@ -1,15 +1,48 @@
-import { MDXEditorMethods, MDXEditorProps } from "@mdxeditor/editor";
-import { forwardRef } from "react";
+import {
+  MDXEditor,
+  type MDXEditorMethods,
+  toolbarPlugin,
+  BoldItalicUnderlineToggles,
+  linkPlugin,
+  ListsToggle,
+  listsPlugin,
+  CodeToggle,
+  Separator,
+  UndoRedo,
+  MDXEditorProps,
+} from "@mdxeditor/editor";
 import "@mdxeditor/editor/style.css";
-import InitializedMDXEditor from "./InitializedMDXEditor";
+import { FC } from "react";
 
-// This is what is imported by other components. Pre-initialized with plugins, and ready
-// to accept other props, including a ref.
-export const CustomEditor = forwardRef<MDXEditorMethods, MDXEditorProps>(
-  (props, ref) => (
-    <InitializedMDXEditor {...props} editorRef={ref} />
-  )
-);
+type EditorProps = MDXEditorProps & {
+  ref?: React.MutableRefObject<MDXEditorMethods | null>;
+};
 
-// TS complains without the following line
-CustomEditor.displayName = "CustomEditor";
+const Editor: FC<EditorProps> = ({ markdown, ref, ...props }) => {
+  return (
+    <MDXEditor
+      ref={ref}
+      markdown={markdown}
+      plugins={[
+        toolbarPlugin({
+          toolbarContents: () => (
+            <>
+              <UndoRedo />
+              <Separator />
+              <BoldItalicUnderlineToggles />
+              <Separator />
+              <ListsToggle />
+              <Separator />
+              <CodeToggle />
+            </>
+          ),
+        }),
+        linkPlugin(),
+        listsPlugin(),
+      ]}
+      {...props}
+    />
+  );
+};
+
+export default Editor;

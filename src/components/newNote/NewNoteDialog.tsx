@@ -1,4 +1,4 @@
-import { FC, SyntheticEvent, useRef, useState } from "react";
+import { FC, SyntheticEvent, useState } from "react";
 import CategorySelect from "./CategorySelect";
 import { NoteFormState, RouteParams } from "@/utils/types/common";
 import { useCategories } from "@/stores/categories";
@@ -10,7 +10,7 @@ import { NoteWithCategory } from "@/utils/types/prisma";
 import { v4 as uuidv4 } from "uuid";
 import { createNoteInDb, refetchNotesByDate } from "@/services/notes";
 import CheckIcon from "@/lib/icons/CheckIcon";
-import { CustomEditor } from "../editor";
+import Editor from "../editor";
 import FormDialog from "@/lib/FormDialog";
 import { getColorStyles } from "@/utils/colors";
 
@@ -34,7 +34,6 @@ const NewNoteDialog: FC<NewNoteDialogProps> = ({ onClose }) => {
   const colorStyles = getColorStyles(selectedCategoryColor);
 
   const params = useParams<RouteParams>();
-  const inputRef = useRef(null);
 
   const handleAddNote = async (event: SyntheticEvent) => {
     try {
@@ -94,12 +93,7 @@ const NewNoteDialog: FC<NewNoteDialogProps> = ({ onClose }) => {
         className="text-center rounded-t h-[40vh] overflow-y-auto overflow-x-hidden"
         style={colorStyles}
       >
-        <CustomEditor
-          markdown={formState.text}
-          onChange={handleChangeNoteText}
-          autoFocus={{ defaultSelection: "rootEnd" }}
-          ref={inputRef}
-        />
+        <Editor markdown={formState.text} onChange={handleChangeNoteText} />
       </div>
       <footer
         className="p-2 flex items-center justify-between rounded-b"
