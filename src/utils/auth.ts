@@ -2,8 +2,7 @@ import { prisma } from "@/prisma/db";
 import { NextAuthOptions, Session, User, getServerSession } from "next-auth";
 import GoogleProvider from "next-auth/providers/google";
 import GitHubProvider from "next-auth/providers/github";
-import { useSession } from "next-auth/react";
-import { redirect, useRouter } from "next/navigation";
+import { redirect } from "next/navigation";
 import { AuthProfile } from "./types/common";
 import { LOGIN_ROUTE } from "./constants";
 
@@ -98,16 +97,6 @@ export async function loginIsRequiredServer() {
 
 export async function useAuthSession() {
   return await getServerSession(authOptions);
-}
-
-export function loginIsRequiredClient() {
-  if (typeof window !== "undefined") {
-    // eslint-disable-next-line react-hooks/rules-of-hooks
-    const session = useSession();
-    // eslint-disable-next-line react-hooks/rules-of-hooks
-    const router = useRouter();
-    if (!session) router.push(LOGIN_ROUTE);
-  }
 }
 
 export async function isLoggedIn() {
