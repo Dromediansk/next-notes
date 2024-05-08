@@ -1,6 +1,6 @@
 "use client";
 
-import { Menu } from "@headlessui/react";
+import { Menu, MenuButton, MenuItem, MenuItems } from "@headlessui/react";
 import Avatar from "./Avatar";
 import SignOutIcon from "../../lib/icons/SignOutIcon";
 import { signOut } from "next-auth/react";
@@ -15,11 +15,11 @@ const AvatarMenu = () => {
   return (
     <div className="relative">
       <Menu>
-        <Menu.Button>
+        <MenuButton>
           <Avatar />
-        </Menu.Button>
-        <Menu.Items className="absolute flex flex-col bg-gray-200 rounded shadow-md">
-          <Menu.Item>
+        </MenuButton>
+        <MenuItems className="absolute flex flex-col bg-gray-200 rounded shadow-md">
+          <MenuItem>
             {() => (
               <button
                 onClick={handleSignOut}
@@ -31,8 +31,8 @@ const AvatarMenu = () => {
                 <span>Sign out</span>
               </button>
             )}
-          </Menu.Item>
-        </Menu.Items>
+          </MenuItem>
+        </MenuItems>
       </Menu>
     </div>
   );

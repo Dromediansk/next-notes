@@ -1,6 +1,12 @@
-import { Menu, Transition } from "@headlessui/react";
+import {
+  Menu,
+  MenuButton,
+  MenuItem,
+  MenuItems,
+  Transition,
+} from "@headlessui/react";
 import OptionsIcon from "../../lib/icons/OptionsIcon";
-import { FC, Fragment } from "react";
+import { FC } from "react";
 import EditIcon from "../../lib/icons/EditIcon";
 import DeleteIcon from "../../lib/icons/DeleteIcon";
 import { deleteNoteInDb, refetchNotesByDate } from "@/services/notes";
@@ -56,16 +62,15 @@ const StickyNoteFooter: FC<StickyNoteFooterProps> = ({
   return (
     <footer className="m-2 h-5 flex justify-end">
       <Menu>
-        <Menu.Button
+        <MenuButton
           disabled={note.isTemporary}
           className={`${
             note.isTemporary ? "hidden" : "invisible group-hover:visible"
           }`}
         >
           <OptionsIcon />
-        </Menu.Button>
+        </MenuButton>
         <Transition
-          as={Fragment}
           enter="transition ease-out duration-100"
           enterFrom="transform opacity-0 scale-95"
           enterTo="transform opacity-100 scale-100"
@@ -73,12 +78,12 @@ const StickyNoteFooter: FC<StickyNoteFooterProps> = ({
           leaveFrom="transform opacity-100 scale-100"
           leaveTo="transform opacity-0 scale-95"
         >
-          <Menu.Items className="absolute flex flex-col bg-white rounded shadow-md">
-            <Menu.Item>
-              {({ active }) => (
+          <MenuItems className="absolute flex flex-col bg-white rounded shadow-md">
+            <MenuItem>
+              {({ focus }) => (
                 <span
                   className={`${menuItemClassName} text-gray-800 ${
-                    active ? "bg-gray-200" : ""
+                    focus ? "bg-gray-200" : ""
                   }`}
                   onClick={() => setDialogOpen(true)}
                 >
@@ -86,12 +91,12 @@ const StickyNoteFooter: FC<StickyNoteFooterProps> = ({
                   <span>Update</span>
                 </span>
               )}
-            </Menu.Item>
-            <Menu.Item>
-              {({ active }) => (
+            </MenuItem>
+            <MenuItem>
+              {({ focus }) => (
                 <span
                   className={`${menuItemClassName} text-red-500 ${
-                    active ? "bg-gray-200" : ""
+                    focus ? "bg-gray-200" : ""
                   }`}
                   onClick={handleDeleteNote}
                 >
@@ -99,8 +104,8 @@ const StickyNoteFooter: FC<StickyNoteFooterProps> = ({
                   <span>Delete</span>
                 </span>
               )}
-            </Menu.Item>
-          </Menu.Items>
+            </MenuItem>
+          </MenuItems>
         </Transition>
       </Menu>
     </footer>

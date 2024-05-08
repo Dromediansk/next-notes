@@ -1,5 +1,5 @@
-import { Dialog, Transition } from "@headlessui/react";
-import { FC, Fragment, ReactNode } from "react";
+import { Dialog, DialogPanel, Transition } from "@headlessui/react";
+import { FC, ReactNode } from "react";
 
 type FormDialogProps = {
   onClose: () => void;
@@ -13,10 +13,9 @@ const FormDialog: FC<FormDialogProps> = ({
   dialogPosition = "top-5 md:inset-0",
 }) => {
   return (
-    <Transition.Root
+    <Transition
       show
       appear
-      as={Fragment}
       enter="ease-out duration-300"
       enterFrom="opacity-0"
       enterTo="opacity-100"
@@ -29,16 +28,16 @@ const FormDialog: FC<FormDialogProps> = ({
 
         <div className={`fixed z-10 w-screen ${dialogPosition}`}>
           <div className="flex min-h-full items-center justify-center p-4 text-center sm:p-0">
-            <Dialog.Panel
+            <DialogPanel
               className="relative transform bg-white rounded shadow-xl transition-all w-full max-w-2xl"
               autoFocus
             >
               {children}
-            </Dialog.Panel>
+            </DialogPanel>
           </div>
         </div>
       </Dialog>
-    </Transition.Root>
+    </Transition>
   );
 };
 

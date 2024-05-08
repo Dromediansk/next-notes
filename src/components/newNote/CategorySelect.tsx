@@ -1,6 +1,6 @@
 import { useCategories } from "@/stores/categories";
 import { NoteFormState } from "@/utils/types/common";
-import { Menu } from "@headlessui/react";
+import { Menu, MenuButton, MenuItem, MenuItems } from "@headlessui/react";
 import { CheckIcon, ChevronDownIcon } from "@heroicons/react/16/solid";
 import { Category } from "@prisma/client";
 import { FC, SetStateAction } from "react";
@@ -43,24 +43,24 @@ const CategorySelect: FC<CategorySelectProps> = ({
 
   return (
     <Menu as="div" className="my-auto relative">
-      <Menu.Button className="flex items-center gap-4 bg-gray-100 justify-between py-2 px-4 h-10 w-48 rounded shadow-sm focus:ring-2 focus:ring-main">
+      <MenuButton className="flex items-center gap-4 bg-gray-100 justify-between py-2 px-4 h-10 w-48 rounded shadow-sm focus:ring-2 focus:ring-main">
         <span className="mx-auto">{selectedCategory?.type || "Category"}</span>
         <ChevronDownIcon className="text-black" width={20} height={20} />
         {selectedCategory && (
           <ColorCircle color={selectedCategory.lightColor} />
         )}
-      </Menu.Button>
-      <Menu.Items
+      </MenuButton>
+      <MenuItems
         className={`absolute flex flex-col bg-white rounded shadow-md py-2 ${itemsClassName}`}
       >
         {categories.map((category) => {
           const isSelected = category.id === selectedCategoryId;
 
           return (
-            <Menu.Item key={category.id}>
-              {({ active }) => (
+            <MenuItem key={category.id}>
+              {({ focus }) => (
                 <div
-                  className={`${active ? "hover:bg-slate-100" : ""} ${
+                  className={`${focus ? "hover:bg-slate-100" : ""} ${
                     isSelected ? "bg-slate-200" : ""
                   } cursor-pointer flex gap-2 items-center transition-colors duration-200" px-4 py-2`}
                   onClick={() => handleChangeCategory(category.id)}
@@ -76,10 +76,10 @@ const CategorySelect: FC<CategorySelectProps> = ({
                   )}
                 </div>
               )}
-            </Menu.Item>
+            </MenuItem>
           );
         })}
-      </Menu.Items>
+      </MenuItems>
     </Menu>
   );
 };
