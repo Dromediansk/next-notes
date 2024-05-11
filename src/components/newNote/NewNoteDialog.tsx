@@ -93,7 +93,11 @@ const NewNoteDialog: FC<NewNoteDialogProps> = ({ onClose }) => {
         className="text-center rounded-t h-[40vh] overflow-y-auto overflow-x-hidden"
         style={colorStyles}
       >
-        <Editor markdown={formState.text} onChange={handleChangeNoteText} />
+        <Editor
+          autoFocus
+          markdown={formState.text}
+          onChange={handleChangeNoteText}
+        />
       </div>
       <footer
         className="p-2 flex items-center justify-between rounded-b"
