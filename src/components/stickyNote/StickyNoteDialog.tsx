@@ -21,7 +21,7 @@ import CloseIcon from "@/lib/icons/CloseIcon";
 
 type StickyNoteDialogProps = {
   note: Note;
-  setDialogOpen: (state: boolean) => void;
+  onDialogClose: () => void;
 };
 
 const determineDialogSizeByTextLength = (textLength: number) => {
@@ -32,7 +32,7 @@ const determineDialogSizeByTextLength = (textLength: number) => {
 };
 
 const StickyNoteDialog: FC<StickyNoteDialogProps> = ({
-  setDialogOpen,
+  onDialogClose,
   note,
 }) => {
   const [formState, setFormState] = useState<NoteFormState>({
@@ -54,7 +54,7 @@ const StickyNoteDialog: FC<StickyNoteDialogProps> = ({
   const handleClose = async () => {
     try {
       setEditMode(false);
-      setDialogOpen(false);
+      onDialogClose();
 
       const isValid =
         text === "" || text !== note.text || categoryId !== note.categoryId;
