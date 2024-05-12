@@ -1,6 +1,6 @@
 import { FC, useState } from "react";
 import StickyNoteFooter from "./StickyNoteFooter";
-import { getContrastColor } from "@/utils/colors";
+import { NOTE_TEMPORARY_COLOR, getContrastColor } from "@/utils/colors";
 import { NoteWithCategory } from "@/utils/types/prisma";
 import StickyNoteDialog from "./StickyNoteDialog";
 import StickyNoteText from "./StickyNoteText";
@@ -9,22 +9,20 @@ type StickyNoteProps = {
   note: NoteWithCategory;
 };
 
-const determineColor = (
-  isTemporary: boolean | undefined,
-  lightColor: string
-) => {
-  return isTemporary ? "#d1d5db" : lightColor;
-};
-
 const StickyNote: FC<StickyNoteProps> = ({ note }) => {
-  const [dialogOpen, setDialogOpen] = useState(false);
-  const { lightColor } = note.category;
+  const {
+    category: { lightColor },
+    isTemporary,
+    text,
+  } = note;
 
-  const color = determineColor(note.isTemporary, lightColor);
-  const textColor = getContrastColor(color);
+  const [dialogOpen, setDialogOpen] = useState(false);
+
+  const backgroundColor = isTemporary ? NOTE_TEMPORARY_COLOR : lightColor;
+  const color = getContrastColor(backgroundColor);
 
   const handleDialogOpen = () => {
-    if (note.isTemporary) {
+    if (isTemporary) {
       return;
     }
     setDialogOpen(true);
@@ -34,11 +32,11 @@ const StickyNote: FC<StickyNoteProps> = ({ note }) => {
     <>
       <div
         className="m-auto w-full max-w-72 sm:w-72 md:w-60 max-h-40 min-w-40 shadow-lg rounded flex flex-1 flex-col justify-between group "
-        style={{ backgroundColor: color, color: textColor }}
+        style={{ backgroundColor, color }}
       >
         <StickyNoteText
-          isTemporary={note.isTemporary}
-          text={note.text}
+          isTemporary={isTemporary}
+          text={text}
           onClick={handleDialogOpen}
         />
         <StickyNoteFooter note={note} setDialogOpen={setDialogOpen} />

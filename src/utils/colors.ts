@@ -8,6 +8,8 @@ const TEXT_COLORS: TextColors = {
   light: '#f1f5f9'
 }
 
+export const NOTE_TEMPORARY_COLOR = '#d1d5db'
+
 type NoteColorStyles = {
   backgroundColor: string;
   color: string;
