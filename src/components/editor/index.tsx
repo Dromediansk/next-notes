@@ -10,6 +10,8 @@ import {
   Separator,
   UndoRedo,
   MDXEditorProps,
+  InsertThematicBreak,
+  thematicBreakPlugin,
 } from "@mdxeditor/editor";
 import "@mdxeditor/editor/style.css";
 import { FC } from "react";
@@ -34,11 +36,13 @@ const Editor: FC<EditorProps> = ({ markdown, ref, ...props }) => {
               <ListsToggle />
               <Separator />
               <CodeToggle />
+              <InsertThematicBreak />
             </>
           ),
         }),
         linkPlugin(),
         listsPlugin(),
+        thematicBreakPlugin(),
       ]}
       {...props}
     />

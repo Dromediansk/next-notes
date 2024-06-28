@@ -27,3 +27,9 @@
     @apply bg-gray-300;
   }
 }
+
+@layer components {
+  hr {
+    @apply border-t border-slate-400 my-5;
+  }
+}
