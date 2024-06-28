@@ -10,19 +10,18 @@ type UseInitializeFetchedDataParams = {
   fetchedNotes: NoteWithCategory[];
   fetchedCategories: Category[];
   fetchedUser: DefaultUser;
-}
+};
 
-export const useInitializeFetchedData = ({ fetchedNotes, fetchedUser, fetchedCategories }: UseInitializeFetchedDataParams) => {
+export const useInitializeFetchedData = ({
+  fetchedNotes,
+  fetchedUser,
+  fetchedCategories,
+}: UseInitializeFetchedDataParams) => {
   useEffect(() => {
     setNotes(fetchedNotes);
-    setIsLoadingNotes(false);
-  }, [fetchedNotes]);
-
-  useEffect(() => {
+    setCategories(fetchedCategories);
     setUser(fetchedUser);
-  }, [fetchedUser]);
 
-  useEffect(() => {
-    setCategories(fetchedCategories)
-  }, [fetchedCategories])
-}
+    setIsLoadingNotes(false);
+  }, [fetchedNotes, fetchedCategories, fetchedUser]);
+};
