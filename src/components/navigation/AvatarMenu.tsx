@@ -4,13 +4,9 @@ import { Menu, MenuButton, MenuItem, MenuItems } from "@headlessui/react";
 import Avatar from "./Avatar";
 import SignOutIcon from "../../lib/icons/SignOutIcon";
 import { signOut } from "next-auth/react";
-import { setUser } from "@/stores/user";
 
 const AvatarMenu = () => {
-  const handleSignOut = () => {
-    signOut();
-    setUser(null);
-  };
+  const handleSignOut = () => signOut();
 
   return (
     <div className="relative">

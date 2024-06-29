@@ -1,14 +1,10 @@
 import { FC, useState } from "react";
 import { Note } from "@prisma/client";
-import {
-  deleteNoteInDb,
-  refetchNotesByDate,
-  updateNoteInDb,
-} from "@/services/notes";
-import { redirect, useParams } from "next/navigation";
+import { deleteNoteInDb, refetchNotes, updateNoteInDb } from "@/services/notes";
+import { redirect, useSearchParams } from "next/navigation";
 import Editor from "../editor";
 import Markdown from "react-markdown";
-import { NoteFormState, RouteParams } from "@/utils/types/common";
+import { NoteFormState } from "@/utils/types/common";
 import CategorySelect from "../newNote/CategorySelect";
 import { getNotes, setIsLoadingNotes, setNotes } from "@/stores/notes";
 import { LOGIN_ROUTE } from "@/utils/constants";
@@ -49,7 +45,8 @@ const StickyNoteDialog: FC<StickyNoteDialogProps> = ({
   const selectedCategoryColor = selectedCategory?.lightColor || "#d1d5db";
   const colorStyles = getColorStyles(selectedCategoryColor);
 
-  const params = useParams<RouteParams>();
+  const searchParams = useSearchParams();
+  const date = searchParams.get("date");
 
   const handleClose = async () => {
     try {
@@ -91,7 +88,7 @@ const StickyNoteDialog: FC<StickyNoteDialogProps> = ({
         await updateNoteInDb(note.id, formState);
       }
 
-      await refetchNotesByDate(user.id, params.date);
+      await refetchNotes({ date });
     } catch (error) {
       console.log(error);
     } finally {

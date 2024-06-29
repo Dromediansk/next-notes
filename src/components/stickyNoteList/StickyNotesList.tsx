@@ -12,16 +12,16 @@ import NoStickyNotes from "./NoStickyNotes";
 import { Fragment, useState } from "react";
 import StickyNoteDialog from "../stickyNote/StickyNoteDialog";
 import { getUser } from "@/stores/user";
-import { redirect, useParams } from "next/navigation";
+import { redirect, useSearchParams } from "next/navigation";
 import { LOGIN_ROUTE } from "@/utils/constants";
-import { deleteNoteInDb, refetchNotesByDate } from "@/services/notes";
-import { RouteParams } from "@/utils/types/common";
+import { deleteNoteInDb, refetchNotes } from "@/services/notes";
 
 const StickyNotesList = () => {
   const { notes, isLoading } = useNotes();
   const [openDialogId, setOpenDialogId] = useState<string | null>(null);
 
-  const params = useParams<RouteParams>();
+  const searchParams = useSearchParams();
+  const date = searchParams.get("date");
 
   const handleDeleteNote = async (noteId: string) => {
     try {
@@ -42,7 +42,7 @@ const StickyNotesList = () => {
         setNotes(newNotes);
 
         await deleteNoteInDb(noteId);
-        await refetchNotesByDate(user.id, params.date);
+        await refetchNotes({ date });
       }
     } catch (error) {
       console.log("Error deleting note ", error);

@@ -2,9 +2,8 @@
 
 import { setIsLoadingNotes } from "@/stores/notes";
 import { formatDate } from "@/utils/functions";
-import { RouteParams } from "@/utils/types/common";
 import dayjs from "dayjs";
-import { useParams, useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { useState } from "react";
 import DatePicker from "tailwind-datepicker-react";
 import { IOptions } from "tailwind-datepicker-react/types/Options";
@@ -30,18 +29,16 @@ const options: IOptions = {
 
 const CustomDatePicker = () => {
   const router = useRouter();
-  const params = useParams<RouteParams>();
+  const searchParams = useSearchParams();
 
-  const [value, setValue] = useState(new Date(params.date));
+  const [value, setValue] = useState(
+    new Date(searchParams.get("date") || new Date())
+  );
   const [show, setShow] = useState(false);
-
-  if (!params.date) {
-    return null;
-  }
 
   const updateDate = (date: Date) => {
     setValue(date);
-    router.push(formatDate(date));
+    router.push("/notes?date=" + formatDate(date));
     setIsLoadingNotes(true);
   };
 

@@ -1,8 +1,8 @@
 "use client";
 
-import { createNoteInDb, refetchNotesByDate } from "@/services/notes";
-import { NoteFormState, RouteParams } from "@/utils/types/common";
-import { redirect, useParams } from "next/navigation";
+import { createNoteInDb, refetchNotes } from "@/services/notes";
+import { NoteFormState } from "@/utils/types/common";
+import { redirect, useSearchParams } from "next/navigation";
 import { ChangeEvent, SyntheticEvent, useState } from "react";
 import CategorySelect from "./CategorySelect";
 import { addNote, setIsLoadingNotes } from "@/stores/notes";
@@ -21,7 +21,8 @@ const NewNoteForm = () => {
   const [formState, setFormState] = useState<NoteFormState>(defaultFormState);
   const { categories } = useCategories();
 
-  const params = useParams<RouteParams>();
+  const searchParams = useSearchParams();
+  const date = searchParams.get("date");
 
   const handleAddNote = async (event: SyntheticEvent) => {
     try {
@@ -33,6 +34,9 @@ const NewNoteForm = () => {
       if (!category) {
         throw new Error("Category not found!");
       }
+      if (!date) {
+        throw new Error("Date not found!");
+      }
       const user = getUser();
       if (!user) {
         redirect(LOGIN_ROUTE);
@@ -43,8 +47,8 @@ const NewNoteForm = () => {
         id: uuidv4(),
         category,
         authorId: user.id,
-        createdAt: new Date(params.date),
-        updatedAt: new Date(params.date),
+        createdAt: new Date(date),
+        updatedAt: new Date(date),
         orderNumber: 1,
         isTemporary: true,
       };
@@ -54,8 +58,8 @@ const NewNoteForm = () => {
         ...defaultFormState,
         categoryId: prevState.categoryId,
       }));
-      await createNoteInDb(formState, user.id, params.date, 1);
-      await refetchNotesByDate(user.id, params.date);
+      await createNoteInDb(formState, user.id, date, 1);
+      await refetchNotes({ date });
     } catch (error) {
       console.log(error);
     } finally {

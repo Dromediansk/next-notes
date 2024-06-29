@@ -1,7 +1,7 @@
 import { Note } from "@prisma/client";
 import { Profile } from "next-auth";
 
-export type CreateNoteBody = Omit<Note, 'id' | 'updatedAt'>;
+export type CreateNoteBody = Omit<Note, "id" | "updatedAt">;
 
 export type User = {
   id: string;
@@ -17,11 +17,7 @@ export type AuthProfile = Profile & {
   last_name: string;
 };
 
-export type RouteParams = {
-  date: string;
-};
-
 export type NoteFormState = {
   text: string;
-  categoryId: number
-}
+  categoryId: number;
+};

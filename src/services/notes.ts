@@ -3,25 +3,25 @@
 import { prisma } from "@/prisma/db";
 import { setNotes } from "@/stores/notes";
 import { CreateNoteBody, NoteFormState } from "@/utils/types/common";
-import { NoteWithCategory } from "@/utils/types/prisma";
-import { DefaultUser } from "next-auth";
-import { revalidateTag } from "next/cache";
+import { NoteWithCategory, NotesQuery } from "@/utils/types/prisma";
+import { DefaultUser, getServerSession } from "next-auth";
 
-export const getNotesByDate = async (
-  userId: string,
-  date: string
-): Promise<NoteWithCategory[]> => {
+export const getNotes = async (query: NotesQuery) => {
   try {
-    revalidateTag(`notes-${userId}-${date}`);
+    const session = await getServerSession();
+    const { date, categoryId } = query;
+
+    const whereClause = {
+      authorId: session?.user?.id,
+      ...(date && { createdAt: { lte: new Date(date), gte: new Date(date) } }),
+      ...(categoryId && { categoryId }),
+    };
 
     const notes: NoteWithCategory[] = await prisma.note.findMany({
       include: {
         category: true,
       },
-      where: {
-        authorId: userId,
-        createdAt: { lte: new Date(date), gte: new Date(date) },
-      },
+      where: whereClause,
       orderBy: { updatedAt: "desc" },
     });
     return notes;
@@ -30,9 +30,9 @@ export const getNotesByDate = async (
   }
 };
 
-export const refetchNotesByDate = async (userId: string, date: string) => {
-  const notes = await getNotesByDate(userId, date);
-  setNotes(notes);
+export const refetchNotes = async (query: NotesQuery) => {
+  const data = await getNotes(query);
+  setNotes(data);
 };
 
 export const createNoteInDb = async (

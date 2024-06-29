@@ -1,15 +1,26 @@
 import { useUser } from "@/stores/user";
+import { DefaultUser } from "next-auth";
 import Image from "next/image";
 import { FC } from "react";
 
 type AvatarImageProps = {
-  image?: string | null;
-  userName: string;
+  user: DefaultUser | null;
 };
 
 const AVATAR_SIZE = 30;
 
-const AvatarImage: FC<AvatarImageProps> = ({ image, userName }) => {
+const AvatarImage: FC<AvatarImageProps> = ({ user }) => {
+  if (!user) {
+    return (
+      <div
+        className={`rounded-full bg-gray-300 flex items-center justify-center animate-pulse`}
+        style={{ width: AVATAR_SIZE, height: AVATAR_SIZE }}
+      />
+    );
+  }
+
+  const { image, name } = user;
+
   if (image) {
     return (
       <Image
@@ -21,11 +32,14 @@ const AvatarImage: FC<AvatarImageProps> = ({ image, userName }) => {
       />
     );
   }
+
+  const firstLetterChar = name?.charAt(0).toUpperCase() || "U";
+
   return (
     <div
       className={`w-[${AVATAR_SIZE}px] h-[${AVATAR_SIZE}px] flex justify-center items-center rounded-full bg-orange-500 text-white uppercase`}
     >
-      {userName.charAt(0).toUpperCase()}
+      {firstLetterChar}
     </div>
   );
 };
@@ -35,10 +49,7 @@ const Avatar = () => {
 
   return (
     <div className="flex items-center gap-2">
-      <AvatarImage image={user?.image} userName={user?.name || ""} />
-      <span className="text-lg text-gray-100 hidden sm:block">
-        {user?.name || ""}
-      </span>
+      <AvatarImage user={user} />
     </div>
   );
 };

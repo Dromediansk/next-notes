@@ -1,17 +1,22 @@
 import InitialClientContainer from "@/components/InitialClientContainer";
 import { useAuthenticatedSession } from "@/hooks/useAuthenticatedSession";
 import { getCategories } from "@/services/categories";
-import { getNotesByDate } from "@/services/notes";
+import { getNotes } from "@/services/notes";
 import { FC } from "react";
 
 type PageProps = {
-  params: { date: string };
+  searchParams: {
+    date: string;
+    categoryId: string;
+  };
 };
 
-const Page: FC<PageProps> = async ({ params }) => {
+const Page: FC<PageProps> = async ({ searchParams }) => {
   const session = await useAuthenticatedSession();
 
-  const notes = await getNotesByDate(session.user.id, params.date);
+  const notes = await getNotes({
+    date: searchParams.date,
+  });
   const categories = await getCategories();
 
   return (
