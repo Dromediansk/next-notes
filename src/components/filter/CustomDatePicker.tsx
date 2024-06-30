@@ -1,9 +1,10 @@
 "use client";
 
+import { getFilter } from "@/stores/filter";
 import { setIsLoadingNotes } from "@/stores/notes";
 import { formatDate } from "@/utils/functions";
 import dayjs from "dayjs";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 import DatePicker from "tailwind-datepicker-react";
 import { IOptions } from "tailwind-datepicker-react/types/Options";
@@ -27,13 +28,13 @@ const options: IOptions = {
   datepickerClassNames: "top-50 left-[10%] sm:left-[45%]",
 };
 
+const filterDate = getFilter().date;
+const initialValue = filterDate ? new Date(filterDate) : new Date();
+
 const CustomDatePicker = () => {
   const router = useRouter();
-  const searchParams = useSearchParams();
 
-  const [value, setValue] = useState(
-    new Date(searchParams.get("date") || new Date())
-  );
+  const [value, setValue] = useState<Date>(initialValue);
   const [show, setShow] = useState(false);
 
   const updateDate = (date: Date) => {

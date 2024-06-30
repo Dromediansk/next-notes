@@ -1,7 +1,7 @@
 import { FC, useState } from "react";
 import { Note } from "@prisma/client";
 import { deleteNoteInDb, refetchNotes, updateNoteInDb } from "@/services/notes";
-import { redirect, useSearchParams } from "next/navigation";
+import { redirect } from "next/navigation";
 import Editor from "../editor";
 import Markdown from "react-markdown";
 import { NoteFormState } from "@/utils/types/common";
@@ -14,6 +14,7 @@ import FormDialog from "@/lib/FormDialog";
 import CheckIcon from "@/lib/icons/CheckIcon";
 import { getColorStyles } from "@/utils/colors";
 import CloseIcon from "@/lib/icons/CloseIcon";
+import { getFilter } from "@/stores/filter";
 
 type StickyNoteDialogProps = {
   note: Note;
@@ -26,6 +27,8 @@ const determineDialogSizeByTextLength = (textLength: number) => {
   }
   return "40vh";
 };
+
+const date = getFilter().date;
 
 const StickyNoteDialog: FC<StickyNoteDialogProps> = ({
   onDialogClose,
@@ -44,9 +47,6 @@ const StickyNoteDialog: FC<StickyNoteDialogProps> = ({
   );
   const selectedCategoryColor = selectedCategory?.lightColor || "#d1d5db";
   const colorStyles = getColorStyles(selectedCategoryColor);
-
-  const searchParams = useSearchParams();
-  const date = searchParams.get("date");
 
   const handleClose = async () => {
     try {

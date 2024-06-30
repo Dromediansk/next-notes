@@ -1,3 +1,5 @@
+export const dynamic = "force-dynamic";
+
 import { getNotes } from "@/services/notes";
 import { NotesQuery } from "@/utils/types/prisma";
 import { NextAuthOptions, getServerSession } from "next-auth";

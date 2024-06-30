@@ -4,7 +4,7 @@ import { NoteFormState } from "@/utils/types/common";
 import { useCategories } from "@/stores/categories";
 import { addNote, setIsLoadingNotes, setNotes } from "@/stores/notes";
 import { getUser } from "@/stores/user";
-import { redirect, useSearchParams } from "next/navigation";
+import { redirect } from "next/navigation";
 import { LOGIN_ROUTE } from "@/utils/constants";
 import { NoteWithCategory } from "@/utils/types/prisma";
 import { v4 as uuidv4 } from "uuid";
@@ -13,6 +13,7 @@ import CheckIcon from "@/lib/icons/CheckIcon";
 import Editor from "../editor";
 import FormDialog from "@/lib/FormDialog";
 import { getColorStyles } from "@/utils/colors";
+import { getFilter } from "@/stores/filter";
 
 type NewNoteDialogProps = {
   onClose: () => void;
@@ -33,8 +34,7 @@ const NewNoteDialog: FC<NewNoteDialogProps> = ({ onClose }) => {
   const selectedCategoryColor = selectedCategory?.lightColor || "#d1d5db";
   const colorStyles = getColorStyles(selectedCategoryColor);
 
-  const searchParams = useSearchParams();
-  const date = searchParams.get("date");
+  const date = getFilter().date;
 
   const handleAddNote = async (event: SyntheticEvent) => {
     try {

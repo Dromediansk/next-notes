@@ -9,19 +9,19 @@ import {
 } from "@/stores/notes";
 import ProgressBar from "@/lib/ProgressBar";
 import NoStickyNotes from "./NoStickyNotes";
-import { Fragment, useState } from "react";
+import { Fragment, Suspense, useState } from "react";
 import StickyNoteDialog from "../stickyNote/StickyNoteDialog";
 import { getUser } from "@/stores/user";
-import { redirect, useSearchParams } from "next/navigation";
+import { redirect } from "next/navigation";
 import { LOGIN_ROUTE } from "@/utils/constants";
 import { deleteNoteInDb, refetchNotes } from "@/services/notes";
+import { getFilter } from "@/stores/filter";
+
+const date = getFilter().date;
 
 const StickyNotesList = () => {
   const { notes, isLoading } = useNotes();
   const [openDialogId, setOpenDialogId] = useState<string | null>(null);
-
-  const searchParams = useSearchParams();
-  const date = searchParams.get("date");
 
   const handleDeleteNote = async (noteId: string) => {
     try {
@@ -52,34 +52,36 @@ const StickyNotesList = () => {
   };
 
   return (
-    <div className="bg-white min-h-[89vh] rounded shadow-md">
-      <div className="h-1.5">{isLoading && <ProgressBar />}</div>
-      {notes.length === 0 ? (
-        <NoStickyNotes />
-      ) : (
-        <div className="p-4 pt-2 flex flex-wrap gap-4">
-          {notes.map((note) => {
-            const isDialogOpen = openDialogId === note.id;
+    <Suspense fallback={null}>
+      <div className="bg-white min-h-[89vh] rounded shadow-md">
+        <div className="h-1.5">{isLoading && <ProgressBar />}</div>
+        {notes.length === 0 ? (
+          <NoStickyNotes />
+        ) : (
+          <div className="p-4 pt-2 flex flex-wrap gap-4">
+            {notes.map((note) => {
+              const isDialogOpen = openDialogId === note.id;
 
-            return (
-              <Fragment key={note.id}>
-                <StickyNote
-                  note={note}
-                  setDialogOpenId={setOpenDialogId}
-                  onDelete={() => handleDeleteNote(note.id)}
-                />
-                {isDialogOpen && (
-                  <StickyNoteDialog
+              return (
+                <Fragment key={note.id}>
+                  <StickyNote
                     note={note}
-                    onDialogClose={() => setOpenDialogId(null)}
+                    setDialogOpenId={setOpenDialogId}
+                    onDelete={() => handleDeleteNote(note.id)}
                   />
-                )}
-              </Fragment>
-            );
-          })}
-        </div>
-      )}
-    </div>
+                  {isDialogOpen && (
+                    <StickyNoteDialog
+                      note={note}
+                      onDialogClose={() => setOpenDialogId(null)}
+                    />
+                  )}
+                </Fragment>
+              );
+            })}
+          </div>
+        )}
+      </div>
+    </Suspense>
   );
 };
 

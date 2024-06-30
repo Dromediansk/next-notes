@@ -4,7 +4,7 @@ import { DefaultUser } from "next-auth";
 import StickyNotesList from "./stickyNoteList/StickyNotesList";
 import { Category } from "@prisma/client";
 import { NoteWithCategory } from "@/utils/types/prisma";
-import { FC } from "react";
+import { FC, Suspense } from "react";
 import { useInitializeFetchedData } from "@/hooks/useInitializeFetchedData";
 import NewNoteButton from "./newNote/NewNoteButton";
 

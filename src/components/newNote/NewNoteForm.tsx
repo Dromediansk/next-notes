@@ -2,7 +2,7 @@
 
 import { createNoteInDb, refetchNotes } from "@/services/notes";
 import { NoteFormState } from "@/utils/types/common";
-import { redirect, useSearchParams } from "next/navigation";
+import { redirect } from "next/navigation";
 import { ChangeEvent, SyntheticEvent, useState } from "react";
 import CategorySelect from "./CategorySelect";
 import { addNote, setIsLoadingNotes } from "@/stores/notes";
@@ -11,18 +11,18 @@ import { LOGIN_ROUTE } from "@/utils/constants";
 import { useCategories } from "@/stores/categories";
 import { v4 as uuidv4 } from "uuid";
 import { NoteWithCategory } from "@/utils/types/prisma";
+import { getFilter } from "@/stores/filter";
 
 const defaultFormState: NoteFormState = {
   text: "",
   categoryId: 1, // PERSONAL
 };
 
+const date = getFilter().date;
+
 const NewNoteForm = () => {
   const [formState, setFormState] = useState<NoteFormState>(defaultFormState);
   const { categories } = useCategories();
-
-  const searchParams = useSearchParams();
-  const date = searchParams.get("date");
 
   const handleAddNote = async (event: SyntheticEvent) => {
     try {
