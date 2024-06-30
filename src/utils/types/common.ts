@@ -21,3 +21,8 @@ export type NoteFormState = {
   text: string;
   categoryId: number;
 };
+
+export type Filter = {
+  date?: string | null;
+  categoryId?: string | null;
+};

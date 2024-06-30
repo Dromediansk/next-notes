@@ -1,11 +1,10 @@
 "use client";
 
-import { getFilter } from "@/stores/filter";
 import { setIsLoadingNotes } from "@/stores/notes";
 import { formatDate } from "@/utils/functions";
 import dayjs from "dayjs";
-import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
+import { useEffect, useState } from "react";
 import DatePicker from "tailwind-datepicker-react";
 import { IOptions } from "tailwind-datepicker-react/types/Options";
 
@@ -28,17 +27,17 @@ const options: IOptions = {
   datepickerClassNames: "top-50 left-[10%] sm:left-[45%]",
 };
 
-const filterDate = getFilter().date;
-const initialValue = filterDate ? new Date(filterDate) : new Date();
-
 const CustomDatePicker = () => {
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const searchParamsDate = searchParams.get("date");
 
-  const [value, setValue] = useState<Date>(initialValue);
+  const [value, setValue] = useState<Date>(
+    searchParamsDate ? new Date(searchParamsDate) : new Date()
+  );
   const [show, setShow] = useState(false);
 
   const updateDate = (date: Date) => {
-    setValue(date);
     router.push("/notes?date=" + formatDate(date));
     setIsLoadingNotes(true);
   };
@@ -52,6 +51,14 @@ const CustomDatePicker = () => {
     const date = dayjs(value).subtract(1, "days").toDate();
     updateDate(date);
   };
+
+  useEffect(() => {
+    if (!searchParamsDate) {
+      return;
+    }
+
+    setValue(new Date(searchParamsDate));
+  }, [searchParamsDate]);
 
   return (
     <div className="flex items-center gap-1">

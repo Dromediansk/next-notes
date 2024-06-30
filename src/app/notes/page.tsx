@@ -2,13 +2,11 @@ import InitialClientContainer from "@/components/InitialClientContainer";
 import { useAuthenticatedSession } from "@/hooks/useAuthenticatedSession";
 import { getCategories } from "@/services/categories";
 import { getNotes } from "@/services/notes";
+import { Filter } from "@/utils/types/common";
 import { FC } from "react";
 
 type PageProps = {
-  searchParams: {
-    date: string;
-    categoryId: string;
-  };
+  searchParams: Filter;
 };
 
 const Page: FC<PageProps> = async ({ searchParams }) => {

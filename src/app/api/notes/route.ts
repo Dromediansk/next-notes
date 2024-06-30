@@ -13,7 +13,7 @@ const processQueryParams = (url: string): NotesQuery => {
 
   return {
     date,
-    categoryId: categoryId ? parseInt(categoryId) : undefined,
+    categoryId: categoryId ? categoryId : undefined,
   };
 };
 

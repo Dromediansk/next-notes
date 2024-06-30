@@ -1,9 +1,7 @@
 import { Note, Prisma } from "@prisma/client";
+import { Filter } from "./common";
 
-export type NotesQuery = {
-  date?: string | null;
-  categoryId?: number;
-};
+export type NotesQuery = Filter;
 
 export type NoteWithCategory = Note & {
   isTemporary?: boolean;

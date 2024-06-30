@@ -14,7 +14,7 @@ export const getNotes = async (query: NotesQuery) => {
     const whereClause = {
       authorId: session?.user?.id,
       ...(date && { createdAt: { lte: new Date(date), gte: new Date(date) } }),
-      ...(categoryId && { categoryId }),
+      ...(categoryId && { categoryId: parseInt(categoryId) }),
     };
 
     const notes: NoteWithCategory[] = await prisma.note.findMany({
