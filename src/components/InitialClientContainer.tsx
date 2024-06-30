@@ -9,6 +9,7 @@ import NewNoteButton from "./newNote/NewNoteButton";
 import { setIsLoadingNotes, setNotes } from "@/stores/notes";
 import { setCategories } from "@/stores/categories";
 import { setUser } from "@/stores/user";
+import { useFilter } from "@/stores/filter";
 
 type InitialClientContainerProps = {
   fetchedUser: DefaultUser;

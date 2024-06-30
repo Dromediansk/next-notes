@@ -1,5 +1,6 @@
 "use client";
 
+import { setFilter, getFilter } from "@/stores/filter";
 import { setIsLoadingNotes } from "@/stores/notes";
 import { formatDate } from "@/utils/functions";
 import dayjs from "dayjs";
@@ -38,7 +39,9 @@ const CustomDatePicker = () => {
   const [show, setShow] = useState(false);
 
   const updateDate = (date: Date) => {
-    router.push("/notes?date=" + formatDate(date));
+    const formattedDate = formatDate(date);
+    setFilter({ ...getFilter(), date: formattedDate });
+    router.push("/notes?date=" + formattedDate);
     setIsLoadingNotes(true);
   };
 
@@ -57,6 +60,7 @@ const CustomDatePicker = () => {
       return;
     }
 
+    setFilter({ ...getFilter(), date: searchParamsDate });
     setValue(new Date(searchParamsDate));
   }, [searchParamsDate]);
 
