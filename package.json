@@ -19,7 +19,7 @@
     "@ducanh2912/next-pwa": "^10.2.7",
     "@headlessui/react": "^2.1.1",
     "@heroicons/react": "^2.1.4",
-    "@mdxeditor/editor": "^3.6.1",
+    "@mdxeditor/editor": "^3.7.0",
     "@prisma/client": "^5.16.1",
     "@prisma/extension-accelerate": "^1.1.0",
     "dayjs": "^1.11.11",
@@ -42,11 +42,11 @@
     "eslint": "^8.57.0",
     "eslint-config-next": "14.2.4",
     "eslint-config-prettier": "^9.1.0",
-    "postcss": "^8.4.38",
+    "postcss": "^8.4.39",
     "prisma": "^5.16.1",
     "tailwindcss": "^3.4.4",
     "ts-node": "^10.9.2",
-    "typescript": "^5.5.2",
+    "typescript": "^5.5.3",
     "webpack": "^5.92.1"
   }
 }
