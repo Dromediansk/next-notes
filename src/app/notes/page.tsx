@@ -10,12 +10,13 @@ type PageProps = {
 };
 
 const Page: FC<PageProps> = async ({ searchParams }) => {
-  const session = await useAuthenticatedSession();
-
-  const notes = await getNotes({
-    date: searchParams.date,
-  });
-  const categories = await getCategories();
+  const [session, notes, categories] = await Promise.all([
+    useAuthenticatedSession(),
+    getNotes({
+      date: searchParams.date,
+    }),
+    getCategories(),
+  ]);
 
   return (
     <InitialClientContainer
