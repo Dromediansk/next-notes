@@ -5,11 +5,14 @@ import { setNotes } from "@/stores/notes";
 import { CreateNoteBody, NoteFormState } from "@/utils/types/common";
 import { NoteWithCategory, NotesQuery } from "@/utils/types/prisma";
 import { DefaultUser, getServerSession } from "next-auth";
+import { revalidateTag } from "next/cache";
 
 export const getNotes = async (query: NotesQuery) => {
   try {
     const session = await getServerSession();
     const { date, categoryId } = query;
+
+    revalidateTag(`notes-${session?.user?.id}-${date}`);
 
     const whereClause = {
       authorId: session?.user?.id,
