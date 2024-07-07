@@ -1,7 +1,6 @@
 "use server";
 
 import { prisma } from "@/prisma/db";
-import { setNotes } from "@/stores/notes";
 import { CreateNoteBody, NoteFormState } from "@/utils/types/common";
 import { NoteWithCategory, NotesQuery } from "@/utils/types/prisma";
 import { DefaultUser, getServerSession } from "next-auth";
@@ -31,11 +30,6 @@ export const getNotes = async (query: NotesQuery) => {
   } catch (error) {
     throw new Error(`Error fetching notes: ${error}`);
   }
-};
-
-export const refetchNotes = async (query: NotesQuery) => {
-  const data = await getNotes(query);
-  setNotes(data);
 };
 
 export const createNoteInDb = async (

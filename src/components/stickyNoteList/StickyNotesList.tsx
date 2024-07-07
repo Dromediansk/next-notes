@@ -1,12 +1,6 @@
 "use client";
 
 import StickyNote from "../stickyNote/StickyNote";
-import {
-  getNotes,
-  setIsLoadingNotes,
-  setNotes,
-  useNotes,
-} from "@/stores/notes";
 import ProgressBar from "@/lib/ProgressBar";
 import NoStickyNotes from "./NoStickyNotes";
 import { Fragment, Suspense, useState } from "react";
@@ -14,13 +8,14 @@ import StickyNoteDialog from "../stickyNote/StickyNoteDialog";
 import { getUser } from "@/stores/user";
 import { redirect } from "next/navigation";
 import { LOGIN_ROUTE } from "@/utils/constants";
-import { deleteNoteInDb, refetchNotes } from "@/services/notes";
-import { getFilter } from "@/stores/filter";
-
-const date = getFilter().date;
+import { deleteNoteInDb } from "@/services/notes";
+import { useNoteStore } from "@/providers/notes.provider";
 
 const StickyNotesList = () => {
-  const { notes, isLoading } = useNotes();
+  const { notes, isLoading, setNotes, setIsLoadingNotes } = useNoteStore(
+    (state) => state
+  );
+
   const [openDialogId, setOpenDialogId] = useState<string | null>(null);
 
   const handleDeleteNote = async (noteId: string) => {
@@ -32,7 +27,6 @@ const StickyNotesList = () => {
         return redirect(LOGIN_ROUTE);
       }
 
-      const notes = getNotes();
       const noteToDelete = notes.find(
         (noteToDelete) => noteToDelete.id === noteId
       );
@@ -42,7 +36,6 @@ const StickyNotesList = () => {
         setNotes(newNotes);
 
         await deleteNoteInDb(noteId);
-        await refetchNotes({ date });
       }
     } catch (error) {
       console.log("Error deleting note ", error);

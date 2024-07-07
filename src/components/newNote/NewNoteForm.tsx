@@ -1,17 +1,17 @@
 "use client";
 
-import { createNoteInDb, refetchNotes } from "@/services/notes";
+import { createNoteInDb } from "@/services/notes";
 import { NoteFormState } from "@/utils/types/common";
 import { redirect } from "next/navigation";
 import { ChangeEvent, SyntheticEvent, useState } from "react";
 import CategorySelect from "./CategorySelect";
-import { addNote, setIsLoadingNotes } from "@/stores/notes";
 import { getUser } from "@/stores/user";
 import { LOGIN_ROUTE } from "@/utils/constants";
 import { useCategories } from "@/stores/categories";
 import { v4 as uuidv4 } from "uuid";
 import { NoteWithCategory } from "@/utils/types/prisma";
 import { getFilter } from "@/stores/filter";
+import { useNoteStore } from "@/providers/notes.provider";
 
 const defaultFormState: NoteFormState = {
   text: "",
@@ -21,6 +21,8 @@ const defaultFormState: NoteFormState = {
 const date = getFilter().date;
 
 const NewNoteForm = () => {
+  const { setIsLoadingNotes, addNote } = useNoteStore((state) => state);
+
   const [formState, setFormState] = useState<NoteFormState>(defaultFormState);
   const { categories } = useCategories();
 
@@ -59,7 +61,6 @@ const NewNoteForm = () => {
         categoryId: prevState.categoryId,
       }));
       await createNoteInDb(formState, user.id, date, 1);
-      await refetchNotes({ date });
     } catch (error) {
       console.log(error);
     } finally {

@@ -1,12 +1,11 @@
 import { FC, useState } from "react";
 import { Note } from "@prisma/client";
-import { deleteNoteInDb, refetchNotes, updateNoteInDb } from "@/services/notes";
+import { deleteNoteInDb, updateNoteInDb } from "@/services/notes";
 import { redirect } from "next/navigation";
 import Editor from "../editor";
 import Markdown from "react-markdown";
 import { NoteFormState } from "@/utils/types/common";
 import CategorySelect from "../newNote/CategorySelect";
-import { getNotes, setIsLoadingNotes, setNotes } from "@/stores/notes";
 import { LOGIN_ROUTE } from "@/utils/constants";
 import { getUser } from "@/stores/user";
 import { useCategories } from "@/stores/categories";
@@ -14,7 +13,7 @@ import FormDialog from "@/lib/FormDialog";
 import CheckIcon from "@/lib/icons/CheckIcon";
 import { getColorStyles } from "@/utils/colors";
 import CloseIcon from "@/lib/icons/CloseIcon";
-import { getFilter } from "@/stores/filter";
+import { useNoteStore } from "@/providers/notes.provider";
 
 type StickyNoteDialogProps = {
   note: Note;
@@ -28,12 +27,12 @@ const determineDialogSizeByTextLength = (textLength: number) => {
   return "40vh";
 };
 
-const date = getFilter().date;
-
 const StickyNoteDialog: FC<StickyNoteDialogProps> = ({
   onDialogClose,
   note,
 }) => {
+  const { notes, setNotes, setIsLoadingNotes } = useNoteStore((state) => state);
+
   const [formState, setFormState] = useState<NoteFormState>({
     text: note.text,
     categoryId: note.categoryId,
@@ -67,28 +66,29 @@ const StickyNoteDialog: FC<StickyNoteDialogProps> = ({
         return redirect(LOGIN_ROUTE);
       }
 
-      const notes = getNotes();
-      const noteToModify = notes.find((item) => item.id === note.id);
+      const noteFound = notes.find((item) => item.id === note.id);
+      if (!noteFound) {
+        return;
+      }
 
       if (!text) {
-        if (noteToModify) {
-          const newNotes = notes.filter((note) => note.id !== noteToModify.id);
-          setNotes(newNotes);
-          await deleteNoteInDb(note.id);
-        }
-      } else if (text !== note.text || categoryId !== note.categoryId) {
+        // Delete note if text is empty
+        const newNotes = notes.filter((note) => note.id !== noteFound.id);
+        setNotes(newNotes);
+        await deleteNoteInDb(note.id);
+      }
+
+      if (text !== note.text || categoryId !== note.categoryId) {
+        // Update note if text or category is different
         const newNotes = [...notes];
-        const noteIndex = newNotes.findIndex((item) => item.id === note.id);
-        newNotes[noteIndex] = {
-          ...newNotes[noteIndex],
-          text,
-          categoryId,
-        };
+
+        noteFound.text = text;
+        noteFound.categoryId = categoryId;
+        newNotes.unshift(...newNotes.splice(newNotes.indexOf(noteFound), 1));
+
         setNotes(newNotes);
         await updateNoteInDb(note.id, formState);
       }
-
-      await refetchNotes({ date });
     } catch (error) {
       console.log(error);
     } finally {

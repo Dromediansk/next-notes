@@ -1,7 +1,7 @@
 "use client";
 
+import { useNoteStore } from "@/providers/notes.provider";
 import { setFilter, getFilter } from "@/stores/filter";
-import { setIsLoadingNotes } from "@/stores/notes";
 import { formatDate } from "@/utils/functions";
 import dayjs from "dayjs";
 import { useRouter, useSearchParams } from "next/navigation";
@@ -29,6 +29,8 @@ const options: IOptions = {
 };
 
 const CustomDatePicker = () => {
+  const { setIsLoadingNotes } = useNoteStore((state) => state);
+
   const router = useRouter();
   const searchParams = useSearchParams();
   const searchParamsDate = searchParams.get("date");
