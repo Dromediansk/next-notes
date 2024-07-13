@@ -84,6 +84,9 @@ const StickyNoteDialog: FC<StickyNoteDialogProps> = ({
 
         noteFound.text = text;
         noteFound.categoryId = categoryId;
+        selectedCategory && (noteFound.category = selectedCategory);
+
+        // Move the updated note to the top of the list
         newNotes.unshift(...newNotes.splice(newNotes.indexOf(noteFound), 1));
 
         setNotes(newNotes);
