@@ -1,4 +1,4 @@
-import { FC, SyntheticEvent, useState } from "react";
+import { FC, Suspense, SyntheticEvent, useState } from "react";
 import CategorySelect from "./CategorySelect";
 import { NoteFormState } from "@/utils/types/common";
 import { useCategories } from "@/stores/categories";
@@ -9,11 +9,13 @@ import { NoteWithCategory } from "@/utils/types/prisma";
 import { v4 as uuidv4 } from "uuid";
 import { createNoteInDb, getNotes } from "@/services/notes";
 import CheckIcon from "@/lib/icons/CheckIcon";
-import Editor from "../editor";
 import FormDialog from "@/lib/FormDialog";
 import { getColorStyles } from "@/utils/colors";
 import { getFilter } from "@/stores/filter";
 import { useNoteStore } from "@/providers/notes.provider";
+import dynamic from "next/dynamic";
+
+const Editor = dynamic(() => import("../editor"), { ssr: false });
 
 type NewNoteDialogProps = {
   onClose: () => void;
@@ -102,11 +104,13 @@ const NewNoteDialog: FC<NewNoteDialogProps> = ({ onClose }) => {
         className="text-center rounded-t h-[40vh] overflow-y-auto overflow-x-hidden"
         style={colorStyles}
       >
-        <Editor
-          autoFocus
-          markdown={formState.text}
-          onChange={handleChangeNoteText}
-        />
+        <Suspense fallback={null}>
+          <Editor
+            autoFocus
+            markdown={formState.text}
+            onChange={handleChangeNoteText}
+          />
+        </Suspense>
       </div>
       <footer
         className="p-2 flex items-center justify-between rounded-b"

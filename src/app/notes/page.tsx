@@ -9,7 +9,9 @@ type PageProps = {
   searchParams: Filter;
 };
 
-const Page: FC<PageProps> = async ({ searchParams }) => {
+const Page: FC<PageProps> = async (props) => {
+  const searchParams = await props.searchParams;
+
   const [session, notes, categories] = await Promise.all([
     useAuthenticatedSession(),
     getNotes({

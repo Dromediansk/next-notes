@@ -1,6 +1,7 @@
+"use client";
+
 import {
   MDXEditor,
-  type MDXEditorMethods,
   toolbarPlugin,
   BoldItalicUnderlineToggles,
   linkPlugin,
@@ -12,19 +13,20 @@ import {
   MDXEditorProps,
   InsertThematicBreak,
   thematicBreakPlugin,
+  MDXEditorMethods,
 } from "@mdxeditor/editor";
 import "@mdxeditor/editor/style.css";
-import { FC } from "react";
+import { FC, MutableRefObject } from "react";
 
 type EditorProps = MDXEditorProps & {
-  ref?: React.MutableRefObject<MDXEditorMethods | null>;
+  editorRef?: MutableRefObject<MDXEditorMethods | null>;
 };
 
-const Editor: FC<EditorProps> = ({ markdown, ref, ...props }) => {
+const Editor: FC<EditorProps> = ({ markdown, editorRef, ...props }) => {
   return (
     <MDXEditor
-      ref={ref}
       markdown={markdown}
+      ref={editorRef}
       plugins={[
         toolbarPlugin({
           toolbarContents: () => (
