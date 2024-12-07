@@ -15,7 +15,7 @@ export type NoteStoreProviderProps = {
 };
 
 export const NoteStoreProvider = ({ children }: NoteStoreProviderProps) => {
-  const storeRef = useRef<NoteStoreApi>();
+  const storeRef = useRef<NoteStoreApi | undefined>(undefined);
   if (!storeRef.current) {
     storeRef.current = createNotesStore();
   }

@@ -1,5 +1,12 @@
 import { prisma } from "@/prisma/db";
-import { NextAuthOptions, Session, User, getServerSession } from "next-auth";
+import {
+  AuthOptions,
+  AuthenticatedSession,
+  NextAuthOptions,
+  Session,
+  User,
+  getServerSession,
+} from "next-auth";
 import GoogleProvider from "next-auth/providers/google";
 import GitHubProvider from "next-auth/providers/github";
 import { redirect } from "next/navigation";
@@ -88,15 +95,23 @@ export const authOptions: NextAuthOptions = {
   },
 };
 
+export const getAuthenticatedSession = async () => {
+  const session = await getServerSession<AuthOptions, AuthenticatedSession>(
+    authOptions
+  );
+
+  if (!session || !session.user) {
+    return redirect("/login");
+  }
+
+  return session;
+};
+
 export async function loginIsRequiredServer() {
   const session = await getServerSession(authOptions);
   if (!session) {
     return redirect(LOGIN_ROUTE);
   }
-}
-
-export async function useAuthSession() {
-  return await getServerSession(authOptions);
 }
 
 export async function isLoggedIn() {
