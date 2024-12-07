@@ -4,18 +4,16 @@ import { createNotesStore, NoteStore } from "@/stores/notes.store";
 import { createContext, ReactNode, useContext, useRef } from "react";
 import { useStore } from "zustand";
 
-export type NoteStoreApi = ReturnType<typeof createNotesStore>;
+export type NoteStoreApi = ReturnType<typeof createNotesStore> | undefined;
 
-export const NoteStoreContext = createContext<NoteStoreApi | undefined>(
-  undefined
-);
+export const NoteStoreContext = createContext<NoteStoreApi>(undefined);
 
 export type NoteStoreProviderProps = {
   children: ReactNode;
 };
 
 export const NoteStoreProvider = ({ children }: NoteStoreProviderProps) => {
-  const storeRef = useRef<NoteStoreApi | undefined>(undefined);
+  const storeRef = useRef<NoteStoreApi>(undefined);
   if (!storeRef.current) {
     storeRef.current = createNotesStore();
   }

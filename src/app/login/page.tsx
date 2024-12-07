@@ -1,11 +1,12 @@
-import { getAuthenticatedSession } from "../../utils/auth";
+import { authOptions } from "../../utils/auth";
 import { redirect } from "next/navigation";
 import { NOTE_BY_CURRENT_DATE_ROUTE } from "@/utils/constants";
 import LoginBanner from "@/components/auth/LoginBanner";
 import Image from "next/image";
+import { getServerSession } from "next-auth";
 
 const LoginPage = async () => {
-  const session = await getAuthenticatedSession();
+  const session = await getServerSession(authOptions);
 
   if (session) {
     return redirect(NOTE_BY_CURRENT_DATE_ROUTE);
