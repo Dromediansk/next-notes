@@ -30,14 +30,14 @@
     "react-markdown": "^9.0.1",
     "sharp": "^0.33.5",
     "tailwind-datepicker-react": "^1.4.3",
-    "uuid": "^9.0.1",
+    "uuid": "^11.0.3",
     "zustand": "^5.0.2"
   },
   "devDependencies": {
     "@types/node": "^22.10.1",
     "@types/react": "^19.0.1",
     "@types/react-dom": "^19.0.1",
-    "@types/uuid": "^9.0.8",
+    "@types/uuid": "^10.0.0",
     "autoprefixer": "^10.4.20",
     "eslint": "^8.57.0",
     "eslint-config-next": "15.0.4",
