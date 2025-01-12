@@ -12,7 +12,7 @@ const datePickerTheme: DatepickerProps["theme"] = {
     days: {
       items: {
         item: {
-          selected: "text-white bg-main-dark hover:bg-main",
+          selected: "bg-gray-300 hover:bg-gray-400",
         },
       },
     },

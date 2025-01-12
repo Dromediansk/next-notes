@@ -11,7 +11,7 @@ type ButtonProps = {
 const Button: FC<ButtonProps> = ({ children, onClick, className }) => {
   return (
     <button
-      className={`fixed bottom-10 right-10 p-3 rounded-full shadow-sm border-2 border-main text-gray-600 bg-main-light hover:bg-main ${className}`}
+      className={`fixed bottom-10 right-10 p-3 rounded-md shadow-sm text-white bg-main-dark hover:bg-main ${className}`}
       onClick={onClick}
     >
       <PlusIcon />
