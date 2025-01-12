@@ -16,10 +16,10 @@ import {
   MDXEditorMethods,
 } from "@mdxeditor/editor";
 import "@mdxeditor/editor/style.css";
-import { FC, MutableRefObject } from "react";
+import { FC, RefObject } from "react";
 
 type EditorProps = MDXEditorProps & {
-  editorRef?: MutableRefObject<MDXEditorMethods | null>;
+  editorRef?: RefObject<MDXEditorMethods | null>;
 };
 
 const Editor: FC<EditorProps> = ({ markdown, editorRef, ...props }) => {

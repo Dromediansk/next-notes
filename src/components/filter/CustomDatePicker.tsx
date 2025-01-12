@@ -43,7 +43,7 @@ const CustomDatePicker = () => {
     }
     const formattedDate = formatDate(date);
     setFilter({ ...getFilter(), date: formattedDate });
-    router.push("/notes?date=" + formattedDate);
+    router.push("/notes?date=" + formattedDate, { scroll: false });
     setIsLoadingNotes(true);
   };
 
