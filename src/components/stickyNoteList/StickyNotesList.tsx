@@ -46,7 +46,7 @@ const StickyNotesList = () => {
 
   return (
     <Suspense fallback={null}>
-      <div className="bg-white min-h-[89vh] rounded shadow-md">
+      <div className="bg-white min-h-[95vh] rounded shadow-md">
         <div className="h-1.5">{isLoading && <ProgressBar />}</div>
         {notes.length === 0 ? (
           <NoStickyNotes />

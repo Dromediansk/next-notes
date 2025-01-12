@@ -119,7 +119,6 @@ const NewNoteDialog: FC<NewNoteDialogProps> = ({ onClose }) => {
         <CategorySelect
           selectedCategoryId={formState.categoryId}
           setFormState={setFormState}
-          itemsClassName="-top-32"
         />
         <button onClick={handleAddNote} className="text-gray-500">
           <CheckIcon />

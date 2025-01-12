@@ -38,10 +38,10 @@ const InitialClientContainer: FC<InitialClientContainerProps> = ({
   ]);
 
   return (
-    <div>
+    <>
       <NewNoteButton />
       <StickyNotesList />
-    </div>
+    </>
   );
 };
 

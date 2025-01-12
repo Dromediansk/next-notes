@@ -14,7 +14,7 @@ const AvatarMenu = () => {
         <MenuButton>
           <Avatar />
         </MenuButton>
-        <MenuItems className="absolute flex flex-col bg-gray-200 rounded shadow-md">
+        <MenuItems className="z-10 absolute flex flex-col bg-gray-200 rounded shadow-md">
           <MenuItem>
             {() => (
               <button

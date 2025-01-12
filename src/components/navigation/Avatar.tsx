@@ -7,7 +7,7 @@ type AvatarImageProps = {
   user: DefaultUser | null;
 };
 
-const AVATAR_SIZE = 30;
+const AVATAR_SIZE = 45;
 
 const AvatarImage: FC<AvatarImageProps> = ({ user }) => {
   if (!user) {

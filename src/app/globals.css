@@ -32,4 +32,8 @@
   hr {
     @apply border-t border-slate-400 my-5;
   }
+
+  .category-select__dropdown ul {
+    @apply w-48 list-none p-0;
+  }
 }

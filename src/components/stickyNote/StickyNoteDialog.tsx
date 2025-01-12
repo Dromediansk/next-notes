@@ -151,7 +151,6 @@ const StickyNoteDialog: FC<StickyNoteDialogProps> = ({
             <CategorySelect
               setFormState={setFormState}
               selectedCategoryId={categoryId}
-              itemsClassName="-top-32"
             />
             <button
               onClick={handleClose}
