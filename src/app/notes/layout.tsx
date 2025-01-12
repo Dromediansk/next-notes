@@ -1,4 +1,4 @@
-import Navbar from "@/components/navigation/Navbar";
+import Sidebar from "@/components/navigation/Sidebar";
 import { NoteStoreProvider } from "@/providers/notes.provider";
 import { FC, ReactNode } from "react";
 
@@ -9,8 +9,10 @@ type LayoutProps = {
 const Layout: FC<LayoutProps> = ({ children }) => {
   return (
     <NoteStoreProvider>
-      <Navbar />
-      <main className="mx-auto max-w-screen-lg">{children}</main>
+      <div className="flex items-center md:items-start flex-col md:flex-row">
+        <Sidebar />
+        <main className="p-2 w-full">{children}</main>
+      </div>
     </NoteStoreProvider>
   );
 };
